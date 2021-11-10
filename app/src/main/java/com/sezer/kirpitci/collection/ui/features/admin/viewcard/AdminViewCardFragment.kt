@@ -12,17 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.databinding.FragmentAdminViewCardBinding
 import com.sezer.kirpitci.collection.ui.features.login.LoginViewModel
-import com.sezer.kirpitci.collection.utis.AdminAddNewCardViewmodelFactory
-import com.sezer.kirpitci.collection.utis.AdminViewCardAdapter
-import com.sezer.kirpitci.collection.utis.AdminViewCardViewModelFactory
-import com.sezer.kirpitci.collection.utis.ViewModelFactory
+import com.sezer.kirpitci.collection.utis.*
 
 
-class AdminViewCardFragment : Fragment() {
+class AdminViewCardFragment : Fragment(),ClickListener {
     private lateinit var binding:FragmentAdminViewCardBinding
-    private lateinit var gridLayoutManager:AdminViewCardAdapter
+    private lateinit var adapter:AdminViewCardAdapter
     private lateinit var VM:AdminViewCardViewModel
-
+    var adapterX=AdapterX(ArrayList<ViewCardModel>(),this)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,7 +27,7 @@ class AdminViewCardFragment : Fragment() {
         // Inflate the layout for this fragment
         binding= FragmentAdminViewCardBinding.inflate(inflater,container,false)
 
-        Log.d("TAG", "start: ------------4")
+
         return binding.root
     }
 
@@ -38,30 +35,28 @@ class AdminViewCardFragment : Fragment() {
 
         getData()
 
-        Log.d("TAG", "start: ------------1")
+
         super.onStart()
 
     }
 
     override fun onResume() {
-        Log.d("TAG", "start: ------------5")
+
         super.onResume()
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initialVM()
-        Log.d("TAG", "start: ------------2")
+
         initialRecyler()
-        Log.d("TAG", "start: ------------3")
+
         super.onViewCreated(view, savedInstanceState)
     }
+
     fun initialRecyler(){
-        val gridLayoutItems = ArrayList<ViewCardModel>()
-        gridLayoutManager = AdminViewCardAdapter()
-        binding.cardRecycler.apply {
-            layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
-            setHasFixedSize(true)
-            adapter = gridLayoutManager
-        }
+        //adapter = AdminViewCardAdapter(this)
+        binding.cardRecycler.layoutManager = LinearLayoutManager(context)
+        binding.cardRecycler.adapter = adapterX
+
 
 
     }
@@ -72,11 +67,26 @@ class AdminViewCardFragment : Fragment() {
     }
     fun getData(){
         VM.getCards().observe(viewLifecycleOwner, Observer {
-            gridLayoutManager.submitList(it)
+
+           // adapter.notifyDataSetChanged()
+            //adapter.submitList(it)
+            adapterX.swap(it)
+            //adapter.notifyDataSetChanged()
             Log.d("TAG", "getData: "+it.size)
 
         })
 
+    }
+
+    override fun itemAcceptClick(data: ViewCardModel) {
+    }
+
+    override fun itemDeleteClick(data: ViewCardModel) {
+
+        VM.deleteChildren(data)
+        Log.d("TAG", "getData: "+data.cardID)
+        getData()
+        Log.d("TAG", "getData: "+data.cardID)
     }
 
 }

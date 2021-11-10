@@ -49,6 +49,7 @@
             android:id="@+id/add_card_name_text"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:textColor="@color/white"
 
             android:hint="Add card name" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -72,6 +73,7 @@
             android:id="@+id/card_info_text"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:textColor="@color/white"
             android:hint="Card Info" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -94,6 +96,7 @@
             android:id="@+id/card_id_text"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:textColor="@color/white"
             android:hint="Card ID" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -116,6 +119,7 @@
             android:id="@+id/card_category_text"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:textColor="@color/white"
             android:hint="Card Category" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -138,6 +142,7 @@
             android:id="@+id/card_city_text"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:textColor="@color/white"
             android:hint="City" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -161,6 +166,7 @@
             android:id="@+id/card_country_text"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:textColor="@color/white"
             android:hint="Country" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -183,6 +189,7 @@
             android:id="@+id/card_price_text"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:textColor="@color/white"
             android:hint="Card Price" />
     </com.google.android.material.textfield.TextInputLayout>
 

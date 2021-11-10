@@ -23,7 +23,7 @@
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/fragment_registration.xml" value="0.264" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/fragment_splash_screen.xml" value="0.3875" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/fragment_user.xml" value="0.1375" />
-        <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/item_admin_view_card.xml" value="0.265625" />
+        <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/item_admin_view_card.xml" value="0.35502958579881655" />
       </map>
     </option>
   </component>
@@ -32,5 +32,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.265625" />
+      </ProjectState>
+    </option>
   </component>
 </project>

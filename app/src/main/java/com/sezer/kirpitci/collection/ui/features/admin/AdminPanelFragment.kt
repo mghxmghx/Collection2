@@ -1,4 +1,4 @@
-package com.sezer.kirpitci.collection
+package com.sezer.kirpitci.collection.ui.features.admin
 
 import android.os.Bundle
 import android.util.Log
@@ -6,11 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation
 import com.google.android.material.tabs.TabLayout
 import com.sezer.kirpitci.collection.databinding.FragmentAdminPanelBinding
-import com.sezer.kirpitci.collection.databinding.FragmentLoginBinding
-import com.sezer.kirpitci.collection.ui.features.login.LoginViewModel
 import com.sezer.kirpitci.collection.utis.ViewPagerAdapter
 
 class AdminPanelFragment : Fragment() {

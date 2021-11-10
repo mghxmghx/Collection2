@@ -5,11 +5,12 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.database.FirebaseDatabase
 
 class AdminViewCardViewModel:ViewModel() {
-
+    var quote : MutableLiveData<List<ViewCardModel>>? = getCards()
     fun getCards():MutableLiveData<List<ViewCardModel>> {
 
         val list = MutableLiveData<List<ViewCardModel>>()
         val cardList = ArrayList<ViewCardModel>()
+
         val db = FirebaseDatabase.getInstance()
         val db2 = db.getReference("cards")
 
@@ -17,7 +18,9 @@ class AdminViewCardViewModel:ViewModel() {
 
             .addOnSuccessListener {
                 for (child in it.children) {
-                    cardList.add(ViewCardModel(child.child("cardID").getValue().toString(),
+                    cardList.add(
+                        ViewCardModel(
+                            child.child("cardID").getValue().toString(),
                         child.child("cardName").getValue().toString(),
                         child.child("cardInfo").getValue().toString(),
                         child.child("cardCategory").getValue().toString(),
@@ -32,7 +35,13 @@ class AdminViewCardViewModel:ViewModel() {
 
 
             }
-
+            .addOnFailureListener{}
         return list
+    }
+    fun deleteChildren(model: ViewCardModel) {
+
+        val db = FirebaseDatabase.getInstance()
+        val reqestDB = db.getReference("cards")
+        reqestDB.child(model.cardID.toString()).removeValue()
     }
 }
