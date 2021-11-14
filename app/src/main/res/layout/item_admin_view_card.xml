@@ -36,7 +36,7 @@
         android:textSize="16dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/card_country"
-        app:layout_constraintEnd_toStartOf="@+id/settings"
+        app:layout_constraintEnd_toStartOf="@+id/update"
         app:layout_constraintStart_toEndOf="@+id/card_image"
         app:layout_constraintTop_toTopOf="@id/card_image" />
     <TextView
@@ -49,12 +49,12 @@
         android:textSize="16dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/card_image"
-        app:layout_constraintEnd_toStartOf="@+id/settings"
+        app:layout_constraintEnd_toStartOf="@+id/update"
         app:layout_constraintStart_toEndOf="@+id/card_image"
         app:layout_constraintTop_toBottomOf="@id/card_name" />
 
     <ImageView
-        android:id="@+id/settings"
+        android:id="@+id/update"
         android:layout_width="40dp"
         android:layout_height="40dp"
         app:layout_constraintBottom_toBottomOf="parent"

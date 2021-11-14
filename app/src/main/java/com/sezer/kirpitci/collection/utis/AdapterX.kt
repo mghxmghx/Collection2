@@ -29,7 +29,9 @@ class AdapterX(initCList: List<ViewCardModel>,val listener: ClickListener) : Rec
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         holder.bind(model = modelList[position])
-        holder.itemView.setOnClickListener{
+        val deleteButton=holder.itemView.findViewById<ImageView>(R.id.delete)
+        val updateButton=holder.itemView.findViewById<ImageView>(R.id.update)
+        deleteButton.setOnClickListener{
 
             if(modelList.size==1){
                 listener.itemDeleteClick(modelList[0])
@@ -37,6 +39,16 @@ class AdapterX(initCList: List<ViewCardModel>,val listener: ClickListener) : Rec
             else
             {
                 listener.itemDeleteClick(modelList[position])
+            }
+        }
+        updateButton.setOnClickListener{
+
+            if(modelList.size==1){
+                listener.itemUpdateClick(modelList[0])
+            }
+            else
+            {
+                listener.itemUpdateClick(modelList[position])
             }
         }
     }
@@ -55,13 +67,13 @@ class AdapterX(initCList: List<ViewCardModel>,val listener: ClickListener) : Rec
         private val code: TextView = itemView.findViewById(R.id.card_name)
         private val name: TextView = itemView.findViewById(R.id.card_country)
         private val delete: ImageView = itemView.findViewById(R.id.delete)
+        private val update: ImageView = itemView.findViewById(R.id.update)
+        private val cardImage: ImageView = itemView.findViewById(R.id.card_image)
 
         fun bind(model: ViewCardModel) {
+            cardImage.updateWithUrl(model.cardPath,cardImage)
             code.text = model.cardName
             name.text = model.cardCounty
         }
-
-
-
     }
 }

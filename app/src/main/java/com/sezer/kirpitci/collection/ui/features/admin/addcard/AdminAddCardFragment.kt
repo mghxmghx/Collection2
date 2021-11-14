@@ -74,34 +74,37 @@ class AdminAddCardFragment : Fragment() {
     }
     private fun clickListener(){
         binding.button2.setOnClickListener{
-            val cardID=binding.cardIdText.text.toString()
-            val cardName=binding.addCardNameText.text.toString()
-            val cardInfo=binding.cardInfoText.text.toString()
-            val cardCategory=binding.cardCategoryText.text.toString()
-            val cardCountry=binding.cardCountryText.text.toString()
-            val cardCity=binding.cardCityText.text.toString()
-            val cardPrice=binding.cardPriceText.text.toString()
+            VM.getMaxId().observe(viewLifecycleOwner, Observer {
 
-            if(!cardID.isEmpty() && !cardName.isEmpty() && !cardCategory.isEmpty() && !cardCountry.isEmpty())
-            {
-                if(uri.equals(""))
+                val cardID=(it+1).toString()
+                val cardName=binding.addCardNameText.text.toString()
+                val cardInfo=binding.cardInfoText.text.toString()
+                val cardCategory=binding.cardCategoryText.text.toString()
+                val cardCountry=binding.cardCountryText.text.toString()
+                val cardCity=binding.cardCityText.text.toString()
+                val cardPrice=binding.cardPriceText.text.toString()
+
+                if(!cardName.isEmpty() && !cardCategory.isEmpty() && !cardCountry.isEmpty())
                 {
-                    uri="default"
-                }
-                VM.setChildImage(uri.toUri(),cardID)
-                    .observe(viewLifecycleOwner, Observer {
-                        if(it.equals("default"))
-                        {
-                            addCard(AddCardModel(cardID,cardName,cardInfo,cardCategory,cardCountry,cardCity,cardPrice,"default"
-                            ))
-                        }
-                        else{
-                            addCard(AddCardModel(cardID,cardName,cardInfo,cardCategory,cardCountry,cardCity,cardPrice,it.toString()
-                            ))
-                        }
+                    if(uri.equals(""))
+                    {
+                        uri="default"
+                    }
+                    VM.setChildImage(uri.toUri(),cardID)
+                        .observe(viewLifecycleOwner, Observer {
+                            if(it.equals("default"))
+                            {
+                                addCard(AddCardModel(cardID,cardName,cardInfo,cardCategory,cardCountry,cardCity,cardPrice,"default"
+                                ))
+                            }
+                            else{
+                                addCard(AddCardModel(cardID,cardName,cardInfo,cardCategory,cardCountry,cardCity,cardPrice,it.toString()
+                                ))
+                            }
 
-                    })
-            }
+                        })
+                }
+            })
 
         }
 
@@ -109,7 +112,6 @@ class AdminAddCardFragment : Fragment() {
     private fun addCard(model:AddCardModel){
         VM.addCard(model).observe(viewLifecycleOwner, Observer {
             if(it){
-                binding.cardIdText.setText("")
                 binding.addCardNameText.setText("")
                 binding.cardCategoryText.setText("")
                 binding.cardCityText.setText("")

@@ -1,8 +1,18 @@
 package com.sezer.kirpitci.collection.ui.features.admin.viewcard
 
+import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.android.gms.tasks.Continuation
+import com.google.android.gms.tasks.Task
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.UploadTask
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class AdminViewCardViewModel:ViewModel() {
     var quote : MutableLiveData<List<ViewCardModel>>? = getCards()
@@ -39,9 +49,91 @@ class AdminViewCardViewModel:ViewModel() {
         return list
     }
     fun deleteChildren(model: ViewCardModel) {
+        Log.d("TAG", "getData: "+model.cardID)
+        val db = FirebaseDatabase.getInstance()
+        val reqestDB = db.getReference("cards")
+        reqestDB.child(model.cardID.toString()).removeValue().addOnCompleteListener{
+            Log.d("TAG", "deleteChildren: "+it.isSuccessful)
+            Log.d("TAG", "deleteChildren: "+it.isComplete)
+        }
+
+
+    }
+
+    fun setChildImage(filePath: Uri, imageID:String):MutableLiveData<String>
+    {
+        val isSuccess=MutableLiveData<String>()
+
+        if(!filePath.toString().equals("default"))
+        {
+            val storageReference= FirebaseStorage.getInstance().getReference("Cards")
+            val ref=storageReference.child("uploads/"+ UUID.randomUUID().toString())
+            val db= FirebaseFirestore.getInstance()
+            val uploadTask=ref.putFile(filePath)
+            val urlTask=uploadTask.continueWithTask(
+                Continuation<UploadTask.TaskSnapshot, Task<Uri>>{
+                        task ->
+                    if(!task.isSuccessful){
+                        task.exception?.let {
+                            throw it
+
+                        }
+                    }
+                    return@Continuation ref.downloadUrl
+
+                }
+
+            ).addOnCompleteListener{
+                    task ->
+                if(task.isSuccessful){
+                    val downloadUri=task.result
+                    val data=HashMap<String,Any>()
+                    val information=imageID
+
+                    data[information]=downloadUri.toString()
+                    db.collection("posts")
+                        .add(data)
+                        .addOnSuccessListener {
+                            isSuccess.value= task.result.toString()
+
+                        }
+                        .addOnFailureListener{
+                            isSuccess.value= "default"
+                        }
+
+                }
+                else{
+                    isSuccess.value="default"
+
+                }
+            }
+        }
+        else{
+            isSuccess.value="default"
+
+        }
+        return isSuccess
+    }
+
+    fun updateCard(newModel: ViewCardModel): MutableLiveData<String> {
 
         val db = FirebaseDatabase.getInstance()
         val reqestDB = db.getReference("cards")
-        reqestDB.child(model.cardID.toString()).removeValue()
+        val isSuccess=MutableLiveData<String>()
+        reqestDB.child(newModel.cardID).setValue(newModel).addOnCompleteListener{
+            Log.d("TAG", "updateCard: "+it.isSuccessful)
+            if(it.isSuccessful){
+                isSuccess.value=it.isSuccessful.toString()
+
+            }
+            else
+            {
+                isSuccess.value="default"
+            }
+
+
+        }
+        return isSuccess
     }
+
 }

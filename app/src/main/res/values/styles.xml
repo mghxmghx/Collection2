@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal">
+    <item name="android:typeface">normal</item>
+    <item name="android:background">@drawable/corner_circle</item>
+</style>
+
+    <style name="BaseBottomSheetDialog" parent="@style/Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:typeface">normal</item>
+        <item name="bottomSheetStyle">@style/BottomSheet</item>
+    </style>
+    <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog" />
+    <style name="familyChildrenRecycler">
+        <item name="cornerRadius">50dp</item>
+    </style>
+
+</resources>

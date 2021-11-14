@@ -45,7 +45,7 @@ class SplashViewModel :ViewModel() {
                 for (child in it.children)
                 {
 
-                    if(child.child("userName").getValue().toString().equals(auth.currentUser?.email))
+                    if(child.child("email").getValue().toString().equals(auth.currentUser?.email))
                     {
                         personStatues.value=child.child("status").getValue().toString()
 

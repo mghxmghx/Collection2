@@ -9,6 +9,12 @@ import android.view.ViewGroup
 import com.google.android.material.tabs.TabLayout
 import com.sezer.kirpitci.collection.databinding.FragmentAdminPanelBinding
 import com.sezer.kirpitci.collection.utis.ViewPagerAdapter
+import android.widget.Toast
+
+import android.view.KeyEvent
+
+
+
 
 class AdminPanelFragment : Fragment() {
     private lateinit var binding: FragmentAdminPanelBinding
@@ -50,10 +56,23 @@ class AdminPanelFragment : Fragment() {
 
         })
     }
-   /* private fun goToAddItem(){
-        binding.AddItemButton.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_adminPanelFragment_to_adminAddCardFragment)
 
+    override fun onResume() {
+        super.onResume()
+
+        if (view == null) {
+            return
         }
-    }*/
+
+        requireView().isFocusableInTouchMode = true
+        requireView().requestFocus()
+        requireView().setOnKeyListener(View.OnKeyListener { view, keyCode, keyEvent ->
+            if (keyEvent.action == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+               //burasi user a kopyalanacak.
+                requireActivity().finish()
+                return@OnKeyListener true
+            }
+            false
+        })
+    }
 }

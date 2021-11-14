@@ -14,16 +14,34 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import java.util.*
 import kotlin.collections.HashMap
+import kotlin.math.absoluteValue
 
 
 class AdminAddCardViewModel: ViewModel() {
+    fun getMaxId():MutableLiveData<Int>{
+        val db=FirebaseDatabase.getInstance().getReference("cards")
+        val lastInt= MutableLiveData<Int>()
+        val ref=db.push().key
+        db.get().addOnSuccessListener {
+            var lastIndex=0
 
+            for(child in it.children){
+                Log.d("TAG", "getMaxId: "+child.child("cardID").getValue().toString())
+
+                lastIndex=child.child("cardID").getValue().toString().toInt()
+            }
+            Log.d("TAG", "getMaxId: ------"+lastIndex)
+            lastInt.value=lastIndex
+        }
+        return lastInt
+    }
     fun addCard (model:AddCardModel):MutableLiveData<Boolean>{
 
         val isSuccess= MutableLiveData<Boolean>()
         val db=FirebaseDatabase.getInstance().getReference("cards")
         db.child(model.cardID.toString()).setValue(model).addOnCompleteListener {
             isSuccess.value=it.isSuccessful
+            getMaxId()
 
 
         }
