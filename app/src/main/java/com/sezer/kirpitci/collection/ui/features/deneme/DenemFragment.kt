@@ -24,23 +24,12 @@ class DenemFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        xxx()
+
         super.onViewCreated(view, savedInstanceState)
     }
 
 
 
-    private fun xxx(){
-
-        binding2.button3.setOnClickListener{
-            var eee:String="sssss"
-
-            eee=binding2.textView2.text.toString()
-            Log.d("TAG", "xxx:sdasdasdasd ")
-            Toast.makeText(context,eee, Toast.LENGTH_SHORT).show()
-        }
-
 
     }
 
-}

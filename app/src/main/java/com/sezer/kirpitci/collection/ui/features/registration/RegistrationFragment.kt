@@ -66,7 +66,7 @@ class RegistrationFragment : Fragment() {
 
 
                 if (it) {
-                    addUserStatus(AddUserModel(binding.mail.text.toString(),binding.name.text.toString(),"user"))
+                    addCards(AddUserModel(binding.mail.text.toString(),binding.name.text.toString(),"user",null))
 
                 } else {
                     Toast.makeText(context, getString(R.string.Create_Fail), Toast.LENGTH_SHORT)
@@ -75,6 +75,13 @@ class RegistrationFragment : Fragment() {
 
             })
     }
+    private fun addCards(model:AddUserModel){
+        VM.getCardNames().observe(viewLifecycleOwner, Observer {
+            model.cards=it
+            addUserStatus(model)
+        })
+    }
+
     private fun addUserStatus(model:AddUserModel){
         VM.createStatus(model).observe(viewLifecycleOwner, Observer {
             if(it){

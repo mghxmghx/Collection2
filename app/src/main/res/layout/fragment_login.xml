@@ -80,6 +80,34 @@
 
             />
 
+        <TextView
+            android:id="@+id/denemebuton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/russian"
+            android:shadowColor="@color/black"
+            android:shadowDx="1"
+            android:shadowDy="1"
+
+            android:shadowRadius="4"
+
+            android:text="deneme"
+            android:textColor="@color/light_gray"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/imageView2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.853"
+            app:layout_constraintStart_toStartOf="parent"
+
+
+            app:layout_constraintTop_toBottomOf="@id/loginButton"
+            app:layout_constraintVertical_bias="0.0" />
+
         <Button
             android:id="@+id/loginButton"
             android:layout_width="match_parent"

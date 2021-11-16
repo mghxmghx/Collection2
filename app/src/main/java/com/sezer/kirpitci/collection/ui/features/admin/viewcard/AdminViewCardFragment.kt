@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -202,7 +203,9 @@ class AdminViewCardFragment : Fragment(),ClickListener {
 
                     })
             }
-
+            else{
+                Toast.makeText(context, getString(R.string.wrong_message), Toast.LENGTH_SHORT).show()
+            }
 
     }
 

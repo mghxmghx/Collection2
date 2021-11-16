@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="960dp"
+    android:height="1710dp"
+    android:viewportWidth="600"
+    android:viewportHeight="600">
+
+    <path
+        android:name="cross"
+        android:strokeColor="#9fbddd"
+        android:fillColor="#9fbddd"
+        android:pathData="M320,420 L400,460 C400,460 430,485 400,510 L295 600 L0,600"
+        android:strokeWidth="2"
+        />
+    <path
+        android:name="cross2"
+        android:strokeColor="#182a41"
+        android:fillColor="#182a41"
+        android:pathData="M0,0 L100,0 L500,250 C500,250 530,275 500,300 L150,600 L0,600 Z"
+        android:strokeWidth="2"
+        />
+    <path
+        android:name="cross3"
+        android:strokeColor="#4c647c"
+        android:fillColor="#4c647c"
+        android:pathData="M250,0 L600,220 L600,0  Z"
+        android:strokeWidth="2"
+        />
+
+</vector>

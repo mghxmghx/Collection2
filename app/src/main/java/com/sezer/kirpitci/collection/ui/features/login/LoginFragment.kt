@@ -33,6 +33,8 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         goToRegister()
+
+        goToDeneme()
         initialVM()
         initialShared()
         loginClickListener()
@@ -44,6 +46,13 @@ class LoginFragment : Fragment() {
         //sharedPreferencesClass.instantPref()
         context?.let { sharedPreferencesClass.instantPref(it) }
 
+    }
+    private fun goToDeneme() {
+        binding.denemebuton.setOnClickListener {
+            Navigation.findNavController(it)
+                .navigate(R.id.action_loginFragment_to_denemFragment)
+
+        }
     }
 
     private fun goToRegister() {
