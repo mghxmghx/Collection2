@@ -99,6 +99,7 @@ class LoginFragment : Fragment() {
                             }
                             else if (it.equals("user"))
                             {
+                                Log.d("TAG", "auth:---------- ")
                                 Navigation.findNavController(binding.root)
                                     .navigate(R.id.action_loginFragment_to_userFragment)
                             }

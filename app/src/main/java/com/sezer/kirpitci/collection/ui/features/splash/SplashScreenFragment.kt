@@ -36,15 +36,11 @@ class SplashScreenFragment : Fragment() {
         return binding.root
 
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         innitialVM()
         innitialShared()
         startAnimation()
         Handler().postDelayed(this::auth, 500)
-
-
-
         super.onViewCreated(view, savedInstanceState)
     }
     fun innitialShared(){
@@ -52,11 +48,9 @@ class SplashScreenFragment : Fragment() {
         context?.let { sharedPreferencesClass.instantPref(it) }
         Log.d("TAG", "innitialShared: "+sharedPreferencesClass.getEmail()+" "+sharedPreferencesClass.getPassword())
     }
-
     fun innitialVM(){
         val factory= SplashViewModelFactory()
         VM= ViewModelProvider(this,factory)[SplashViewModel::class.java]
-
     }
     private fun auth(){
         if (!sharedPreferencesClass.getEmail().toString().isEmpty() && !sharedPreferencesClass.getPassword().toString().isEmpty()){
@@ -77,24 +71,18 @@ class SplashScreenFragment : Fragment() {
                                     hideAnimation()
                                     Navigation.findNavController(binding.root).navigate(R.id.action_splashScreenFragment2_to_loginFragment)
                                 }
-
                             })
-
-
-
                     }
                     else{
                         hideAnimation()
                         Navigation.findNavController(binding.root).navigate(R.id.action_splashScreenFragment2_to_loginFragment)
                     }
                 })
-
         }
         else{
             hideAnimation()
             Navigation.findNavController(binding.root).navigate(R.id.action_splashScreenFragment2_to_loginFragment)
         }
-
     }
     fun startAnimation(){
         Runnable {

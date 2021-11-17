@@ -20,9 +20,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.databinding.FragmentAdminViewCardBinding
-import com.sezer.kirpitci.collection.ui.features.admin.addcard.AddCardModel
-import com.sezer.kirpitci.collection.ui.features.login.LoginViewModel
 import com.sezer.kirpitci.collection.utis.*
+import com.sezer.kirpitci.collection.utis.adapters.AdapterX
 import java.sql.Timestamp
 
 
@@ -33,7 +32,7 @@ class AdminViewCardFragment : Fragment(),ClickListener {
     private lateinit var progressDialog: ProgressDialog
     private lateinit var view1:View
     private var uri: String = ""
-    var adapterX=AdapterX(ArrayList<ViewCardModel>(),this)
+    var adapterX= AdapterX(ArrayList<ViewCardModel>(),this)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
