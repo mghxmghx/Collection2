@@ -9,13 +9,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.ui.features.admin.viewcard.ViewCardModel
-import com.sezer.kirpitci.collection.utis.ClickListener
-import com.sezer.kirpitci.collection.utis.DiffUtilRecycler
-import com.sezer.kirpitci.collection.utis.updateWithUrl
+import com.sezer.kirpitci.collection.ui.features.admin.viewcard.ViewCardStatusModel
+import com.sezer.kirpitci.collection.utis.*
 
-class UserAdapter(initCList: List<ViewCardModel>, val listener: ClickListener) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
+class UserAdapter(initCList: List<ViewCardStatusModel>, val listener: ClickListener) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
-    private val modelList = mutableListOf<ViewCardModel>()
+    private val modelList = mutableListOf<ViewCardStatusModel>()
 
     init {
         modelList.addAll(initCList)
@@ -32,9 +31,9 @@ class UserAdapter(initCList: List<ViewCardModel>, val listener: ClickListener) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         holder.bind(model = modelList[position])
-        val deleteButton=holder.itemView.findViewById<ImageView>(R.id.delete)
-        val updateButton=holder.itemView.findViewById<ImageView>(R.id.update)
-        deleteButton.setOnClickListener{
+      //  val deleteButton=holder.itemView.findViewById<ImageView>(R.id.delete)
+      //  val updateButton=holder.itemView.findViewById<ImageView>(R.id.update)
+/*        deleteButton.setOnClickListener{
 
             if(modelList.size==1){
                 listener.itemDeleteClick(modelList[0])
@@ -45,7 +44,6 @@ class UserAdapter(initCList: List<ViewCardModel>, val listener: ClickListener) :
             }
         }
         updateButton.setOnClickListener{
-
             if(modelList.size==1){
                 listener.itemUpdateClick(modelList[0])
             }
@@ -53,25 +51,21 @@ class UserAdapter(initCList: List<ViewCardModel>, val listener: ClickListener) :
             {
                 listener.itemUpdateClick(modelList[position])
             }
-        }
+        }*/
     }
 
-    fun swap(modelList: List<ViewCardModel>) {
-        val diffCallback = DiffUtilRecycler(this.modelList, modelList)
+    fun swap(modelList: List<ViewCardStatusModel>) {
+        val diffCallback = DiffUtilUserRecycler(this.modelList, modelList)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
-
         this.modelList.clear()
         this.modelList.addAll(modelList)
         diffResult.dispatchUpdatesTo(this)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-
         private val cardImage: ImageView = itemView.findViewById(R.id.user_card_view_image)
-
-        fun bind(model: ViewCardModel) {
-            cardImage.updateWithUrl(model.cardPath,cardImage)
+        fun bind(model: ViewCardStatusModel) {
+            cardImage.updateWithStatusUrl(model.cardPath,cardImage, model.status)
         }
     }
 }

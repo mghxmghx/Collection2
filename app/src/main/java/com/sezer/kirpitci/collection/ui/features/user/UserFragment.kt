@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.databinding.FragmentUserBinding
@@ -36,7 +38,7 @@ class UserFragment : Fragment(), ClickListener {
     fun initialRecyler(){
         //adapter = AdminViewCardAdapter(this)
         adapter = UserAdapter(mutableListOf(),this)
-        binding.userCardsRecycler.layoutManager = LinearLayoutManager(context)
+        binding.userCardsRecycler.layoutManager = GridLayoutManager(context, 4)
         binding.userCardsRecycler.adapter = adapter
     }
     private fun initialVM() {
@@ -45,7 +47,11 @@ class UserFragment : Fragment(), ClickListener {
 
     }
     private fun getData(){
-        VM.getMyCards()
+        VM.getMyCards().observe(viewLifecycleOwner, Observer {
+            VM.getCardInformation(it).observe(viewLifecycleOwner, Observer {
+                adapter.swap(it)
+            })
+        })
     }
 
     override fun itemUpdateClick(data: ViewCardModel) {
