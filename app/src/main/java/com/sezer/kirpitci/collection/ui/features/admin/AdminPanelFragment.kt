@@ -12,8 +12,8 @@ import com.sezer.kirpitci.collection.utis.ViewPagerAdapter
 import android.widget.Toast
 
 import android.view.KeyEvent
-
-
+import androidx.navigation.Navigation
+import com.sezer.kirpitci.collection.R
 
 
 class AdminPanelFragment : Fragment() {
@@ -31,6 +31,7 @@ class AdminPanelFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         //goToAddItem()
         initialTablayout()
+        goToViewUsers()
         super.onViewCreated(view, savedInstanceState)
     }
     private fun initialTablayout(){
@@ -74,5 +75,11 @@ class AdminPanelFragment : Fragment() {
             }
             false
         })
+    }
+
+    private fun goToViewUsers() {
+        binding.button3.setOnClickListener{
+            Navigation.findNavController(binding.root).navigate(R.id.action_adminPanelFragment_to_viewUsersFragment2)
+        }
     }
 }

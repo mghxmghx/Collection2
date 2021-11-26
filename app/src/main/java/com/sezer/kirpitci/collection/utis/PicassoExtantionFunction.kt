@@ -9,20 +9,13 @@ import com.sezer.kirpitci.collection.R
 import com.squareup.picasso.Picasso
 
 fun ImageView.updateWithUrl(url: String, imageViewAvatar: ImageView) {
- /*   val matrix = ColorMatrix()
-    matrix.setSaturation(0f)
 
-    val filter = ColorMatrixColorFilter(matrix)
-    imageViewAvatar.colorFilter = filter*/
     if (!url.equals("default")) {
-
-        Log.d("TAG", "updateWithUrl: --------------"+url)
         Picasso.get()
-            .load(url).resize(150,300)
+            .load(url).resize(200,300)
             .into(imageViewAvatar)
     } else {
         Glide.with(context).load(R.drawable.ic_add_new_card_image).into(imageViewAvatar)
-        Log.d("TAG", "onBindViewHolder: +++++++")
     }
 }
 fun ImageView.updateWithStatusUrl(url: String, imageViewAvatar: ImageView, status:String) {
@@ -31,7 +24,7 @@ fun ImageView.updateWithStatusUrl(url: String, imageViewAvatar: ImageView, statu
         if(status.equals("false")){
             Log.d("TAG", "updateWithUrl: --------------"+url)
             Picasso.get()
-                .load(url).resize(150,300)
+                .load(url).fit()
                 .into(imageViewAvatar)
             val matrix = ColorMatrix()
             matrix.setSaturation(0f)
@@ -41,7 +34,7 @@ fun ImageView.updateWithStatusUrl(url: String, imageViewAvatar: ImageView, statu
         else{
             Log.d("TAG", "updateWithUrl: --------------"+url)
             Picasso.get()
-                .load(url).resize(150,300)
+                .load(url).fit()
                 .into(imageViewAvatar)
         }
     } else {

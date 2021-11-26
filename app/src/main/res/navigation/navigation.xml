@@ -27,6 +27,9 @@
         <action
             android:id="@+id/action_adminPanelFragment_to_adminAddCardFragment"
             app:destination="@id/adminAddCardFragment" />
+        <action
+            android:id="@+id/action_adminPanelFragment_to_viewUsersFragment2"
+            app:destination="@id/viewUsersFragment2" />
     </fragment>
     <fragment
         android:id="@+id/splashScreenFragment2"
@@ -75,4 +78,9 @@
         android:name="com.sezer.kirpitci.collection.ui.features.deneme.DenemFragment"
         android:label="fragment_denem"
         tools:layout="@layout/fragment_denem" />
+    <fragment
+        android:id="@+id/viewUsersFragment2"
+        android:name="com.sezer.kirpitci.collection.ui.features.admin.viewusers.ViewUsersFragment"
+        android:label="fragment_view_users"
+        tools:layout="@layout/fragment_view_users" />
 </navigation>

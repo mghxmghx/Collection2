@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.sezer.kirpitci.collection.R
@@ -12,7 +13,7 @@ import com.sezer.kirpitci.collection.ui.features.admin.viewcard.ViewCardModel
 import com.sezer.kirpitci.collection.ui.features.admin.viewcard.ViewCardStatusModel
 import com.sezer.kirpitci.collection.utis.*
 
-class UserAdapter(initCList: List<ViewCardStatusModel>, val listener: ClickListener) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
+class UserAdapter(initCList: List<ViewCardStatusModel>, val listener: ClickItemUser) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
     private val modelList = mutableListOf<ViewCardStatusModel>()
 
@@ -31,27 +32,9 @@ class UserAdapter(initCList: List<ViewCardStatusModel>, val listener: ClickListe
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         holder.bind(model = modelList[position])
-      //  val deleteButton=holder.itemView.findViewById<ImageView>(R.id.delete)
-      //  val updateButton=holder.itemView.findViewById<ImageView>(R.id.update)
-/*        deleteButton.setOnClickListener{
-
-            if(modelList.size==1){
-                listener.itemDeleteClick(modelList[0])
-            }
-            else
-            {
-                listener.itemDeleteClick(modelList[position])
-            }
+        holder.itemView.findViewById<ImageView>(R.id.user_card_view_image).setOnClickListener {
+            listener.clicked(modelList[position])
         }
-        updateButton.setOnClickListener{
-            if(modelList.size==1){
-                listener.itemUpdateClick(modelList[0])
-            }
-            else
-            {
-                listener.itemUpdateClick(modelList[position])
-            }
-        }*/
     }
 
     fun swap(modelList: List<ViewCardStatusModel>) {

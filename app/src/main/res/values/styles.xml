@@ -15,5 +15,8 @@
     <style name="familyChildrenRecycler">
         <item name="cornerRadius">50dp</item>
     </style>
+    <style name="DenemeLoginTextColor">
+        <item name="android:colorControlActivated">@color/white</item>
+    </style>
 
 </resources>

@@ -49,8 +49,8 @@ class LoginFragment : Fragment() {
     }
     private fun goToDeneme() {
         binding.denemebuton.setOnClickListener {
-            Navigation.findNavController(it)
-                .navigate(R.id.action_loginFragment_to_denemFragment)
+            //Navigation.findNavController(it)
+                //.navigate(R.id.action_loginFragment_to_trainingFragment)
 
         }
     }
