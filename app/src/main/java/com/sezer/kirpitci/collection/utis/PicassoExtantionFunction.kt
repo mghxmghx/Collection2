@@ -12,7 +12,7 @@ fun ImageView.updateWithUrl(url: String, imageViewAvatar: ImageView) {
 
     if (!url.equals("default")) {
         Picasso.get()
-            .load(url).resize(200,300)
+            .load(url).resize(200,500)
             .into(imageViewAvatar)
     } else {
         Glide.with(context).load(R.drawable.ic_add_new_card_image).into(imageViewAvatar)
@@ -24,7 +24,7 @@ fun ImageView.updateWithStatusUrl(url: String, imageViewAvatar: ImageView, statu
         if(status.equals("false")){
             Log.d("TAG", "updateWithUrl: --------------"+url)
             Picasso.get()
-                .load(url).fit()
+                .load(url).fit().centerInside()
                 .into(imageViewAvatar)
             val matrix = ColorMatrix()
             matrix.setSaturation(0f)
@@ -34,7 +34,7 @@ fun ImageView.updateWithStatusUrl(url: String, imageViewAvatar: ImageView, statu
         else{
             Log.d("TAG", "updateWithUrl: --------------"+url)
             Picasso.get()
-                .load(url).fit()
+                .load(url).fit().centerInside()
                 .into(imageViewAvatar)
         }
     } else {

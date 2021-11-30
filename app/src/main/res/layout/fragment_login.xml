@@ -110,21 +110,20 @@
 
         <Button
             android:id="@+id/loginButton"
+            style="@style/Theme.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:layout_marginStart="16dp"
-
             android:layout_marginTop="10dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/btn_bg"
+            android:backgroundTint="@color/dark_gold"
             android:fontFamily="@font/russian"
             android:shadowColor="@color/black"
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="4"
             android:text="@string/login_button"
-
             android:textAllCaps="false"
             android:textColor="@color/light_gray"
             android:textSize="18sp"

@@ -81,12 +81,7 @@ class AdminViewCardFragment : Fragment(),ClickListener {
     fun getData(){
         VM.getCards().observe(viewLifecycleOwner, Observer {
 
-           // adapter.notifyDataSetChanged()
-            //adapter.submitList(it)
             adapterX.swap(it)
-            //adapter.notifyDataSetChanged()
-            Log.d("TAG", "getData: "+it.size)
-
         })
 
     }
@@ -119,7 +114,8 @@ class AdminViewCardFragment : Fragment(),ClickListener {
             openImage()
         }
 
-        cardImage.updateWithUrl(model.cardPath,cardImage)
+        cardImage.updateWithBitmap(model.cardPath)
+        Log.d("TAG", "updateCard: " + model.cardPath)
         val closeButton = view1.findViewById<ImageView>(R.id.imageView)
         closeButton.setOnClickListener{
             if (dialog != null) {

@@ -6,11 +6,6 @@
     app:startDestination="@id/splashScreenFragment2">
 
     <fragment
-        android:id="@+id/userFragment"
-        android:name="com.sezer.kirpitci.collection.ui.features.user.UserFragment"
-        android:label="fragment_user"
-        tools:layout="@layout/fragment_user" />
-    <fragment
         android:id="@+id/registrationFragment"
         android:name="com.sezer.kirpitci.collection.ui.features.registration.RegistrationFragment"
         android:label="fragment_registration"
@@ -40,20 +35,17 @@
             android:id="@+id/action_splashScreenFragment2_to_loginFragment"
             app:destination="@id/loginFragment" />
         <action
-            android:id="@+id/action_splashScreenFragment2_to_userFragment"
-            app:destination="@id/userFragment" />
-        <action
             android:id="@+id/action_splashScreenFragment2_to_adminPanelFragment"
             app:destination="@id/adminPanelFragment" />
+        <action
+            android:id="@+id/action_splashScreenFragment2_to_homePageFragment"
+            app:destination="@id/homePageFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.sezer.kirpitci.collection.ui.features.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
-        <action
-            android:id="@+id/action_loginFragment_to_userFragment"
-            app:destination="@id/userFragment" />
         <action
             android:id="@+id/action_loginFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
@@ -63,6 +55,9 @@
         <action
             android:id="@+id/action_loginFragment_to_denemFragment"
             app:destination="@id/denemFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_homePageFragment"
+            app:destination="@id/homePageFragment" />
     </fragment>
     <fragment
         android:id="@+id/adminAddCardFragment"
@@ -83,4 +78,9 @@
         android:name="com.sezer.kirpitci.collection.ui.features.admin.viewusers.ViewUsersFragment"
         android:label="fragment_view_users"
         tools:layout="@layout/fragment_view_users" />
+    <fragment
+        android:id="@+id/homePageFragment"
+        android:name="com.sezer.kirpitci.collection.ui.features.user.ui.home.HomePageFragment"
+        android:label="fragment_home_page"
+        tools:layout="@layout/fragment_home_page" />
 </navigation>

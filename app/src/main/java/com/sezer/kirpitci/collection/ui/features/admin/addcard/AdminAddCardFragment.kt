@@ -1,13 +1,21 @@
 package com.sezer.kirpitci.collection.ui.features.admin.addcard
 
+import android.Manifest
 import android.app.ProgressDialog
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -17,6 +25,7 @@ import com.sezer.kirpitci.collection.ui.features.login.LoginViewModel
 import com.sezer.kirpitci.collection.utis.AddCardViewModelFactory
 import com.sezer.kirpitci.collection.utis.ViewModelFactory
 import com.sezer.kirpitci.collection.utis.resetImage
+import java.io.ByteArrayOutputStream
 import kotlin.math.log
 
 class AdminAddCardFragment : Fragment() {
@@ -24,6 +33,8 @@ class AdminAddCardFragment : Fragment() {
     private lateinit var progressDialog: ProgressDialog
     private var uri: String = ""
     private lateinit var VM:AdminAddCardViewModel
+    private val IMAGE_REQUEST: Int = 1
+    private val REQUEST_ID_MULTIPLE_PERMISSIONS = 7
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,14 +52,75 @@ class AdminAddCardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
     }
+    private fun choosePhoto(){
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(
+            intent,
+            IMAGE_REQUEST
+        )
+    }
+    private fun requestPermissions(): Boolean {
+        val listPermissionsNeeded: MutableList<String> = ArrayList()
+        listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        listPermissionsNeeded.add(Manifest.permission.CAMERA)
 
+        listPermissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE)
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                listPermissionsNeeded.toTypedArray(),
+                REQUEST_ID_MULTIPLE_PERMISSIONS
+            )
+            return false
+        }
+        return true
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == IMAGE_REQUEST){
+            if (data?.data != null) {
+                binding.imageView2.setImageURI(data.data)
+                encodeBitmapAndSave()
+            }
+        }
+    }
+    private fun encodeBitmapAndSave(){
+        binding.imageView2.isDrawingCacheEnabled = true
+        binding.imageView2.buildDrawingCache()
+        val bitmap = (binding.imageView2.drawable as Drawable).toBitmap()
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
+        uri= Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT)
+    }
     private fun imageClickListener() {
         binding.imageView2.setOnClickListener {
-            openImage()
+            if(checkAndRequestPermissions()){
+                choosePhoto()
+            }else{
+                requestPermissions()
+            }
         }
 
     }
+    private fun checkAndRequestPermissions(): Boolean {
+        val wtite = ContextCompat.checkSelfPermission(
+            requireActivity(),
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+        val read =
+            ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
+        if (wtite != PackageManager.PERMISSION_GRANTED) {
+            return false
+        }
+        if (read != PackageManager.PERMISSION_GRANTED) {
+            return false
+        }
+        return true
 
+    }
     private fun openImage() {
         val intent = Intent()
         intent.type = "image/*"
@@ -58,7 +130,7 @@ class AdminAddCardFragment : Fragment() {
         progressDialog.show()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    /*override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (data?.data != null) {
             uri = data.data.toString()
             binding.imageView2.setImageURI(data.data)
@@ -66,7 +138,7 @@ class AdminAddCardFragment : Fragment() {
         progressDialog.dismiss()
 
         super.onActivityResult(requestCode, resultCode, data)
-    }
+    }*/
     private fun initialVM() {
         val factory = AddCardViewModelFactory()
         VM = ViewModelProvider(this, factory)[AdminAddCardViewModel::class.java]
@@ -90,7 +162,7 @@ class AdminAddCardFragment : Fragment() {
                     {
                         uri="default"
                     }
-                    VM.setChildImage(uri.toUri(),cardID)
+                /*    VM.setChildImage(uri.toUri(),cardID)
                         .observe(viewLifecycleOwner, Observer {
                             if(it.equals("default"))
                             {
@@ -102,7 +174,9 @@ class AdminAddCardFragment : Fragment() {
                                 ))
                             }
 
-                        })
+                        })*/
+                    addCard(AddCardModel(cardID,cardName,cardInfo,cardCategory,cardCountry,cardCity,cardPrice,uri))
+
                 }
             })
 

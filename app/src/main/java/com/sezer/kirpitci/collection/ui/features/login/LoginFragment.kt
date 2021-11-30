@@ -1,7 +1,7 @@
 package com.sezer.kirpitci.collection.ui.features.login
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.databinding.FragmentLoginBinding
+import com.sezer.kirpitci.collection.ui.features.UserAct
 import com.sezer.kirpitci.collection.utis.SharedPreferencesClass
 import com.sezer.kirpitci.collection.utis.ViewModelFactory
 
@@ -99,14 +100,14 @@ class LoginFragment : Fragment() {
                             }
                             else if (it.equals("user"))
                             {
-                                Log.d("TAG", "auth:---------- ")
-                                Navigation.findNavController(binding.root)
-                                    .navigate(R.id.action_loginFragment_to_userFragment)
+                                val intent= Intent(activity, UserAct::class.java)
+                                startActivity(intent)
+                                requireActivity().finish()
                             }
                             else
                             {
                                 Navigation.findNavController(binding.root)
-                                    .navigate(R.id.action_loginFragment_to_userFragment)
+                                    .navigate(R.id.action_loginFragment_to_homePageFragment)
                             }
 
                         })

@@ -48,7 +48,7 @@ class UserAdapter(initCList: List<ViewCardStatusModel>, val listener: ClickItemU
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val cardImage: ImageView = itemView.findViewById(R.id.user_card_view_image)
         fun bind(model: ViewCardStatusModel) {
-            cardImage.updateWithStatusUrl(model.cardPath,cardImage, model.status)
+            cardImage.updateWithBitmap(model.cardPath)
         }
     }
 }

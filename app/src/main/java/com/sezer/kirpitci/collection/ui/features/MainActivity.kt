@@ -2,6 +2,9 @@ package com.sezer.kirpitci.collection.ui.features
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.navigation.findNavController
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.sezer.kirpitci.collection.R
 
 class MainActivity : AppCompatActivity() {
@@ -10,5 +13,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         supportActionBar?.hide()
+
     }
 }

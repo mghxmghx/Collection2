@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sezer.kirpitci.collection.databinding.FragmentViewUsersBinding
 import com.sezer.kirpitci.collection.utis.adapters.AdapterUserView
@@ -21,7 +22,7 @@ class ViewUsersFragment : Fragment() {
 
     private fun initialRcy(){
         adapter= AdapterUserView(mutableListOf())
-        binding.ViewUserRcy.layoutManager=LinearLayoutManager(context)
+        binding.ViewUserRcy.layoutManager=GridLayoutManager(context,8)
         binding.ViewUserRcy.adapter=adapter
     }
 
