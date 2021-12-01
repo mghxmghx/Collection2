@@ -13,13 +13,13 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.sezer.kirpitci.collection.ui.features.user.ui.dashboard.BeerFragment"
+        android:name="com.sezer.kirpitci.collection.ui.features.user.ui.beer.BeerFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.sezer.kirpitci.collection.ui.features.user.ui.notifications.PersonalFragment"
+        android:name="com.sezer.kirpitci.collection.ui.features.user.ui.notifications.panel.PersonalFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
 </navigation>

@@ -1,14 +1,13 @@
-package com.sezer.kirpitci.collection.utis
+package com.sezer.kirpitci.collection.utis.adapters
 
 import androidx.recyclerview.widget.DiffUtil
-import com.sezer.kirpitci.collection.ui.features.admin.viewcard.ViewCardModel
 import com.sezer.kirpitci.collection.ui.features.admin.viewcard.ViewCardStatusModel
 
 
 class DiffUtilUserRecycler(
     private val oldList: List<ViewCardStatusModel>,
     private val newList: List<ViewCardStatusModel>
-) : DiffUtil.Callback(){
+) : DiffUtil.Callback() {
 
     override fun getOldListSize() = oldList.size
 

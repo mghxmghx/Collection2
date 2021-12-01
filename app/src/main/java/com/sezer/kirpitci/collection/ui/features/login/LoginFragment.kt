@@ -13,8 +13,8 @@ import androidx.navigation.Navigation
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.databinding.FragmentLoginBinding
 import com.sezer.kirpitci.collection.ui.features.UserAct
-import com.sezer.kirpitci.collection.utis.SharedPreferencesClass
-import com.sezer.kirpitci.collection.utis.ViewModelFactory
+import com.sezer.kirpitci.collection.utis.factories.ViewModelFactory
+import com.sezer.kirpitci.collection.utis.others.SharedPreferencesClass
 
 class LoginFragment : Fragment() {
 
@@ -48,10 +48,11 @@ class LoginFragment : Fragment() {
         context?.let { sharedPreferencesClass.instantPref(it) }
 
     }
+
     private fun goToDeneme() {
         binding.denemebuton.setOnClickListener {
             //Navigation.findNavController(it)
-                //.navigate(R.id.action_loginFragment_to_trainingFragment)
+            //.navigate(R.id.action_loginFragment_to_trainingFragment)
 
         }
     }
@@ -63,7 +64,6 @@ class LoginFragment : Fragment() {
 
         }
     }
-
 
 
     private fun initialVM() {
@@ -93,19 +93,14 @@ class LoginFragment : Fragment() {
                         }
                         VM.getStatus().observe(viewLifecycleOwner, Observer {
 
-                            if (it.equals("admin"))
-                            {
+                            if (it.equals("admin")) {
                                 Navigation.findNavController(binding.root)
                                     .navigate(R.id.action_loginFragment_to_adminPanelFragment)
-                            }
-                            else if (it.equals("user"))
-                            {
-                                val intent= Intent(activity, UserAct::class.java)
+                            } else if (it.equals("user")) {
+                                val intent = Intent(activity, UserAct::class.java)
                                 startActivity(intent)
                                 requireActivity().finish()
-                            }
-                            else
-                            {
+                            } else {
                                 Navigation.findNavController(binding.root)
                                     .navigate(R.id.action_loginFragment_to_homePageFragment)
                             }

@@ -3,21 +3,15 @@ package com.sezer.kirpitci.collection.utis.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.sezer.kirpitci.collection.R
-import com.sezer.kirpitci.collection.ui.features.admin.viewcard.ViewCardModel
-import com.sezer.kirpitci.collection.ui.features.admin.viewusers.ViewUsersViewModel
 import com.sezer.kirpitci.collection.ui.features.registration.calisma.TrainingModelReal
-import com.sezer.kirpitci.collection.utis.ClickListener
-import com.sezer.kirpitci.collection.utis.DiffUtilRecycler
-import com.sezer.kirpitci.collection.utis.DiffUtilUserViewRecycler
-import com.sezer.kirpitci.collection.utis.updateWithUrl
 
 
-class AdapterUserView(initCList: List<TrainingModelReal>) : RecyclerView.Adapter<AdapterUserView.ViewHolder>() {
+class AdapterUserView(initCList: List<TrainingModelReal>) :
+    RecyclerView.Adapter<AdapterUserView.ViewHolder>() {
 
     private val modelList = mutableListOf<TrainingModelReal>()
 

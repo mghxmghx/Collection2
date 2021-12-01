@@ -1,10 +1,7 @@
 package com.sezer.kirpitci.collection.ui.features
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.navigation.findNavController
-import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.appcompat.app.AppCompatActivity
 import com.sezer.kirpitci.collection.R
 
 class MainActivity : AppCompatActivity() {

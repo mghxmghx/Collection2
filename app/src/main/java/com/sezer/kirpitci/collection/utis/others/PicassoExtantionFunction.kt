@@ -12,17 +12,18 @@ fun ImageView.updateWithUrl(url: String, imageViewAvatar: ImageView) {
 
     if (!url.equals("default")) {
         Picasso.get()
-            .load(url).resize(200,500)
+            .load(url).resize(200, 500)
             .into(imageViewAvatar)
     } else {
         Glide.with(context).load(R.drawable.ic_add_new_card_image).into(imageViewAvatar)
     }
 }
-fun ImageView.updateWithStatusUrl(url: String, imageViewAvatar: ImageView, status:String) {
+
+fun ImageView.updateWithStatusUrl(url: String, imageViewAvatar: ImageView, status: String) {
 
     if (!url.equals("default")) {
-        if(status.equals("false")){
-            Log.d("TAG", "updateWithUrl: --------------"+url)
+        if (status.equals("false")) {
+            Log.d("TAG", "updateWithUrl: --------------" + url)
             Picasso.get()
                 .load(url).fit().centerInside()
                 .into(imageViewAvatar)
@@ -30,9 +31,8 @@ fun ImageView.updateWithStatusUrl(url: String, imageViewAvatar: ImageView, statu
             matrix.setSaturation(0f)
             val filter = ColorMatrixColorFilter(matrix)
             imageViewAvatar.colorFilter = filter
-        }
-        else{
-            Log.d("TAG", "updateWithUrl: --------------"+url)
+        } else {
+            Log.d("TAG", "updateWithUrl: --------------" + url)
             Picasso.get()
                 .load(url).fit().centerInside()
                 .into(imageViewAvatar)
@@ -42,8 +42,9 @@ fun ImageView.updateWithStatusUrl(url: String, imageViewAvatar: ImageView, statu
         Log.d("TAG", "onBindViewHolder: +++++++")
     }
 }
-fun ImageView.resetImage( imageViewAvatar: ImageView) {
 
-        Glide.with(context).load(R.drawable.ic_add_new_card_image).into(imageViewAvatar)
+fun ImageView.resetImage(imageViewAvatar: ImageView) {
+
+    Glide.with(context).load(R.drawable.ic_add_new_card_image).into(imageViewAvatar)
 
 }

@@ -3,12 +3,11 @@ package com.sezer.kirpitci.collection.ui.features.admin.viewusers
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.database.FirebaseDatabase
-import com.sezer.kirpitci.collection.ui.features.admin.viewcard.ViewCardModel
 import com.sezer.kirpitci.collection.ui.features.registration.calisma.TrainingModelReal
 
-class ViewUsersViewModel:ViewModel() {
+class ViewUsersViewModel : ViewModel() {
 
-    fun getUsers (): MutableLiveData<List<TrainingModelReal>> {
+    fun getUsers(): MutableLiveData<List<TrainingModelReal>> {
         val list = MutableLiveData<List<TrainingModelReal>>()
         val cardList = ArrayList<TrainingModelReal>()
 
@@ -19,15 +18,15 @@ class ViewUsersViewModel:ViewModel() {
                 for (child in it.children) {
                     cardList.add(
                         TrainingModelReal(
-                            child.child("email").getValue().toString(),
-                            child.child("status").getValue().toString(),
-                            child.child("userName").getValue().toString()
+                            child.child("email").value.toString(),
+                            child.child("status").value.toString(),
+                            child.child("userName").value.toString()
                         )
                     )
+                }
+                list.value = cardList
             }
-                list.value=cardList
-    }
-            .addOnFailureListener{}
+            .addOnFailureListener {}
         return list
-}
+    }
 }

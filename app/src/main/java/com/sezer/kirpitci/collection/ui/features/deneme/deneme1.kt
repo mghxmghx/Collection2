@@ -4,12 +4,12 @@ import com.sezer.kirpitci.collection.databinding.FragmentLoginBinding
 
 class deneme1 {
 
-    private lateinit var binding:FragmentLoginBinding
+    private lateinit var binding: FragmentLoginBinding
 
-    private fun xxx(){
-        var eee:String=""
+    private fun xxx() {
+        var eee: String = ""
 
-        eee=binding.loginEmail.toString()
+        eee = binding.loginEmail.toString()
 
     }
 

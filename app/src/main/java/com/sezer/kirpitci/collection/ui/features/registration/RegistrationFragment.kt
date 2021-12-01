@@ -10,12 +10,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.databinding.FragmentRegistrationBinding
-import com.sezer.kirpitci.collection.utis.RegistrationViewModelFactory
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.auth.User
+import com.sezer.kirpitci.collection.utis.factories.RegistrationViewModelFactory
 
 
 class RegistrationFragment : Fragment() {
@@ -66,7 +63,14 @@ class RegistrationFragment : Fragment() {
 
 
                 if (it) {
-                    addCards(AddUserModel(binding.mail.text.toString(),binding.name.text.toString(),"user",null))
+                    addCards(
+                        AddUserModel(
+                            binding.mail.text.toString(),
+                            binding.name.text.toString(),
+                            "user",
+                            null
+                        )
+                    )
 
                 } else {
                     Toast.makeText(context, getString(R.string.Create_Fail), Toast.LENGTH_SHORT)
@@ -75,20 +79,20 @@ class RegistrationFragment : Fragment() {
 
             })
     }
-    private fun addCards(model:AddUserModel){
+
+    private fun addCards(model: AddUserModel) {
         VM.getCardNames().observe(viewLifecycleOwner, Observer {
-            model.cards=it
+            model.cards = it
             addUserStatus(model)
         })
     }
 
-    private fun addUserStatus(model:AddUserModel){
+    private fun addUserStatus(model: AddUserModel) {
         VM.createStatus(model).observe(viewLifecycleOwner, Observer {
-            if(it){
+            if (it) {
                 Navigation.findNavController(binding.root)
                     .navigate(R.id.action_registrationFragment_to_loginFragment)
-            }
-            else {
+            } else {
                 Toast.makeText(context, getString(R.string.Create_Fail), Toast.LENGTH_SHORT)
                     .show()
             }

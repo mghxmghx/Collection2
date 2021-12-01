@@ -1,13 +1,11 @@
-package com.sezer.kirpitci.collection.ui.features.user.ui.notifications
+package com.sezer.kirpitci.collection.ui.features.user.ui.notifications.panel
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
-import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.databinding.FragmentPersonalBinding
 import com.sezer.kirpitci.collection.utis.viewpagers.PersonalViewPagerAdapter
 
@@ -29,16 +27,16 @@ class PersonalFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
     }
 
-    private fun initialTablayout(){
-        val viewPagerAdapter=PersonalViewPagerAdapter(requireActivity().supportFragmentManager,3)
+    private fun initialTablayout() {
+        val viewPagerAdapter = PersonalViewPagerAdapter(requireActivity().supportFragmentManager, 3)
         binding.viewpager.apply {
-            adapter=viewPagerAdapter
+            adapter = viewPagerAdapter
 
         }
         binding.viewpager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(binding.tablayout))
-        binding.tablayout.addOnTabSelectedListener(object :TabLayout.OnTabSelectedListener{
+        binding.tablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
-                binding.viewpager.currentItem=tab.position
+                binding.viewpager.currentItem = tab.position
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {

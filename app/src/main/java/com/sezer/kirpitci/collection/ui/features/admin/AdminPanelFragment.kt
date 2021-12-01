@@ -2,18 +2,16 @@ package com.sezer.kirpitci.collection.ui.features.admin
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.android.material.tabs.TabLayout
-import com.sezer.kirpitci.collection.databinding.FragmentAdminPanelBinding
-import com.sezer.kirpitci.collection.utis.ViewPagerAdapter
-import android.widget.Toast
-
-import android.view.KeyEvent
+import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import com.google.android.material.tabs.TabLayout
 import com.sezer.kirpitci.collection.R
+import com.sezer.kirpitci.collection.databinding.FragmentAdminPanelBinding
+import com.sezer.kirpitci.collection.utis.viewpagers.ViewPagerAdapter
 
 
 class AdminPanelFragment : Fragment() {
@@ -24,7 +22,7 @@ class AdminPanelFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding= FragmentAdminPanelBinding.inflate(inflater,container,false)
+        binding = FragmentAdminPanelBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -34,17 +32,18 @@ class AdminPanelFragment : Fragment() {
         goToViewUsers()
         super.onViewCreated(view, savedInstanceState)
     }
-    private fun initialTablayout(){
-        val viewPagerAdapter=ViewPagerAdapter(requireActivity().supportFragmentManager,2)
+
+    private fun initialTablayout() {
+        val viewPagerAdapter = ViewPagerAdapter(requireActivity().supportFragmentManager, 2)
         binding.viewPager.apply {
-            adapter=viewPagerAdapter
+            adapter = viewPagerAdapter
 
         }
         binding.viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(binding.tablayout))
-        binding.tablayout.addOnTabSelectedListener(object :TabLayout.OnTabSelectedListener{
+        binding.tablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
-                binding.viewPager.currentItem=tab.position
-                Log.d("TAG", "onTabSelected: -----------------"+tab.position)
+                binding.viewPager.currentItem = tab.position
+                Log.d("TAG", "onTabSelected: -----------------" + tab.position)
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -69,7 +68,7 @@ class AdminPanelFragment : Fragment() {
         requireView().requestFocus()
         requireView().setOnKeyListener(View.OnKeyListener { view, keyCode, keyEvent ->
             if (keyEvent.action == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
-               //burasi user a kopyalanacak.
+                //burasi user a kopyalanacak.
                 requireActivity().finish()
                 return@OnKeyListener true
             }
@@ -78,8 +77,9 @@ class AdminPanelFragment : Fragment() {
     }
 
     private fun goToViewUsers() {
-        binding.button3.setOnClickListener{
-            Navigation.findNavController(binding.root).navigate(R.id.action_adminPanelFragment_to_viewUsersFragment2)
+        binding.button3.setOnClickListener {
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_adminPanelFragment_to_viewUsersFragment2)
         }
     }
 }

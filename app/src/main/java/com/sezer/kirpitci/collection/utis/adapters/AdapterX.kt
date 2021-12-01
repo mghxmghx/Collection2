@@ -9,12 +9,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.ui.features.admin.viewcard.ViewCardModel
-import com.sezer.kirpitci.collection.utis.ClickListener
 import com.sezer.kirpitci.collection.utis.DiffUtilRecycler
 import com.sezer.kirpitci.collection.utis.updateWithBitmap
-import com.sezer.kirpitci.collection.utis.updateWithUrl
 
-class AdapterX(initCList: List<ViewCardModel>,val listener: ClickListener) : RecyclerView.Adapter<AdapterX.ViewHolder>() {
+class AdapterX(initCList: List<ViewCardModel>, val listener: ClickListener) :
+    RecyclerView.Adapter<AdapterX.ViewHolder>() {
 
     private val modelList = mutableListOf<ViewCardModel>()
 
@@ -33,25 +32,21 @@ class AdapterX(initCList: List<ViewCardModel>,val listener: ClickListener) : Rec
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         holder.bind(model = modelList[position])
-        val deleteButton=holder.itemView.findViewById<ImageView>(R.id.delete)
-        val updateButton=holder.itemView.findViewById<ImageView>(R.id.update)
-        deleteButton.setOnClickListener{
+        val deleteButton = holder.itemView.findViewById<ImageView>(R.id.delete)
+        val updateButton = holder.itemView.findViewById<ImageView>(R.id.update)
+        deleteButton.setOnClickListener {
 
-            if(modelList.size==1){
+            if (modelList.size == 1) {
                 listener.itemDeleteClick(modelList[0])
-            }
-            else
-            {
+            } else {
                 listener.itemDeleteClick(modelList[position])
             }
         }
-        updateButton.setOnClickListener{
+        updateButton.setOnClickListener {
 
-            if(modelList.size==1){
+            if (modelList.size == 1) {
                 listener.itemUpdateClick(modelList[0])
-            }
-            else
-            {
+            } else {
                 listener.itemUpdateClick(modelList[position])
             }
         }

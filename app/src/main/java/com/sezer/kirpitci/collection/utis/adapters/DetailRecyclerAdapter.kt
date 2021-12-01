@@ -9,11 +9,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.ui.features.admin.viewcard.ViewCardStatusModel
-import com.sezer.kirpitci.collection.utis.DiffUtilUserRecycler
 import com.sezer.kirpitci.collection.utis.updateWithBitmap
 
 
-class DetailRecyclerAdapter(initCList: List<ViewCardStatusModel>, val listener: ClickItemUser) : RecyclerView.Adapter<DetailRecyclerAdapter.ViewHolder>() {
+class DetailRecyclerAdapter(initCList: List<ViewCardStatusModel>, val listener: ClickItemUser) :
+    RecyclerView.Adapter<DetailRecyclerAdapter.ViewHolder>() {
 
     private val modelList = mutableListOf<ViewCardStatusModel>()
 

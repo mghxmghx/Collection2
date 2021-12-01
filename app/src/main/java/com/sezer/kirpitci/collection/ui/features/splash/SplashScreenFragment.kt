@@ -4,19 +4,19 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.databinding.FragmentSplashScreenBinding
 import com.sezer.kirpitci.collection.ui.features.UserAct
-import com.sezer.kirpitci.collection.utis.SharedPreferencesClass
-import com.sezer.kirpitci.collection.utis.SplashViewModelFactory
+import com.sezer.kirpitci.collection.utis.factories.SplashViewModelFactory
+import com.sezer.kirpitci.collection.utis.others.SharedPreferencesClass
 
 class SplashScreenFragment : Fragment() {
 
@@ -30,10 +30,11 @@ class SplashScreenFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding= FragmentSplashScreenBinding.inflate(inflater,container,false)
+        binding = FragmentSplashScreenBinding.inflate(inflater, container, false)
         return binding.root
 
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         innitialVM()
         innitialShared()
@@ -41,60 +42,72 @@ class SplashScreenFragment : Fragment() {
         Handler().postDelayed(this::auth, 500)
         super.onViewCreated(view, savedInstanceState)
     }
-    fun innitialShared(){
-        sharedPreferencesClass= SharedPreferencesClass()
+
+    fun innitialShared() {
+        sharedPreferencesClass = SharedPreferencesClass()
         context?.let { sharedPreferencesClass.instantPref(it) }
-        Log.d("TAG", "innitialShared: "+sharedPreferencesClass.getEmail()+" "+sharedPreferencesClass.getPassword())
+        Log.d(
+            "TAG",
+            "innitialShared: " + sharedPreferencesClass.getEmail() + " " + sharedPreferencesClass.getPassword()
+        )
     }
-    fun innitialVM(){
-        val factory= SplashViewModelFactory()
-        VM= ViewModelProvider(this,factory)[SplashViewModel::class.java]
+
+    fun innitialVM() {
+        val factory = SplashViewModelFactory()
+        VM = ViewModelProvider(this, factory)[SplashViewModel::class.java]
     }
-    private fun auth(){
-        if (!sharedPreferencesClass.getEmail().toString().isEmpty() && !sharedPreferencesClass.getPassword().toString().isEmpty()){
-            VM.auth(sharedPreferencesClass.getEmail().toString(),sharedPreferencesClass.getPassword().toString()).observe(this,
+
+    private fun auth() {
+        if (!sharedPreferencesClass.getEmail().toString()
+                .isEmpty() && !sharedPreferencesClass.getPassword().toString().isEmpty()
+        ) {
+            VM.auth(
+                sharedPreferencesClass.getEmail().toString(),
+                sharedPreferencesClass.getPassword().toString()
+            ).observe(this,
                 Observer {
-                    if(it){
-                            VM.getStatus().observe(viewLifecycleOwner, Observer {
-                                if(it.equals("user")){
-                                    hideAnimation()
-                                    val intent = Intent(activity, UserAct::class.java)
-                                    startActivity(intent)
-                                    requireActivity().finish()
+                    if (it) {
+                        VM.getStatus().observe(viewLifecycleOwner, Observer {
+                            if (it.equals("user")) {
+                                hideAnimation()
+                                val intent = Intent(activity, UserAct::class.java)
+                                startActivity(intent)
+                                requireActivity().finish()
                                 // Navigation.findNavController(binding.root).navigate(R.id.action_splashScreenFragment2_to_homePageFragment)
-                                }
-                                else if(it.equals("admin")){
-                                    hideAnimation()
-                                    Navigation.findNavController(binding.root).navigate(R.id.action_splashScreenFragment2_to_adminPanelFragment)
-                                }
-                                else
-                                {
-                                    hideAnimation()
-                                    Navigation.findNavController(binding.root).navigate(R.id.action_splashScreenFragment2_to_loginFragment)
-                                }
-                            })
-                    }
-                    else{
+                            } else if (it.equals("admin")) {
+                                hideAnimation()
+                                Navigation.findNavController(binding.root)
+                                    .navigate(R.id.action_splashScreenFragment2_to_adminPanelFragment)
+                            } else {
+                                hideAnimation()
+                                Navigation.findNavController(binding.root)
+                                    .navigate(R.id.action_splashScreenFragment2_to_loginFragment)
+                            }
+                        })
+                    } else {
                         hideAnimation()
-                        Navigation.findNavController(binding.root).navigate(R.id.action_splashScreenFragment2_to_loginFragment)
+                        Navigation.findNavController(binding.root)
+                            .navigate(R.id.action_splashScreenFragment2_to_loginFragment)
                     }
                 })
-        }
-        else{
+        } else {
             hideAnimation()
-            Navigation.findNavController(binding.root).navigate(R.id.action_splashScreenFragment2_to_loginFragment)
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_splashScreenFragment2_to_loginFragment)
         }
     }
-    fun startAnimation(){
+
+    fun startAnimation() {
         Runnable {
-            binding.animationView.isVisible=true
+            binding.animationView.isVisible = true
 
         }
 
     }
-    fun hideAnimation(){
+
+    fun hideAnimation() {
         Runnable {
-            binding.animationView.isVisible=false
+            binding.animationView.isVisible = false
 
         }
 

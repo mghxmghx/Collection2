@@ -4,16 +4,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.sezer.kirpitci.collection.R
-import com.sezer.kirpitci.collection.ui.features.admin.viewcard.ViewCardModel
 import com.sezer.kirpitci.collection.ui.features.admin.viewcard.ViewCardStatusModel
-import com.sezer.kirpitci.collection.utis.*
+import com.sezer.kirpitci.collection.utis.updateWithBitmap
 
-class UserAdapter(initCList: List<ViewCardStatusModel>, val listener: ClickItemUser) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
+class UserAdapter(initCList: List<ViewCardStatusModel>, val listener: ClickItemUser) :
+    RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
     private val modelList = mutableListOf<ViewCardStatusModel>()
 

@@ -1,13 +1,12 @@
-package com.sezer.kirpitci.collection.ui.features.user.ui.dashboard
+package com.sezer.kirpitci.collection.ui.features.user.ui.beer
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -28,7 +27,7 @@ class BeerFragment : Fragment(), ClickItemUser {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentBeerBinding.inflate(inflater,container, false)
+        binding = FragmentBeerBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -38,6 +37,7 @@ class BeerFragment : Fragment(), ClickItemUser {
         initialTablayout()
         super.onViewCreated(view, savedInstanceState)
     }
+
     private fun initialVM() {
         val factory = DetailViewModelFactory()
         VM = ViewModelProvider(this, factory)[BeerFragmentViewModel::class.java]
@@ -46,11 +46,12 @@ class BeerFragment : Fragment(), ClickItemUser {
 
     private fun getData(category: String) {
         VM.getMyCards().observe(viewLifecycleOwner, Observer {
-            VM.getCardInformation(it,category).observe(viewLifecycleOwner, Observer {
+            VM.getCardInformation(it, category).observe(viewLifecycleOwner, Observer {
                 adapter.swap(it)
             })
         })
     }
+
     fun initialRecyler() {
         //adapter = AdminViewCardAdapter(this)
         adapter = DetailRecyclerAdapter(mutableListOf(), this)
@@ -67,19 +68,20 @@ class BeerFragment : Fragment(), ClickItemUser {
 
         builder?.show()
     }
-    private fun initialTablayout(){
+
+    private fun initialTablayout() {
         getData("beer")
-        binding.tablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+        binding.tablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
-                if (tab.position == 0 ){
+                if (tab.position == 0) {
                     getData("beer")
-                } else if(tab.position == 1){
+                } else if (tab.position == 1) {
                     getData("wine")
 
-                } else if(tab.position == 2){
+                } else if (tab.position == 2) {
                     getData("cocktail")
 
-                } else{
+                } else {
 
                 }
             }

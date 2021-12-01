@@ -10,12 +10,12 @@
         android:label="UserFragment" />
     <fragment
         android:id="@+id/beerFragment"
-        android:name="com.sezer.kirpitci.collection.ui.features.user.ui.dashboard.beerFragment"
+        android:name="com.sezer.kirpitci.collection.ui.features.user.ui.beer.beerFragment"
         android:label="fragment_beer"
         tools:layout="@layout/fragment_beer" />
     <fragment
         android:id="@+id/personalFragment"
-        android:name="com.sezer.kirpitci.collection.ui.features.user.ui.notifications.PersonalFragment"
+        android:name="com.sezer.kirpitci.collection.ui.features.user.ui.notifications.panel.PersonalFragment"
         android:label="fragment_personal"
         tools:layout="@layout/fragment_personal" />
 </navigation>

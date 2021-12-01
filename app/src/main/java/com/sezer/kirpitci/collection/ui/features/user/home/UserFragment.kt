@@ -3,12 +3,12 @@ package com.sezer.kirpitci.collection.ui.features.user.home
 import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -42,11 +42,11 @@ class UserFragment : Fragment(), ClickItemUser {
         binding.customProgress2.max = 10
         val currentProgress = 6
         val currentProgress2 = 8
-        ObjectAnimator.ofInt(binding.customProgress1,"progress",currentProgress)
+        ObjectAnimator.ofInt(binding.customProgress1, "progress", currentProgress)
             .setDuration(2000)
             .start()
         super.onViewCreated(view, savedInstanceState)
-        ObjectAnimator.ofInt(binding.customProgress2,"progress",currentProgress2)
+        ObjectAnimator.ofInt(binding.customProgress2, "progress", currentProgress2)
             .setDuration(2000)
             .start()
         super.onViewCreated(view, savedInstanceState)
@@ -68,7 +68,7 @@ class UserFragment : Fragment(), ClickItemUser {
     private fun getData(category: String) {
         Log.d("TAG", "getData: " + category)
         VM.getMyCards().observe(viewLifecycleOwner, Observer {
-            VM.getCardInformation(it,category).observe(viewLifecycleOwner, Observer {
+            VM.getCardInformation(it, category).observe(viewLifecycleOwner, Observer {
                 Log.d("TAG", "getData: " + it.size)
                 adapter.swap(it)
             })
@@ -85,21 +85,22 @@ class UserFragment : Fragment(), ClickItemUser {
 
         builder?.show()
     }
-    private fun initialTablayout(){
+
+    private fun initialTablayout() {
         Log.d("TAG", "initialTablayout: " + "beer")
         getData("beer")
-        binding.tablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+        binding.tablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
-                if (tab.position == 0 ){
+                if (tab.position == 0) {
                     Log.d("TAG", "onTabSelected: ")
                     getData("beer")
-                } else if(tab.position == 1){
+                } else if (tab.position == 1) {
                     getData("wine")
 
-                } else if(tab.position == 2){
+                } else if (tab.position == 2) {
                     getData("cocktail")
 
-                } else{
+                } else {
                     Log.d("TAG", "onTabSelected1: ")
 
                 }

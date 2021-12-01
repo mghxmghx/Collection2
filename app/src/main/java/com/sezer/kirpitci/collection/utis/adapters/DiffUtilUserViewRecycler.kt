@@ -1,15 +1,13 @@
-package com.sezer.kirpitci.collection.utis
+package com.sezer.kirpitci.collection.utis.adapters
 
 import androidx.recyclerview.widget.DiffUtil
-import com.sezer.kirpitci.collection.ui.features.admin.viewcard.ViewCardModel
-import com.sezer.kirpitci.collection.ui.features.admin.viewcard.ViewCardStatusModel
 import com.sezer.kirpitci.collection.ui.features.registration.calisma.TrainingModelReal
 
 
 class DiffUtilUserViewRecycler(
     private val oldList: List<TrainingModelReal>,
     private val newList: List<TrainingModelReal>
-) : DiffUtil.Callback(){
+) : DiffUtil.Callback() {
 
     override fun getOldListSize() = oldList.size
 

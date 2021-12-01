@@ -1,12 +1,12 @@
-package com.sezer.kirpitci.collection.utis
+package com.sezer.kirpitci.collection.utis.factories
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.sezer.kirpitci.collection.ui.features.login.LoginViewModel
+import com.sezer.kirpitci.collection.ui.features.splash.SplashViewModel
 
-class ViewModelFactory () :
+class SplashViewModelFactory :
     ViewModelProvider.NewInstanceFactory() {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return LoginViewModel() as T
+        return SplashViewModel() as T
     }
 }

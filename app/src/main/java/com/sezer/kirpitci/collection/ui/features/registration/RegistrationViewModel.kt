@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import com.sezer.kirpitci.collection.ui.features.admin.viewcard.ViewCardModel
 
 class RegistrationViewModel : ViewModel() {
 
@@ -22,6 +21,7 @@ class RegistrationViewModel : ViewModel() {
 
         return isSuccess
     }
+
     fun createStatus(model: AddUserModel): MutableLiveData<Boolean> {
         val isSuccess = MutableLiveData<Boolean>()
         getCardNames()
@@ -32,6 +32,7 @@ class RegistrationViewModel : ViewModel() {
         return isSuccess
 
     }
+
     fun getCardNames(): MutableLiveData<List<CardModel>> {
         val list = MutableLiveData<List<CardModel>>()
         val cardList = ArrayList<CardModel>()
@@ -45,17 +46,17 @@ class RegistrationViewModel : ViewModel() {
                 for (child in it.children) {
                     cardList.add(
                         CardModel(
-                            child.child("cardID").getValue().toString(),"false"
+                            child.child("cardID").value.toString(), "false"
 
                         )
                     )
 //r cardID:String,var cardName:String, var cardInfo:String?, var cardCategory:String, var cardCounty:String, var cardCity:String?, var cardPrice:String?, var cardPath:String
                 }
-                list.value=cardList
+                list.value = cardList
 
 
             }
-            .addOnFailureListener{}
+            .addOnFailureListener {}
         return list
     }
 }

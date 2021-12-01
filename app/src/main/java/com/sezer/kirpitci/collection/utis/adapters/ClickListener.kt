@@ -1,4 +1,4 @@
-package com.sezer.kirpitci.collection.utis
+package com.sezer.kirpitci.collection.utis.adapters
 
 import com.sezer.kirpitci.collection.ui.features.admin.viewcard.ViewCardModel
 

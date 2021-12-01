@@ -8,31 +8,27 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Base64
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
-import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.sezer.kirpitci.collection.databinding.FragmentAdminAddCardBinding
-import com.sezer.kirpitci.collection.ui.features.login.LoginViewModel
-import com.sezer.kirpitci.collection.utis.AddCardViewModelFactory
-import com.sezer.kirpitci.collection.utis.ViewModelFactory
+import com.sezer.kirpitci.collection.utis.default
+import com.sezer.kirpitci.collection.utis.factories.AddCardViewModelFactory
+import com.sezer.kirpitci.collection.utis.intentType
 import com.sezer.kirpitci.collection.utis.resetImage
 import java.io.ByteArrayOutputStream
-import kotlin.math.log
 
 class AdminAddCardFragment : Fragment() {
     private lateinit var binding: FragmentAdminAddCardBinding
     private lateinit var progressDialog: ProgressDialog
     private var uri: String = ""
-    private lateinit var VM:AdminAddCardViewModel
+    private lateinit var VM: AdminAddCardViewModel
     private val IMAGE_REQUEST: Int = 1
     private val REQUEST_ID_MULTIPLE_PERMISSIONS = 7
 
@@ -52,15 +48,17 @@ class AdminAddCardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
     }
-    private fun choosePhoto(){
+
+    private fun choosePhoto() {
         val intent = Intent()
-        intent.type = "image/*"
+        intent.type = intentType
         intent.action = Intent.ACTION_GET_CONTENT
         startActivityForResult(
             intent,
             IMAGE_REQUEST
         )
     }
+
     private fun requestPermissions(): Boolean {
         val listPermissionsNeeded: MutableList<String> = ArrayList()
         listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -77,41 +75,48 @@ class AdminAddCardFragment : Fragment() {
         }
         return true
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(requestCode == IMAGE_REQUEST){
+        if (requestCode == IMAGE_REQUEST) {
             if (data?.data != null) {
                 binding.imageView2.setImageURI(data.data)
                 encodeBitmapAndSave()
             }
         }
     }
-    private fun encodeBitmapAndSave(){
+
+    private fun encodeBitmapAndSave() {
         binding.imageView2.isDrawingCacheEnabled = true
         binding.imageView2.buildDrawingCache()
         val bitmap = (binding.imageView2.drawable as Drawable).toBitmap()
         val baos = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
-        uri= Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT)
+        uri = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT)
     }
+
     private fun imageClickListener() {
         binding.imageView2.setOnClickListener {
-            if(checkAndRequestPermissions()){
+            if (checkAndRequestPermissions()) {
                 choosePhoto()
-            }else{
+            } else {
                 requestPermissions()
             }
         }
 
     }
+
     private fun checkAndRequestPermissions(): Boolean {
         val wtite = ContextCompat.checkSelfPermission(
             requireActivity(),
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
         val read =
-            ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
+            ContextCompat.checkSelfPermission(
+                requireActivity(),
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )
         if (wtite != PackageManager.PERMISSION_GRANTED) {
             return false
         }
@@ -121,61 +126,50 @@ class AdminAddCardFragment : Fragment() {
         return true
 
     }
+
     private fun openImage() {
         val intent = Intent()
-        intent.type = "image/*"
+        intent.type = intentType
         intent.action = Intent.ACTION_GET_CONTENT
         startActivityForResult(intent, 1)
         progressDialog.setMessage("Loading")
         progressDialog.show()
     }
 
-    /*override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (data?.data != null) {
-            uri = data.data.toString()
-            binding.imageView2.setImageURI(data.data)
-        }
-        progressDialog.dismiss()
-
-        super.onActivityResult(requestCode, resultCode, data)
-    }*/
     private fun initialVM() {
         val factory = AddCardViewModelFactory()
         VM = ViewModelProvider(this, factory)[AdminAddCardViewModel::class.java]
 
     }
-    private fun clickListener(){
-        binding.button2.setOnClickListener{
+
+    private fun clickListener() {
+        binding.button2.setOnClickListener {
             VM.getMaxId().observe(viewLifecycleOwner, Observer {
 
-                val cardID=(it+1).toString()
-                val cardName=binding.addCardNameText.text.toString()
-                val cardInfo=binding.cardInfoText.text.toString()
-                val cardCategory=binding.cardCategoryText.text.toString()
-                val cardCountry=binding.cardCountryText.text.toString()
-                val cardCity=binding.cardCityText.text.toString()
-                val cardPrice=binding.cardPriceText.text.toString()
+                val cardID = (it + 1).toString()
+                val cardName = binding.addCardNameText.text.toString()
+                val cardInfo = binding.cardInfoText.text.toString()
+                val cardCategory = binding.cardCategoryText.text.toString()
+                val cardCountry = binding.cardCountryText.text.toString()
+                val cardCity = binding.cardCityText.text.toString()
+                val cardPrice = binding.cardPriceText.text.toString()
 
-                if(!cardName.isEmpty() && !cardCategory.isEmpty() && !cardCountry.isEmpty())
-                {
-                    if(uri.equals(""))
-                    {
-                        uri="default"
+                if (!cardName.isEmpty() && !cardCategory.isEmpty() && !cardCountry.isEmpty()) {
+                    if (uri.equals("")) {
+                        uri = default
                     }
-                /*    VM.setChildImage(uri.toUri(),cardID)
-                        .observe(viewLifecycleOwner, Observer {
-                            if(it.equals("default"))
-                            {
-                                addCard(AddCardModel(cardID,cardName,cardInfo,cardCategory,cardCountry,cardCity,cardPrice,"default"
-                                ))
-                            }
-                            else{
-                                addCard(AddCardModel(cardID,cardName,cardInfo,cardCategory,cardCountry,cardCity,cardPrice,it.toString()
-                                ))
-                            }
-
-                        })*/
-                    addCard(AddCardModel(cardID,cardName,cardInfo,cardCategory,cardCountry,cardCity,cardPrice,uri))
+                    addCard(
+                        AddCardModel(
+                            cardID,
+                            cardName,
+                            cardInfo,
+                            cardCategory,
+                            cardCountry,
+                            cardCity,
+                            cardPrice,
+                            uri
+                        )
+                    )
 
                 }
             })
@@ -183,9 +177,10 @@ class AdminAddCardFragment : Fragment() {
         }
 
     }
-    private fun addCard(model:AddCardModel){
+
+    private fun addCard(model: AddCardModel) {
         VM.addCard(model).observe(viewLifecycleOwner, Observer {
-            if(it){
+            if (it) {
                 binding.addCardNameText.setText("")
                 binding.cardCategoryText.setText("")
                 binding.cardCityText.setText("")

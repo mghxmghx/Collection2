@@ -1,12 +1,12 @@
 package com.sezer.kirpitci.collection.ui.features
 
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.databinding.ActivityUserBinding
 
@@ -16,7 +16,6 @@ class UserAct : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//
         binding = ActivityUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

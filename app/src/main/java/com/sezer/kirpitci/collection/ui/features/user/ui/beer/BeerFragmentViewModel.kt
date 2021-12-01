@@ -1,14 +1,14 @@
-package com.sezer.kirpitci.collection.ui.features.user.home
+package com.sezer.kirpitci.collection.ui.features.user.ui.beer
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.sezer.kirpitci.collection.ui.features.admin.viewcard.ViewCardStatusModel
+import com.sezer.kirpitci.collection.ui.features.user.home.CurrentCardList
 
-class UserViewModel : ViewModel() {
+class BeerFragmentViewModel : ViewModel() {
     val auth = FirebaseAuth.getInstance()
-
     fun getMyCards(): MutableLiveData<List<CurrentCardList>> {
         val cardList = MutableLiveData<List<CurrentCardList>>()
         val list = arrayListOf<CurrentCardList>()
@@ -17,7 +17,6 @@ class UserViewModel : ViewModel() {
         db2.get().addOnSuccessListener {
             for (child in it.children) {
                 if (child.child("email").value.toString().equals(auth.currentUser?.email)) {
-
                     child.child("cards").children.forEach {
                         val item = it.value.toString()
                         val splitItem = item.split(",")
