@@ -39,6 +39,8 @@
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/fragment_admin_panel.xml" value="0.2" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/fragment_admin_view_card.xml" value="0.2203125" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/fragment_beer.xml" value="0.1" />
+        <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/fragment_beer2.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/fragment_cocktail.xml" value="0.15833333333333333" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/fragment_dashboard.xml" value="0.1" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/fragment_denem.xml" value="0.1" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/fragment_deneme.xml" value="0.2" />
@@ -53,10 +55,13 @@
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/fragment_training.xml" value="0.2" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/fragment_user.xml" value="0.2" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/fragment_view_users.xml" value="0.22418478260869565" />
+        <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/fragment_wine.xml" value="0.15833333333333333" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/item_admin_view_card.xml" value="0.35502958579881655" />
+        <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/item_detail.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/item_rcy_viewuser.xml" value="0.47295208655332305" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/item_user_view_card.xml" value="0.2" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/personal_analytics_fragment.xml" value="0.4" />
+        <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/personal_info_fragment.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/menu/bottom_menu.xml" value="0.1" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.11458333333333333" />

@@ -1,7 +1,8 @@
-package com.sezer.kirpitci.collection.ui.features.user
+package com.sezer.kirpitci.collection.ui.features.user.home
 
 import android.animation.ObjectAnimator
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,18 +12,14 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
-import com.sezer.kirpitci.collection.ui.features.user.ui.notifications.PersonalFragment
 import com.sezer.kirpitci.collection.R
-import com.sezer.kirpitci.collection.ui.features.user.ui.dashboard.beerFragment
 import com.sezer.kirpitci.collection.databinding.FragmentUserBinding
 import com.sezer.kirpitci.collection.ui.features.admin.viewcard.ViewCardStatusModel
 import com.sezer.kirpitci.collection.utis.adapters.ClickItemUser
 import com.sezer.kirpitci.collection.utis.adapters.UserAdapter
 import com.sezer.kirpitci.collection.utis.factories.UserViewModelFactory
 import com.sezer.kirpitci.collection.utis.updateWithBitmap
-import com.sezer.kirpitci.collection.utis.viewpagers.HomeViewPagerAdapter
 
 class UserFragment : Fragment(), ClickItemUser {
     private lateinit var binding: FragmentUserBinding
@@ -40,7 +37,6 @@ class UserFragment : Fragment(), ClickItemUser {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initialVM()
         initialRecyler()
-        getData()
         initialTablayout()
         binding.customProgress1.max = 10
         binding.customProgress2.max = 10
@@ -69,9 +65,11 @@ class UserFragment : Fragment(), ClickItemUser {
 
     }
 
-    private fun getData() {
+    private fun getData(category: String) {
+        Log.d("TAG", "getData: " + category)
         VM.getMyCards().observe(viewLifecycleOwner, Observer {
-            VM.getCardInformation(it).observe(viewLifecycleOwner, Observer {
+            VM.getCardInformation(it,category).observe(viewLifecycleOwner, Observer {
+                Log.d("TAG", "getData: " + it.size)
                 adapter.swap(it)
             })
         })
@@ -88,15 +86,23 @@ class UserFragment : Fragment(), ClickItemUser {
         builder?.show()
     }
     private fun initialTablayout(){
-        val viewPagerAdapter= HomeViewPagerAdapter(requireActivity().supportFragmentManager,3)
-        binding.viewpager.apply {
-            adapter=viewPagerAdapter
-
-        }
-        binding.viewpager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(binding.tablayout))
+        Log.d("TAG", "initialTablayout: " + "beer")
+        getData("beer")
         binding.tablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab) {
-                binding.viewpager.currentItem=tab.position
+                if (tab.position == 0 ){
+                    Log.d("TAG", "onTabSelected: ")
+                    getData("beer")
+                } else if(tab.position == 1){
+                    getData("wine")
+
+                } else if(tab.position == 2){
+                    getData("cocktail")
+
+                } else{
+                    Log.d("TAG", "onTabSelected1: ")
+
+                }
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {

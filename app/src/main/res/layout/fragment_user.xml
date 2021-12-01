@@ -231,12 +231,6 @@
                     android:icon="@drawable/ic_baseline_settings_24" />
             </com.google.android.material.tabs.TabLayout>
 
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/viewpager"
-                android:layout_marginTop="56dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
         </LinearLayout>
 
 

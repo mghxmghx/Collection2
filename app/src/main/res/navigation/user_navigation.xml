@@ -6,7 +6,7 @@
     app:startDestination="@id/userFragment2">
     <fragment
         android:id="@+id/userFragment2"
-        android:name="com.sezer.kirpitci.collection.ui.features.user.UserFragment"
+        android:name="com.sezer.kirpitci.collection.ui.features.user.home.UserFragment"
         android:label="UserFragment" />
     <fragment
         android:id="@+id/beerFragment"

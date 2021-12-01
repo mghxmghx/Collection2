@@ -2,7 +2,7 @@ package com.sezer.kirpitci.collection.utis.factories
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.sezer.kirpitci.collection.ui.features.user.UserViewModel
+import com.sezer.kirpitci.collection.ui.features.user.home.UserViewModel
 
 class UserViewModelFactory () :
     ViewModelProvider.NewInstanceFactory() {
