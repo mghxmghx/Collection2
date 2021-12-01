@@ -18,7 +18,6 @@ class RegistrationViewModel : ViewModel() {
                 isSuccess.value = false
             }
         }
-
         return isSuccess
     }
 
@@ -30,31 +29,31 @@ class RegistrationViewModel : ViewModel() {
             isSuccess.value = it.isSuccessful
         }
         return isSuccess
-
     }
 
     fun getCardNames(): MutableLiveData<List<CardModel>> {
         val list = MutableLiveData<List<CardModel>>()
         val cardList = ArrayList<CardModel>()
-
         val db = FirebaseDatabase.getInstance()
         val db2 = db.getReference("cards")
-
         db2.get()
-
             .addOnSuccessListener {
                 for (child in it.children) {
                     cardList.add(
                         CardModel(
-                            child.child("cardID").value.toString(), "false"
-
+                            child.child("cardID").value.toString(),
+                            child.child("cardName").value.toString(),
+                            child.child("cardInfo").value.toString(),
+                            child.child("cardCategory").value.toString(),
+                            child.child("cardCounty").value.toString(),
+                            child.child("cardCity").value.toString(),
+                            child.child("cardPrice").value.toString(),
+                            child.child("cardPath").value.toString(),
+                            "false"
                         )
                     )
-//r cardID:String,var cardName:String, var cardInfo:String?, var cardCategory:String, var cardCounty:String, var cardCity:String?, var cardPrice:String?, var cardPath:String
                 }
                 list.value = cardList
-
-
             }
             .addOnFailureListener {}
         return list

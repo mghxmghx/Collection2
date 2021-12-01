@@ -7,13 +7,13 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.sezer.kirpitci.collection.R
-import com.sezer.kirpitci.collection.ui.features.admin.viewcard.ViewCardStatusModel
+import com.sezer.kirpitci.collection.ui.features.registration.CardModel
 import com.sezer.kirpitci.collection.utis.updateWithBitmap
 
-class UserAdapter(initCList: List<ViewCardStatusModel>, val listener: ClickItemUser) :
+class UserAdapter(initCList: List<CardModel>, val listener: ClickItemUser) :
     RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
-    private val modelList = mutableListOf<ViewCardStatusModel>()
+    private val modelList = mutableListOf<CardModel>()
 
     init {
         modelList.addAll(initCList)
@@ -35,7 +35,7 @@ class UserAdapter(initCList: List<ViewCardStatusModel>, val listener: ClickItemU
         }
     }
 
-    fun swap(modelList: List<ViewCardStatusModel>) {
+    fun swap(modelList: List<CardModel>) {
         val diffCallback = DiffUtilUserRecycler(this.modelList, modelList)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         this.modelList.clear()
@@ -45,7 +45,7 @@ class UserAdapter(initCList: List<ViewCardStatusModel>, val listener: ClickItemU
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val cardImage: ImageView = itemView.findViewById(R.id.user_card_view_image)
-        fun bind(model: ViewCardStatusModel) {
+        fun bind(model: CardModel) {
             cardImage.updateWithBitmap(model.cardPath)
         }
     }
