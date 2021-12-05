@@ -38,7 +38,6 @@ class RegistrationFragment : Fragment() {
         initialUI()
         initialVM()
         clickListeners()
-
         super.onViewCreated(view, savedInstanceState)
     }
     private fun initialUI(){
@@ -69,12 +68,12 @@ class RegistrationFragment : Fragment() {
 
 
                 if (it) {
-                    addCards(
+                    addUserStatus(
                         AddUserModel(
                             binding.mail.text.toString(),
                             binding.name.text.toString(),
                             "user",
-                            null
+
                         )
                     )
 
@@ -85,14 +84,6 @@ class RegistrationFragment : Fragment() {
 
             })
     }
-
-    private fun addCards(model: AddUserModel) {
-        VM.getCardNames().observe(viewLifecycleOwner, Observer {
-            model.cards = it
-            addUserStatus(model)
-        })
-    }
-
     private fun addUserStatus(model: AddUserModel) {
         VM.createStatus(model).observe(viewLifecycleOwner, Observer {
             if (it) {

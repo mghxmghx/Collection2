@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -58,15 +59,6 @@ class AdminAddCardFragment : Fragment() {
         MyApp.appComponent.inject(this)
     }
 
-    private fun choosePhoto() {
-        val intent = Intent()
-        intent.type = intentType
-        intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(
-            intent,
-            IMAGE_REQUEST
-        )
-    }
 
     private fun requestPermissions(): Boolean {
         val listPermissionsNeeded: MutableList<String> = ArrayList()
@@ -86,29 +78,18 @@ class AdminAddCardFragment : Fragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == IMAGE_REQUEST) {
-            if (data?.data != null) {
-                binding.imageView2.setImageURI(data.data)
-                encodeBitmapAndSave()
-            }
+        if (data?.data != null) {
+            uri = data.data.toString()
+            binding.imageView2.setImageURI(data.data)
         }
-    }
-
-    private fun encodeBitmapAndSave() {
-        binding.imageView2.isDrawingCacheEnabled = true
-        binding.imageView2.buildDrawingCache()
-        val bitmap = (binding.imageView2.drawable as Drawable).toBitmap()
-        val baos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
-        uri = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT)
+        progressDialog.dismiss()
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun imageClickListener() {
         binding.imageView2.setOnClickListener {
             if (checkAndRequestPermissions()) {
-                choosePhoto()
+                openImage()
             } else {
                 requestPermissions()
             }
@@ -187,6 +168,12 @@ class AdminAddCardFragment : Fragment() {
     }
 
     private fun addCard(model: AddCardModel) {
+        VM.setChildImage(model.cardPath.toUri(),model.cardID).observe(viewLifecycleOwner, Observer {
+            model.cardPath = it
+            VM.addCard(model).observe(viewLifecycleOwner, Observer {
+                
+            })
+        })
         VM.addCard(model).observe(viewLifecycleOwner, Observer {
             if (it) {
                 /*         binding.addCardNameText.setText("")

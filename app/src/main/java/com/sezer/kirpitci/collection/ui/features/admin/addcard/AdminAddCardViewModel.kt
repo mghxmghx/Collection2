@@ -15,7 +15,9 @@ import javax.inject.Inject
 import kotlin.collections.HashMap
 
 
-class AdminAddCardViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase) : ViewModel() {
+class AdminAddCardViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase,
+        val firebaseStorage: FirebaseStorage,
+        val firebaseFirestore: FirebaseFirestore) : ViewModel() {
     fun getMaxId(): MutableLiveData<Int> {
         val db = firebaseDatabase.getReference("cards")
         val lastInt = MutableLiveData<Int>()
@@ -43,9 +45,9 @@ class AdminAddCardViewModel @Inject constructor(val firebaseDatabase: FirebaseDa
     fun setChildImage(filePath: Uri, imageID: String): MutableLiveData<String> {
         val isSuccess = MutableLiveData<String>()
         if (!filePath.toString().equals("default")) {
-            val storageReference = FirebaseStorage.getInstance().getReference("Cards")
+            val storageReference = firebaseStorage.getReference("Cards")
             val ref = storageReference.child("uploads/" + UUID.randomUUID().toString())
-            val db = FirebaseFirestore.getInstance()
+            val db = firebaseFirestore
             val uploadTask = ref.putFile(filePath)
             val urlTask = uploadTask.continueWithTask(
                 Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->

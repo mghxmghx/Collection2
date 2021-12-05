@@ -8,35 +8,29 @@ import com.sezer.kirpitci.collection.ui.features.registration.CardModel
 import javax.inject.Inject
 
 class BeerFragmentViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase, val auth: FirebaseAuth): ViewModel() {
-    fun getMyCards(): MutableLiveData<List<CardModel>> {
+    fun getCards(category: String): MutableLiveData<List<CardModel>> {
+        val userEmail = auth.currentUser?.email
         val cardList = MutableLiveData<List<CardModel>>()
         val list = arrayListOf<CardModel>()
-        var db2 = firebaseDatabase.getReference("users")
+        var db2 = firebaseDatabase.getReference("cards")
         db2.get().addOnSuccessListener {
             for (child in it.children) {
-                if (child.child("email").value.toString().equals(auth.currentUser?.email)) {
-                    db2 = firebaseDatabase.getReference("users").child(child.key.toString()).child("cards")
-                    db2.get().addOnSuccessListener {
-                        for(i in it.children){
-                            list.add(
-                                CardModel(
-                                    i.child("cardID").getValue().toString(),
-                                    i.child("cardName").getValue().toString(),
-                                    i.child("cardInfo").getValue().toString(),
-                                    i.child("cardCategory").getValue().toString(),
-                                    i.child("cardCounty").getValue().toString(),
-                                    i.child("cardCity").getValue().toString(),
-                                    i.child("cardPrice").getValue().toString(),
-                                    i.child("cardPath").getValue().toString(),
-                                    i.child("status").getValue().toString(),
-                                )
-                            )
-                        }
-                        cardList.value = list
-                    }
-                }
+                if (child.child("cardCategory").getValue().toString().equals(category))
+                    list.add(
+                        CardModel(
+                            child.child("cardID").getValue().toString(),
+                            child.child("cardName").getValue().toString(),
+                            child.child("cardInfo").getValue().toString(),
+                            child.child("cardCategory").getValue().toString(),
+                            child.child("cardCounty").getValue().toString(),
+                            child.child("cardCity").getValue().toString(),
+                            child.child("cardPrice").getValue().toString(),
+                            child.child("cardPath").getValue().toString(),
+                            child.child("status").getValue().toString(),
+                        )
+                    )
             }
-        }.addOnFailureListener {
+            cardList.value = list
         }
         return cardList
     }

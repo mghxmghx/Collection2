@@ -16,7 +16,6 @@ import com.google.android.material.tabs.TabLayout
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.databinding.FragmentUserBinding
 import com.sezer.kirpitci.collection.di.MyApp
-import com.sezer.kirpitci.collection.ui.features.admin.viewcard.ViewCardStatusModel
 import com.sezer.kirpitci.collection.ui.features.registration.CardModel
 import com.sezer.kirpitci.collection.utis.adapters.ClickItemUser
 import com.sezer.kirpitci.collection.utis.adapters.RecyclerAdapter
@@ -42,9 +41,9 @@ class UserFragment : Fragment(), ClickItemUser {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initialUI()
         initialVM()
-        getData()
         initialRecyler()
         initialTablayout()
+        getData("beer")
         binding.customProgress1.max = 10
         binding.customProgress2.max = 10
         val currentProgress = 6
@@ -72,11 +71,11 @@ class UserFragment : Fragment(), ClickItemUser {
 
     }
 
-    private fun getData() {
-        VM.getMyCards().observe(viewLifecycleOwner, Observer {
-            arrayList.addAll(it)
-            separateData("beer")
-        })
+    private fun getData(category: String) {
+       VM.getCards(category).observe(viewLifecycleOwner, Observer {
+           Log.d("TAG", "getData: " + it.size)
+           adapter.submitList(it)
+       })
     }
     val arrayList = arrayListOf<CardModel>()
     val list = arrayListOf<CardModel>()
@@ -107,16 +106,16 @@ class UserFragment : Fragment(), ClickItemUser {
     }
 
     private fun initialTablayout() {
-        separateData("beer")
+       // separateData("beer")
         binding.tablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 if (tab.position == 0) {
-                    separateData("beer")
+                    getData("beer")
                 } else if (tab.position == 1) {
-                    separateData("wine")
+                    getData("wine")
 
                 } else if (tab.position == 2) {
-                    separateData("cocktail")
+                    getData("cocktail")
 
                 }
             }

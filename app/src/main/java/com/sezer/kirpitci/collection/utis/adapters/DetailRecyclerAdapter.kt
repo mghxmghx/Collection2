@@ -6,52 +6,51 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.ui.features.admin.viewcard.ViewCardStatusModel
 import com.sezer.kirpitci.collection.ui.features.registration.CardModel
 import com.sezer.kirpitci.collection.utis.updateWithBitmap
+import com.sezer.kirpitci.collection.utis.updateWithUrl
 
-
-class DetailRecyclerAdapter(initCList: List<CardModel>, val listener: ClickItemUser) :
-    RecyclerView.Adapter<DetailRecyclerAdapter.ViewHolder>() {
-
-    private val modelList = mutableListOf<CardModel>()
-
-    init {
-        modelList.addAll(initCList)
+class DetailRecyclerAdapter(val listener: ClickItemUser) : ListAdapter<CardModel, DetailRecyclerAdapter.WorkerHolder>(
+    diffCallback
+) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkerHolder {
+        val itemView = LayoutInflater.from(parent.context).inflate(
+            R.layout.item_detail,
+            parent,
+            false
+        )
+        return WorkerHolder(itemView)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val view = inflater.inflate(R.layout.item_detail, parent, false)
-        return ViewHolder(view)
-    }
-
-    override fun getItemCount() = modelList.size
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
-        holder.bind(model = modelList[position])
-        holder.itemView.findViewById<ImageView>(R.id.user_card_view_image).setOnClickListener {
-            listener.clicked(modelList[position])
+    override fun onBindViewHolder(holder: WorkerHolder, position: Int) {
+        with(getItem(position)) {
+            holder.cardImage.updateWithUrl(this.cardPath, holder.cardImage)
         }
     }
+    inner class WorkerHolder(iv: View) : RecyclerView.ViewHolder(iv) {
+        val cardImage: ImageView = itemView.findViewById(R.id.user_card_view_image)
+        init {
+            itemView.setOnClickListener{
+                listener.clicked(getItem(adapterPosition))
+            }
+        }
 
-    fun swap(modelList: List<CardModel>) {
-        val diffCallback = DiffUtilUserRecycler(this.modelList, modelList)
-        val diffResult = DiffUtil.calculateDiff(diffCallback)
-        this.modelList.clear()
-        this.modelList.addAll(modelList)
-        diffResult.dispatchUpdatesTo(this)
+    }
+}
+
+private val diffCallback = object : DiffUtil.ItemCallback<CardModel>() {
+    override fun areItemsTheSame(oldItem: CardModel, newItem: CardModel): Boolean {
+        return oldItem.cardName.equals(newItem.cardName)
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val cardImage: ImageView = itemView.findViewById(R.id.user_card_view_image)
-        private val cardDetailName: TextView = itemView.findViewById(R.id.detailAlcoholName)
-        fun bind(model: CardModel) {
-            cardImage.updateWithBitmap(model.cardPath)
-            cardDetailName.text = model.cardName
-        }
+    override fun areContentsTheSame(
+        oldItem: CardModel,
+        newItem: CardModel
+    ): Boolean {
+        return oldItem.cardID.equals(newItem.cardID)
     }
 }

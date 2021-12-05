@@ -4,5 +4,4 @@ data class AddUserModel(
     val email: String,
     val userName: String,
     val status: String,
-    var cards: List<CardModel>?
 )

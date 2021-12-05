@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.sezer.kirpitci.collection.ui.features.registration.calisma.RegisterModel
 import javax.inject.Inject
 
 class RegistrationViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase, val auth: FirebaseAuth): ViewModel() {
@@ -22,37 +23,22 @@ class RegistrationViewModel @Inject constructor(val firebaseDatabase: FirebaseDa
 
     fun createStatus(model: AddUserModel): MutableLiveData<Boolean> {
         val isSuccess = MutableLiveData<Boolean>()
-        getCardNames()
+        addUserInCard(model.userName, model.email, "false")
         val db = firebaseDatabase.getReference("users")
         db.child(model.userName.toString()).setValue(model).addOnCompleteListener {
             isSuccess.value = it.isSuccessful
         }
         return isSuccess
     }
-    fun getCardNames(): MutableLiveData<List<CardModel>> {
-        val list = MutableLiveData<List<CardModel>>()
-        val cardList = ArrayList<CardModel>()
-        val db2 = firebaseDatabase.getReference("cards")
-        db2.get()
-            .addOnSuccessListener {
-                for (child in it.children) {
-                    cardList.add(
-                        CardModel(
-                            child.child("cardID").value.toString(),
-                            child.child("cardName").value.toString(),
-                            child.child("cardInfo").value.toString(),
-                            child.child("cardCategory").value.toString(),
-                            child.child("cardCounty").value.toString(),
-                            child.child("cardCity").value.toString(),
-                            child.child("cardPrice").value.toString(),
-                            child.child("cardPath").value.toString(),
-                            "false"
-                        )
-                    )
-                }
-                list.value = cardList
+    fun addUserInCard(userKey: String, userMail: String, status: String){
+        val userMailSplit  = userMail.split("@")
+        val db = firebaseDatabase.getReference("cards")
+        val model = RegisterModel(userMailSplit.get(0), status)
+        db.get().addOnSuccessListener {
+            for (children in it.children){
+                val db2 = firebaseDatabase.getReference("cards").child(children.key.toString()).child("users")
+                db2.child(userKey).setValue(model)
             }
-            .addOnFailureListener {}
-        return list
+        }
     }
 }

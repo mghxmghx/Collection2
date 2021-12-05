@@ -28,7 +28,7 @@ class BeerFragment : Fragment(), ClickItemUser {
     lateinit var viewModelFactory: ViewModelFactory
     private lateinit var binding: FragmentBeerBinding
     private lateinit var VM: BeerFragmentViewModel
-    private lateinit var adapter: RecyclerAdapter
+    private lateinit var adapter: DetailRecyclerAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,8 +40,9 @@ class BeerFragment : Fragment(), ClickItemUser {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initialUI()
         initialVM()
-        getData()
         initialTablayout()
+        initialRecyler()
+        getData("beer")
         super.onViewCreated(view, savedInstanceState)
     }
     private fun initialUI(){
@@ -51,30 +52,14 @@ class BeerFragment : Fragment(), ClickItemUser {
         VM = ViewModelProvider(this, viewModelFactory)[BeerFragmentViewModel::class.java]
     }
 
-    private fun getData() {
-        VM.getMyCards().observe(viewLifecycleOwner, Observer {
-            arrayList.addAll(it)
-            separateData("beer")
+    private fun getData(category: String) {
+        VM.getCards(category).observe(viewLifecycleOwner, Observer {
+            adapter.submitList(it)
         })
-    }
-    val arrayList = arrayListOf<CardModel>()
-    val list = arrayListOf<CardModel>()
-    private fun separateData(category: String){
-        list.clear()
-        if(arrayList.size !=0){
-            for(i in 0..arrayList.size-1)
-            {
-                if(category.equals(arrayList.get(i).cardCategory)){
-                    list.add(arrayList.get(i))
-                }
-            }
-        }
-        initialRecyler()
-        adapter.submitList(list)
     }
 
     fun initialRecyler() {
-        adapter = RecyclerAdapter(this)
+        adapter = DetailRecyclerAdapter(this)
         binding.userCardsRecycler.layoutManager = GridLayoutManager(context, 2)
         binding.userCardsRecycler.adapter = adapter
     }
@@ -89,16 +74,15 @@ class BeerFragment : Fragment(), ClickItemUser {
     }
 
     private fun initialTablayout() {
-        separateData("beer")
         binding.tablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 if (tab.position == 0) {
-                    separateData("beer")
+                    getData("beer")
                 } else if (tab.position == 1) {
-                    separateData("wine")
+                    getData("wine")
 
                 } else if (tab.position == 2) {
-                    separateData("cocktail")
+                    getData("cocktail")
 
                 }
             }
