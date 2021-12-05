@@ -20,15 +20,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.databinding.FragmentAdminViewCardBinding
+import com.sezer.kirpitci.collection.di.MyApp
 import com.sezer.kirpitci.collection.utis.adapters.AdapterX
 import com.sezer.kirpitci.collection.utis.adapters.AdminViewCardAdapter
 import com.sezer.kirpitci.collection.utis.adapters.ClickListener
-import com.sezer.kirpitci.collection.utis.factories.AdminViewCardViewModelFactory
+import com.sezer.kirpitci.collection.utis.others.ViewModelFactory
 import com.sezer.kirpitci.collection.utis.updateWithBitmap
 import java.sql.Timestamp
+import javax.inject.Inject
 
 
 class AdminViewCardFragment : Fragment(), ClickListener {
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
     private lateinit var binding: FragmentAdminViewCardBinding
     private lateinit var adapter: AdminViewCardAdapter
     private lateinit var VM: AdminViewCardViewModel
@@ -42,25 +46,19 @@ class AdminViewCardFragment : Fragment(), ClickListener {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentAdminViewCardBinding.inflate(inflater, container, false)
-
-
         return binding.root
     }
 
     override fun onStart() {
         progressDialog = ProgressDialog(context)
         getData()
-
-
         super.onStart()
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initialUI()
         initialVM()
-
         initialRecyler()
-
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -68,13 +66,12 @@ class AdminViewCardFragment : Fragment(), ClickListener {
         //adapter = AdminViewCardAdapter(this)
         binding.cardRecycler.layoutManager = LinearLayoutManager(context)
         binding.cardRecycler.adapter = adapterX
-
-
     }
-
+    private fun initialUI(){
+        MyApp.appComponent.inject(this)
+    }
     private fun initialVM() {
-        val factory = AdminViewCardViewModelFactory()
-        VM = ViewModelProvider(this, factory)[AdminViewCardViewModel::class.java]
+        VM = ViewModelProvider(this, viewModelFactory)[AdminViewCardViewModel::class.java]
 
     }
 

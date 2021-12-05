@@ -14,12 +14,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.databinding.FragmentSplashScreenBinding
+import com.sezer.kirpitci.collection.di.MyApp
 import com.sezer.kirpitci.collection.ui.features.UserAct
-import com.sezer.kirpitci.collection.utis.factories.SplashViewModelFactory
 import com.sezer.kirpitci.collection.utis.others.SharedPreferencesClass
+import com.sezer.kirpitci.collection.utis.others.ViewModelFactory
+import javax.inject.Inject
 
 class SplashScreenFragment : Fragment() {
-
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
     private lateinit var binding: FragmentSplashScreenBinding
     private lateinit var VM: SplashViewModel
     private lateinit var sharedPreferencesClass: SharedPreferencesClass
@@ -36,6 +39,7 @@ class SplashScreenFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initialUI()
         innitialVM()
         innitialShared()
         startAnimation()
@@ -51,10 +55,11 @@ class SplashScreenFragment : Fragment() {
             "innitialShared: " + sharedPreferencesClass.getEmail() + " " + sharedPreferencesClass.getPassword()
         )
     }
-
+    private fun initialUI(){
+        MyApp.appComponent.inject(this)
+    }
     fun innitialVM() {
-        val factory = SplashViewModelFactory()
-        VM = ViewModelProvider(this, factory)[SplashViewModel::class.java]
+        VM = ViewModelProvider(this, viewModelFactory)[SplashViewModel::class.java]
     }
 
     private fun auth() {

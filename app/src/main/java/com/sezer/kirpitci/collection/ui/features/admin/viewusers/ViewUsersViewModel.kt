@@ -4,15 +4,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.database.FirebaseDatabase
 import com.sezer.kirpitci.collection.ui.features.registration.calisma.TrainingModelReal
+import javax.inject.Inject
 
-class ViewUsersViewModel : ViewModel() {
+class ViewUsersViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase): ViewModel() {
 
     fun getUsers(): MutableLiveData<List<TrainingModelReal>> {
         val list = MutableLiveData<List<TrainingModelReal>>()
         val cardList = ArrayList<TrainingModelReal>()
-
-        val db = FirebaseDatabase.getInstance()
-        val db2 = db.getReference("users")
+        val db2 = firebaseDatabase.getReference("users")
         db2.get()
             .addOnSuccessListener {
                 for (child in it.children) {

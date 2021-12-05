@@ -9,11 +9,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.sezer.kirpitci.collection.databinding.FragmentViewUsersBinding
+import com.sezer.kirpitci.collection.di.MyApp
 import com.sezer.kirpitci.collection.utis.adapters.AdapterUserView
-import com.sezer.kirpitci.collection.utis.factories.ViewUsersViewModelFactory
+import com.sezer.kirpitci.collection.utis.others.ViewModelFactory
+import javax.inject.Inject
 
 
 class ViewUsersFragment : Fragment() {
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
     private lateinit var binding: FragmentViewUsersBinding
     private lateinit var VM: ViewUsersViewModel
     private lateinit var adapter: AdapterUserView
@@ -33,15 +37,17 @@ class ViewUsersFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val factory = ViewUsersViewModelFactory()
-        VM = ViewModelProvider(this, factory).get(ViewUsersViewModel::class.java)
+        initialUI()
+        VM = ViewModelProvider(this, viewModelFactory).get(ViewUsersViewModel::class.java)
         initialRcy()
         getUsers()
 
         super.onViewCreated(view, savedInstanceState)
         super.onViewCreated(view, savedInstanceState)
     }
-
+    private fun initialUI(){
+        MyApp.appComponent.inject(this)
+    }
     fun getUsers() {
         VM.getUsers().observe(viewLifecycleOwner, Observer {
             adapter.swap(it)

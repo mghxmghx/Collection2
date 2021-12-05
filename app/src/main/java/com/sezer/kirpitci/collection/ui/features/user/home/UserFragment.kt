@@ -15,15 +15,18 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.tabs.TabLayout
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.databinding.FragmentUserBinding
+import com.sezer.kirpitci.collection.di.MyApp
 import com.sezer.kirpitci.collection.ui.features.admin.viewcard.ViewCardStatusModel
 import com.sezer.kirpitci.collection.ui.features.registration.CardModel
 import com.sezer.kirpitci.collection.utis.adapters.ClickItemUser
 import com.sezer.kirpitci.collection.utis.adapters.RecyclerAdapter
-import com.sezer.kirpitci.collection.utis.adapters.UserAdapter
-import com.sezer.kirpitci.collection.utis.factories.UserViewModelFactory
+import com.sezer.kirpitci.collection.utis.others.ViewModelFactory
 import com.sezer.kirpitci.collection.utis.updateWithBitmap
+import javax.inject.Inject
 
 class UserFragment : Fragment(), ClickItemUser {
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
     private lateinit var binding: FragmentUserBinding
     private lateinit var adapter: RecyclerAdapter
     private lateinit var VM: UserViewModel
@@ -37,6 +40,7 @@ class UserFragment : Fragment(), ClickItemUser {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initialUI()
         initialVM()
         getData()
         initialRecyler()
@@ -60,10 +64,11 @@ class UserFragment : Fragment(), ClickItemUser {
         binding.userCardsRecycler.layoutManager = GridLayoutManager(context, 8)
         binding.userCardsRecycler.adapter = adapter
     }
-
+    private fun initialUI(){
+        MyApp.appComponent.inject(this)
+    }
     private fun initialVM() {
-        val factory = UserViewModelFactory()
-        VM = ViewModelProvider(this, factory)[UserViewModel::class.java]
+        VM = ViewModelProvider(this, viewModelFactory)[UserViewModel::class.java]
 
     }
 

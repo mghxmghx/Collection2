@@ -13,15 +13,19 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.tabs.TabLayout
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.databinding.FragmentBeerBinding
+import com.sezer.kirpitci.collection.di.MyApp
 import com.sezer.kirpitci.collection.ui.features.admin.viewcard.ViewCardStatusModel
 import com.sezer.kirpitci.collection.ui.features.registration.CardModel
 import com.sezer.kirpitci.collection.utis.adapters.ClickItemUser
 import com.sezer.kirpitci.collection.utis.adapters.DetailRecyclerAdapter
 import com.sezer.kirpitci.collection.utis.adapters.RecyclerAdapter
-import com.sezer.kirpitci.collection.utis.factories.DetailViewModelFactory
+import com.sezer.kirpitci.collection.utis.others.ViewModelFactory
 import com.sezer.kirpitci.collection.utis.updateWithBitmap
+import javax.inject.Inject
 
 class BeerFragment : Fragment(), ClickItemUser {
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
     private lateinit var binding: FragmentBeerBinding
     private lateinit var VM: BeerFragmentViewModel
     private lateinit var adapter: RecyclerAdapter
@@ -34,16 +38,17 @@ class BeerFragment : Fragment(), ClickItemUser {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initialUI()
         initialVM()
         getData()
         initialTablayout()
         super.onViewCreated(view, savedInstanceState)
     }
-
+    private fun initialUI(){
+        MyApp.appComponent.inject(this)
+    }
     private fun initialVM() {
-        val factory = DetailViewModelFactory()
-        VM = ViewModelProvider(this, factory)[BeerFragmentViewModel::class.java]
-
+        VM = ViewModelProvider(this, viewModelFactory)[BeerFragmentViewModel::class.java]
     }
 
     private fun getData() {

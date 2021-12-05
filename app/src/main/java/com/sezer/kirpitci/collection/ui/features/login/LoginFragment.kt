@@ -12,12 +12,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.databinding.FragmentLoginBinding
+import com.sezer.kirpitci.collection.di.MyApp
 import com.sezer.kirpitci.collection.ui.features.UserAct
-import com.sezer.kirpitci.collection.utis.factories.ViewModelFactory
 import com.sezer.kirpitci.collection.utis.others.SharedPreferencesClass
+import com.sezer.kirpitci.collection.utis.others.ViewModelFactory
+import javax.inject.Inject
 
 class LoginFragment : Fragment() {
-
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
     private lateinit var binding: FragmentLoginBinding
     private lateinit var VM: LoginViewModel
     private lateinit var sharedPreferencesClass: SharedPreferencesClass
@@ -33,13 +36,15 @@ class LoginFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        goToRegister()
-
-        goToDeneme()
+        initialUI()
         initialVM()
+        goToRegister()
         initialShared()
         loginClickListener()
         super.onViewCreated(view, savedInstanceState)
+    }
+    private fun initialUI(){
+        MyApp.appComponent.inject(this)
     }
 
     private fun initialShared() {
@@ -48,7 +53,6 @@ class LoginFragment : Fragment() {
         context?.let { sharedPreferencesClass.instantPref(it) }
 
     }
-
     private fun goToDeneme() {
         binding.denemebuton.setOnClickListener {
             //Navigation.findNavController(it)
@@ -56,43 +60,30 @@ class LoginFragment : Fragment() {
 
         }
     }
-
     private fun goToRegister() {
         binding.loginRegisterTextview.setOnClickListener {
             Navigation.findNavController(it)
                 .navigate(R.id.action_loginFragment_to_registrationFragment)
-
         }
     }
-
-
     private fun initialVM() {
-        val factory = ViewModelFactory()
-        VM = ViewModelProvider(this, factory)[LoginViewModel::class.java]
-
+        VM = ViewModelProvider(this, viewModelFactory)[LoginViewModel::class.java]
     }
-
     private fun loginClickListener() {
         binding.loginButton.setOnClickListener {
             auth()
         }
     }
-
     private fun auth() {
         VM.auth(binding.loginEmail.text.toString(), binding.loginPassword.text.toString())
             .observe(viewLifecycleOwner,
                 Observer {
-
                     if (it) {
-
                         if (binding.loginRememberMe.isChecked) {
                             sharedPreferencesClass.addUserEmail(binding.loginEmail.text.toString())
                             sharedPreferencesClass.addUserPassword(binding.loginPassword.text.toString())
-
-
                         }
                         VM.getStatus().observe(viewLifecycleOwner, Observer {
-
                             if (it.equals("admin")) {
                                 Navigation.findNavController(binding.root)
                                     .navigate(R.id.action_loginFragment_to_adminPanelFragment)
@@ -104,10 +95,7 @@ class LoginFragment : Fragment() {
                                 Navigation.findNavController(binding.root)
                                     .navigate(R.id.action_loginFragment_to_homePageFragment)
                             }
-
                         })
-
-
                     } else {
                         Toast.makeText(
                             context,
@@ -116,8 +104,5 @@ class LoginFragment : Fragment() {
                         ).show()
                     }
                 })
-
     }
-
-
 }

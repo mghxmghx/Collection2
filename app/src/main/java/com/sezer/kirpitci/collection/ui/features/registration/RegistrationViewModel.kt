@@ -4,10 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import javax.inject.Inject
 
-class RegistrationViewModel : ViewModel() {
-
-    val auth = FirebaseAuth.getInstance()
+class RegistrationViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase, val auth: FirebaseAuth): ViewModel() {
     fun createUser(model: CreateUserModel): MutableLiveData<Boolean> {
         val isSuccess = MutableLiveData<Boolean>()
         auth.createUserWithEmailAndPassword(model.email, model.password).addOnCompleteListener {
@@ -24,18 +23,16 @@ class RegistrationViewModel : ViewModel() {
     fun createStatus(model: AddUserModel): MutableLiveData<Boolean> {
         val isSuccess = MutableLiveData<Boolean>()
         getCardNames()
-        val db = FirebaseDatabase.getInstance().getReference("users")
+        val db = firebaseDatabase.getReference("users")
         db.child(model.userName.toString()).setValue(model).addOnCompleteListener {
             isSuccess.value = it.isSuccessful
         }
         return isSuccess
     }
-
     fun getCardNames(): MutableLiveData<List<CardModel>> {
         val list = MutableLiveData<List<CardModel>>()
         val cardList = ArrayList<CardModel>()
-        val db = FirebaseDatabase.getInstance()
-        val db2 = db.getReference("cards")
+        val db2 = firebaseDatabase.getReference("cards")
         db2.get()
             .addOnSuccessListener {
                 for (child in it.children) {

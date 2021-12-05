@@ -12,10 +12,14 @@ import androidx.navigation.Navigation
 import com.google.firebase.database.DatabaseReference
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.databinding.FragmentRegistrationBinding
-import com.sezer.kirpitci.collection.utis.factories.RegistrationViewModelFactory
+import com.sezer.kirpitci.collection.di.MyApp
+import com.sezer.kirpitci.collection.utis.others.ViewModelFactory
+import javax.inject.Inject
 
 
 class RegistrationFragment : Fragment() {
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
     private lateinit var binding: FragmentRegistrationBinding
     private lateinit var VM: RegistrationViewModel
 
@@ -31,15 +35,17 @@ class RegistrationFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initialUI()
         initialVM()
         clickListeners()
 
         super.onViewCreated(view, savedInstanceState)
     }
-
+    private fun initialUI(){
+        MyApp.appComponent.inject(this)
+    }
     private fun initialVM() {
-        val factory = RegistrationViewModelFactory()
-        VM = ViewModelProvider(this, factory)[RegistrationViewModel::class.java]
+        VM = ViewModelProvider(this, viewModelFactory)[RegistrationViewModel::class.java]
 
     }
 

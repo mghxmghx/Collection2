@@ -4,17 +4,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import javax.inject.Inject
 
-class SplashViewModel : ViewModel() {
-    val auth = FirebaseAuth.getInstance()
-
+class SplashViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase,
+                                          val auth: FirebaseAuth): ViewModel() {
     fun auth(id: String, password: String): MutableLiveData<Boolean> {
         val isSuccess = MutableLiveData<Boolean>()
-
         if (!id.isEmpty() && !password.isEmpty()) {
             auth.signInWithEmailAndPassword(id, password).addOnCompleteListener {
-
-
                 if (it.isSuccessful) {
                     isSuccess.value = it.isSuccessful
 
@@ -26,19 +23,14 @@ class SplashViewModel : ViewModel() {
             isSuccess.value = false
         }
         return isSuccess
-
     }
 
     fun getStatus(): MutableLiveData<String> {
         val personStatues = MutableLiveData<String>()
-        val db = FirebaseDatabase.getInstance()
-        val db2 = db.getReference("users")
-
+        val db2 = firebaseDatabase.getReference("users")
         db2.get()
-
             .addOnSuccessListener {
                 for (child in it.children) {
-
                     if (child.child("email").value.toString()
                             .equals(auth.currentUser?.email)
                     ) {
@@ -46,9 +38,7 @@ class SplashViewModel : ViewModel() {
 
                     }
                 }
-
             }
-
         return personStatues
     }
 }

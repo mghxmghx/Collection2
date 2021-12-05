@@ -11,6 +11,7 @@ import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
@@ -18,13 +19,17 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.sezer.kirpitci.collection.databinding.FragmentAdminAddCardBinding
+import com.sezer.kirpitci.collection.di.MyApp
 import com.sezer.kirpitci.collection.utis.default
-import com.sezer.kirpitci.collection.utis.factories.AddCardViewModelFactory
 import com.sezer.kirpitci.collection.utis.intentType
+import com.sezer.kirpitci.collection.utis.others.ViewModelFactory
 import com.sezer.kirpitci.collection.utis.resetImage
 import java.io.ByteArrayOutputStream
+import javax.inject.Inject
 
 class AdminAddCardFragment : Fragment() {
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
     private lateinit var binding: FragmentAdminAddCardBinding
     private lateinit var progressDialog: ProgressDialog
     private var uri: String = ""
@@ -42,11 +47,15 @@ class AdminAddCardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         progressDialog = ProgressDialog(context)
+        initialUI()
         imageClickListener()
         initialVM()
         clickListener()
         super.onViewCreated(view, savedInstanceState)
 
+    }
+    private fun initialUI(){
+        MyApp.appComponent.inject(this)
     }
 
     private fun choosePhoto() {
@@ -137,8 +146,7 @@ class AdminAddCardFragment : Fragment() {
     }
 
     private fun initialVM() {
-        val factory = AddCardViewModelFactory()
-        VM = ViewModelProvider(this, factory)[AdminAddCardViewModel::class.java]
+        VM = ViewModelProvider(this, viewModelFactory)[AdminAddCardViewModel::class.java]
 
     }
 
@@ -181,13 +189,14 @@ class AdminAddCardFragment : Fragment() {
     private fun addCard(model: AddCardModel) {
         VM.addCard(model).observe(viewLifecycleOwner, Observer {
             if (it) {
-                binding.addCardNameText.setText("")
-                binding.cardCategoryText.setText("")
-                binding.cardCityText.setText("")
-                binding.cardCountryText.setText("")
-                binding.cardPriceText.setText("")
-                binding.cardInfoText.setText("")
-                binding.imageView2.resetImage(binding.imageView2)
+                /*         binding.addCardNameText.setText("")
+                          binding.cardCategoryText.setText("")
+                          binding.cardCityText.setText("")
+                          binding.cardCountryText.setText("")
+                          binding.cardPriceText.setText("")
+                          binding.cardInfoText.setText("")
+                          binding.imageView2.resetImage(binding.imageView2)*/
+                Toast.makeText(context,"asd",Toast.LENGTH_SHORT).show()
 
 
             }
