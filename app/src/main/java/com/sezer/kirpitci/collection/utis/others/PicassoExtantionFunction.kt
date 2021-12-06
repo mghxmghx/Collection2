@@ -11,6 +11,10 @@ import com.squareup.picasso.Picasso
 fun ImageView.updateWithUrl(url: String, imageViewAvatar: ImageView) {
 
     if (!url.equals("default")) {
+       /* val colorMatrix = ColorMatrix()
+        colorMatrix.setSaturation(0f)
+        val filter = ColorMatrixColorFilter(colorMatrix)
+        imageViewAvatar.setColorFilter(filter)*/
         Glide.with(context).load(url).into(imageViewAvatar)
     } else {
         Glide.with(context).load(R.drawable.ic_add_new_card_image).into(imageViewAvatar)

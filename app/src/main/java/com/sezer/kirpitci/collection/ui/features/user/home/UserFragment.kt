@@ -2,6 +2,8 @@ package com.sezer.kirpitci.collection.ui.features.user.home
 
 import android.animation.ObjectAnimator
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayout
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.databinding.FragmentUserBinding
@@ -21,6 +24,7 @@ import com.sezer.kirpitci.collection.utis.adapters.ClickItemUser
 import com.sezer.kirpitci.collection.utis.adapters.RecyclerAdapter
 import com.sezer.kirpitci.collection.utis.others.ViewModelFactory
 import com.sezer.kirpitci.collection.utis.updateWithBitmap
+import com.sezer.kirpitci.collection.utis.updateWithUrl
 import javax.inject.Inject
 
 class UserFragment : Fragment(), ClickItemUser {
@@ -29,6 +33,7 @@ class UserFragment : Fragment(), ClickItemUser {
     private lateinit var binding: FragmentUserBinding
     private lateinit var adapter: RecyclerAdapter
     private lateinit var VM: UserViewModel
+    private var categoryTemp = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,6 +49,8 @@ class UserFragment : Fragment(), ClickItemUser {
         initialRecyler()
         initialTablayout()
         getData("beer")
+        initialSearch()
+        categoryTemp = "beer"
         binding.customProgress1.max = 10
         binding.customProgress2.max = 10
         val currentProgress = 6
@@ -73,48 +80,81 @@ class UserFragment : Fragment(), ClickItemUser {
 
     private fun getData(category: String) {
        VM.getCards(category).observe(viewLifecycleOwner, Observer {
-           Log.d("TAG", "getData: " + it.size)
            adapter.submitList(it)
        })
     }
-    val arrayList = arrayListOf<CardModel>()
-    val list = arrayListOf<CardModel>()
-    private fun separateData(category: String){
-        list.clear()
-        if(arrayList.size !=0){
-            Log.d("TAG", "separateData: ")
-            for(i in 0..arrayList.size-1)
-            {
-                if(category.equals(arrayList.get(i).cardCategory)){
-                    Log.d("TAG", "separateData: " + arrayList.get(i).cardCategory)
-                    list.add(arrayList.get(i))
+    private fun initialSearch(){
+        binding.searchAlcoholText.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if(p0.toString().length>=3){
+                    searchData(alcoholName = p0.toString())
+                }
+                else if(p0.toString().length == 0){
+                    getData(categoryTemp)
                 }
             }
-        }
-        initialRecyler()
-        adapter.submitList(list)
+
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+        })
+    }
+    private fun searchData(alcoholName: String){
+        VM.searchCards(alcoholName, categoryTemp).observe(viewLifecycleOwner, Observer {
+            Log.d("TAG", "searchData: " + it.size)
+            adapter.submitList(it)
+        })
     }
 
     override fun clicked(model: CardModel) {
-        var builder = context?.let { AlertDialog.Builder(it) }
-        val v: View? = activity?.layoutInflater?.inflate(R.layout.detail_dialog_content, null)
-        val image: ImageView = v?.findViewById(R.id.dialogImagView)!!
-        image.updateWithBitmap(model.cardPath)
-        builder?.setView(v)
-
-        builder?.show()
+       checkClickedLayout(model)
     }
+    private fun checkClickedLayout(model: CardModel) {
+        val view = layoutInflater.inflate(R.layout.detail_dialog_content, null)
+
+        val dialog = context?.let { it1 ->
+                BottomSheetDialog(
+                    it1,
+                    R.style.BottomSheetDialogTheme
+                )
+            }
+            val closeButton = view.findViewById<ImageView>(R.id.dialogContentClose)
+        val image = view.findViewById<ImageView>(R.id.dialogImagView)
+        image.updateWithUrl(model.cardPath, image)
+            closeButton.setOnClickListener {
+                if (dialog != null) {
+                    dialog.cancel()
+                    (view.getParent() as ViewGroup).removeView(view)
+                }
+            }
+
+            if (dialog != null) {
+                dialog.setContentView(view)
+            }
+            if (dialog != null) {
+                dialog.show()
+            }
+        }
+
 
     private fun initialTablayout() {
-       // separateData("beer")
         binding.tablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 if (tab.position == 0) {
+                    binding.searchAlcoholText.text?.clear()
+                    categoryTemp = "beer"
                     getData("beer")
                 } else if (tab.position == 1) {
+                    binding.searchAlcoholText.text?.clear()
+                    categoryTemp = "wine"
                     getData("wine")
-
                 } else if (tab.position == 2) {
+                    binding.searchAlcoholText.text?.clear()
+                    categoryTemp = "cocktail"
                     getData("cocktail")
 
                 }

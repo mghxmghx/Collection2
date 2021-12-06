@@ -39,4 +39,34 @@ class UserViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase, 
         }
         return cardList
     }
+    fun searchCards(alcoholName: String, category: String):  MutableLiveData<List<CardModel>>{
+        val cardList = MutableLiveData<List<CardModel>>()
+        val list = arrayListOf<CardModel>()
+        var db2 = firebaseDatabase.getReference("cards")
+        db2.get().addOnSuccessListener {
+            for (child in it.children) {
+                if (child.child("cardCategory").getValue().toString().equals(category)){
+                    if(child.child("cardName").getValue().toString().contains(alcoholName)){
+                        list.add(
+                            CardModel(
+                                child.child("cardID").getValue().toString(),
+                                child.child("cardName").getValue().toString(),
+                                child.child("cardInfo").getValue().toString(),
+                                child.child("cardCategory").getValue().toString(),
+                                child.child("cardCounty").getValue().toString(),
+                                child.child("cardCity").getValue().toString(),
+                                child.child("cardPrice").getValue().toString(),
+                                child.child("cardPath").getValue().toString(),
+                                child.child("status").getValue().toString(),
+                            )
+                        )
+                    }
+
+                }
+
+            }
+            cardList.value = list
+        }
+        return cardList
+    }
 }
