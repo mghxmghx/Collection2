@@ -8,7 +8,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import android.widget.ImageView
+import android.widget.Switch
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -109,7 +111,9 @@ class UserFragment : Fragment(), ClickItemUser {
             adapter.submitList(it)
         })
     }
-
+    private fun isCheckVM(checked: Boolean, model: CardModel) {
+        VM.setCheck(checked, model)
+    }
     override fun clicked(model: CardModel) {
        checkClickedLayout(model)
     }
@@ -124,6 +128,16 @@ class UserFragment : Fragment(), ClickItemUser {
             }
             val closeButton = view.findViewById<ImageView>(R.id.dialogContentClose)
         val image = view.findViewById<ImageView>(R.id.dialogImagView)
+        val isCheck = view.findViewById<Switch>(R.id.isCheckForAlcohol)
+        isCheck.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
+            if (isCheck.isChecked()) {
+                isCheckVM(isCheck.isChecked(), model)
+                Log.d("TAG", "checkClickedLayout: ")
+            } else {
+                isCheckVM(isCheck.isChecked(), model)
+                Log.d("TAG", "checkClickedLayout: ")
+            }
+        })
         image.updateWithUrl(model.cardPath, image)
             closeButton.setOnClickListener {
                 if (dialog != null) {

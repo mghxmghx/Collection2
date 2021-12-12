@@ -1,11 +1,13 @@
 package com.sezer.kirpitci.collection.ui.features.user.ui.beer
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.sezer.kirpitci.collection.ui.features.registration.CardModel
 import javax.inject.Inject
+import kotlin.math.log
 
 class BeerFragmentViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase, val auth: FirebaseAuth): ViewModel() {
     fun getCards(category: String): MutableLiveData<List<CardModel>> {
@@ -32,6 +34,28 @@ class BeerFragmentViewModel @Inject constructor(val firebaseDatabase: FirebaseDa
             cardList.value = list
         }
         return cardList
+    }
+    fun setCheck(checked: Boolean, model: CardModel) {
+        val usermail = auth.currentUser?.email.toString().split("@")
+        firebaseDatabase.getReference("cards").get().addOnSuccessListener {
+            for(child in it.children){
+                if(child.child("cardID").getValue().toString().equals(model.cardID)){
+                    firebaseDatabase.
+                    getReference("cards").
+                    child(child.key.toString()).
+                    child("users").
+                    get().addOnSuccessListener {
+                            for(i in it.children){
+                                if(i.child("userMail").getValue().toString().equals(usermail.get(0))){
+                                    firebaseDatabase.getReference("cards").child(child
+                                        .key.toString()).child("users").child(i.key.toString()).child("status").
+                                            setValue(checked.toString())
+                                }
+                            }
+                        }
+                }
+            }
+        }
     }
     fun searchCards(alcoholName: String, category: String):  MutableLiveData<List<CardModel>>{
         val cardList = MutableLiveData<List<CardModel>>()

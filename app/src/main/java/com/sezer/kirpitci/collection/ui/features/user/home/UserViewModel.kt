@@ -69,4 +69,26 @@ class UserViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase, 
         }
         return cardList
     }
+    fun setCheck(checked: Boolean, model: CardModel) {
+        val usermail = auth.currentUser?.email.toString().split("@")
+        firebaseDatabase.getReference("cards").get().addOnSuccessListener {
+            for(child in it.children){
+                if(child.child("cardID").getValue().toString().equals(model.cardID)){
+                    firebaseDatabase.
+                    getReference("cards").
+                    child(child.key.toString()).
+                    child("users").
+                    get().addOnSuccessListener {
+                        for(i in it.children){
+                            if(i.child("userMail").getValue().toString().equals(usermail.get(0))){
+                                firebaseDatabase.getReference("cards").child(child
+                                    .key.toString()).child("users").child(i.key.toString()).child("status").
+                                setValue(checked.toString())
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

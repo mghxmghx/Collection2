@@ -1,14 +1,14 @@
 package com.sezer.kirpitci.collection.ui.features.user.ui.beer
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.widget.addTextChangedListener
+import android.widget.Switch
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -18,15 +18,16 @@ import com.google.android.material.tabs.TabLayout
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.databinding.FragmentBeerBinding
 import com.sezer.kirpitci.collection.di.MyApp
-import com.sezer.kirpitci.collection.ui.features.admin.viewcard.ViewCardStatusModel
 import com.sezer.kirpitci.collection.ui.features.registration.CardModel
 import com.sezer.kirpitci.collection.utis.adapters.ClickItemUser
 import com.sezer.kirpitci.collection.utis.adapters.DetailRecyclerAdapter
-import com.sezer.kirpitci.collection.utis.adapters.RecyclerAdapter
 import com.sezer.kirpitci.collection.utis.others.ViewModelFactory
-import com.sezer.kirpitci.collection.utis.updateWithBitmap
 import com.sezer.kirpitci.collection.utis.updateWithUrl
 import javax.inject.Inject
+import android.widget.CompoundButton
+
+
+
 
 class BeerFragment : Fragment(), ClickItemUser {
     @Inject
@@ -62,9 +63,7 @@ class BeerFragment : Fragment(), ClickItemUser {
     private fun initialSearch(){
         binding.searchAlcoholText.addTextChangedListener(object: TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
             }
-
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if(p0.toString().length>=3){
                     searchData(alcoholName = p0.toString())
@@ -73,7 +72,6 @@ class BeerFragment : Fragment(), ClickItemUser {
                     getData(categoryTemp)
                 }
             }
-
             override fun afterTextChanged(p0: Editable?) {
             }
 
@@ -99,6 +97,9 @@ class BeerFragment : Fragment(), ClickItemUser {
     override fun clicked(model: CardModel) {
         checkClickedLayout(model)
     }
+    private fun isCheckVM(checked: Boolean, model: CardModel) {
+        VM.setCheck(checked, model)
+    }
     private fun checkClickedLayout(model: CardModel) {
         val view = layoutInflater.inflate(R.layout.detail_dialog_content, null)
 
@@ -110,6 +111,16 @@ class BeerFragment : Fragment(), ClickItemUser {
         }
         val closeButton = view.findViewById<ImageView>(R.id.dialogContentClose)
         val image = view.findViewById<ImageView>(R.id.dialogImagView)
+        val isCheck = view.findViewById<Switch>(R.id.isCheckForAlcohol)
+        isCheck.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
+            if (isCheck.isChecked()) {
+                isCheckVM(isCheck.isChecked(), model)
+                Log.d("TAG", "checkClickedLayout: ")
+            } else {
+                isCheckVM(isCheck.isChecked(), model)
+                Log.d("TAG", "checkClickedLayout: ")
+            }
+        })
         image.updateWithUrl(model.cardPath, image)
         closeButton.setOnClickListener {
             if (dialog != null) {
