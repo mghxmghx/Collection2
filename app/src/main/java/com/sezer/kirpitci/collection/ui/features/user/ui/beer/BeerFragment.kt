@@ -3,7 +3,6 @@ package com.sezer.kirpitci.collection.ui.features.user.ui.beer
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,7 +45,7 @@ class BeerFragment : Fragment(), ClickItemUser {
         initialVM()
         initialTablayout()
         initialRecyler()
-        getData("beer")
+        getID("beer")
         categoryTemp = "beer"
         initialSearch()
         super.onViewCreated(view, savedInstanceState)
@@ -66,12 +65,19 @@ class BeerFragment : Fragment(), ClickItemUser {
                     searchData(alcoholName = p0.toString())
                 }
                 else if(p0.toString().length == 0){
-                    getData(categoryTemp)
+                    getID(categoryTemp)
                 }
             }
             override fun afterTextChanged(p0: Editable?) {
             }
 
+        })
+    }
+    private lateinit var id: String
+    private fun getID(category: String){
+        VM.getUserID().observe(viewLifecycleOwner, Observer {
+            id = it
+            getData(category, it)
         })
     }
     private fun searchData(alcoholName: String){
@@ -80,8 +86,8 @@ class BeerFragment : Fragment(), ClickItemUser {
         })
     }
     private var array = arrayListOf<CardModel>()
-    private fun getData(category: String) {
-        VM.getCards(category).observe(viewLifecycleOwner, Observer {
+    private fun getData(category: String, s: String) {
+        VM.getCards(category, s).observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
             array.clear()
             array.addAll(it)
@@ -104,7 +110,7 @@ class BeerFragment : Fragment(), ClickItemUser {
         checkClickedLayout(model)
     }
     private fun isCheckVM(checked: Boolean, model: CardModel) {
-        VM.setCheck(checked, model)
+        VM.setCheck(checked, model, id)
         mergeData(model, checked.toString())
     }
     private fun checkClickedLayout(model: CardModel) {
@@ -146,15 +152,15 @@ class BeerFragment : Fragment(), ClickItemUser {
                 if (tab.position == 0) {
                     binding.searchAlcoholText.text?.clear()
                     categoryTemp = "beer"
-                    getData("beer")
+                    getID("beer")
                 } else if (tab.position == 1) {
                     binding.searchAlcoholText.text?.clear()
                     categoryTemp = "wine"
-                    getData("wine")
+                    getID("wine")
                 } else if (tab.position == 2) {
                     binding.searchAlcoholText.text?.clear()
                     categoryTemp = "cocktail"
-                    getData("cocktail")
+                    getID("cocktail")
 
                 }
             }

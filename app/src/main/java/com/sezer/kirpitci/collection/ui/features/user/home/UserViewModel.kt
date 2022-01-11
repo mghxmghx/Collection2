@@ -10,17 +10,25 @@ import com.sezer.kirpitci.collection.ui.features.registration.CardModel
 import javax.inject.Inject
 
 class UserViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase, val auth: FirebaseAuth) : ViewModel() {
-    fun getKey(){
-
+    fun getUserID(): MutableLiveData<String>{
+        val userID = MutableLiveData<String>()
+        firebaseDatabase.getReference("users").get().addOnSuccessListener {
+            for(i in it.children){
+                if(i.child("email").getValue().toString().equals(auth.currentUser?.email.toString())){
+                    userID.value = i.key.toString()
+                }
+            }
+        }
+        return userID
     }
-    fun getCards(category:String):  MutableLiveData<List<CardModel>>{
+    fun getCards(category:String, userID: String):  MutableLiveData<List<CardModel>>{
         val cardList = MutableLiveData<List<CardModel>>()
         val list = arrayListOf<CardModel>()
         var db2 = firebaseDatabase.getReference("cards")
         db2.get().addOnSuccessListener {
             for(child in it.children){
                 if(child.child("cardCategory").getValue().toString().equals(category)){
-                    val usermail = auth.currentUser?.email?.split("@")?.get(0)
+
                     list.add(
                         CardModel(
                             child.child("cardID").getValue().toString(),
@@ -31,7 +39,7 @@ class UserViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase, 
                             child.child("cardCity").getValue().toString(),
                             child.child("cardPrice").getValue().toString(),
                             child.child("cardPath").getValue().toString(),
-                            child.child("users").child(usermail.toString()).child("status").getValue().toString(),
+                            child.child("users").child(userID).child("userCardStatus").getValue().toString(),
                         )
                     )
                 }
@@ -71,7 +79,7 @@ class UserViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase, 
         }
         return cardList
     }
-    fun setCheck(checked: Boolean, model: CardModel) {
+    fun setCheck(checked: Boolean, model: CardModel, userID:String) {
         val usermail = auth.currentUser?.email.toString().split("@")
         firebaseDatabase.getReference("cards").get().addOnSuccessListener {
             for(child in it.children){
@@ -82,9 +90,9 @@ class UserViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase, 
                     child("users").
                     get().addOnSuccessListener {
                         for(i in it.children){
-                            if(i.child("userMail").getValue().toString().equals(usermail.get(0))){
+                            if(i.child("userName").getValue().toString().equals(userID)){
                                 firebaseDatabase.getReference("cards").child(child
-                                    .key.toString()).child("users").child(i.key.toString()).child("status").
+                                    .key.toString()).child("users").child(userID).child("userCardStatus").
                                 setValue(checked.toString())
                             }
                         }

@@ -27,24 +27,14 @@ fun ImageView.updateWithUrl(url: String, imageViewAvatar: ImageView, status: Str
     }
 }
 
-fun ImageView.updateWithStatusUrl(url: String, imageViewAvatar: ImageView, status: String) {
+fun ImageView.updateWithUrl(url: String, imageViewAvatar: ImageView) {
 
     if (!url.equals("default")) {
-        if (status.equals("false")) {
+
             Log.d("TAG", "updateWithUrl: --------------" + url)
             Picasso.get()
                 .load(url).fit().centerInside()
                 .into(imageViewAvatar)
-            val matrix = ColorMatrix()
-            matrix.setSaturation(0f)
-            val filter = ColorMatrixColorFilter(matrix)
-            imageViewAvatar.colorFilter = filter
-        } else {
-            Log.d("TAG", "updateWithUrl: --------------" + url)
-            Picasso.get()
-                .load(url).fit().centerInside()
-                .into(imageViewAvatar)
-        }
     } else {
         Glide.with(context).load(R.drawable.ic_add_new_card_image).into(imageViewAvatar)
         Log.d("TAG", "onBindViewHolder: +++++++")

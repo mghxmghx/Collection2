@@ -1,7 +1,6 @@
 package com.sezer.kirpitci.collection.ui.features.admin.addcard
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.tasks.Continuation
@@ -12,6 +11,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 
@@ -81,5 +81,29 @@ class AdminAddCardViewModel @Inject constructor(val firebaseDatabase: FirebaseDa
             isSuccess.value = "default"
         }
         return isSuccess
+    }
+    fun checkUserList(): MutableLiveData<List<AddCardUserModel>>{
+        val list = MutableLiveData<List<AddCardUserModel>>()
+        val tempList = ArrayList<AddCardUserModel>()
+        firebaseDatabase.getReference("users").get().addOnSuccessListener {
+            for(child in it.children){
+                tempList.add(
+                    AddCardUserModel(
+                        child.key.toString(),
+                        child.child("email").getValue().toString(),
+                        false.toString()
+                    )
+                )
+            }
+            list.value = tempList
+        }
+        return list
+    }
+    fun addUserUnderCard(list: List<AddCardUserModel>, cardID: String): MutableLiveData<Boolean>{
+        val isSucces = MutableLiveData<Boolean>()
+        firebaseDatabase.getReference("cards").child(cardID).child("users").setValue(list).addOnCompleteListener{
+            isSucces.value = it.isSuccessful
+        }
+        return isSucces
     }
 }

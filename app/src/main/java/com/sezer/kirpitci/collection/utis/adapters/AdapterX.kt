@@ -11,6 +11,7 @@ import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.ui.features.admin.viewcard.ViewCardModel
 import com.sezer.kirpitci.collection.utis.DiffUtilRecycler
 import com.sezer.kirpitci.collection.utis.updateWithBitmap
+import com.sezer.kirpitci.collection.utis.updateWithUrl
 
 class AdapterX(initCList: List<ViewCardModel>, val listener: ClickListener) :
     RecyclerView.Adapter<AdapterX.ViewHolder>() {
@@ -70,7 +71,7 @@ class AdapterX(initCList: List<ViewCardModel>, val listener: ClickListener) :
         private val cardImage: ImageView = itemView.findViewById(R.id.card_image)
 
         fun bind(model: ViewCardModel) {
-            cardImage.updateWithBitmap(model.cardPath)
+            cardImage.updateWithUrl(model.cardPath, cardImage)
             code.text = model.cardName
             name.text = model.cardCounty
         }

@@ -50,7 +50,7 @@ class UserFragment : Fragment(), ClickItemUser {
         initialVM()
         initialRecyler()
         initialTablayout()
-        getData("beer")
+        getID("beer")
         initialSearch()
         categoryTemp = "beer"
         binding.customProgress1.max = 10
@@ -79,13 +79,19 @@ class UserFragment : Fragment(), ClickItemUser {
         VM = ViewModelProvider(this, viewModelFactory)[UserViewModel::class.java]
 
     }
-
-    private fun getData(category: String) {
-       VM.getCards(category).observe(viewLifecycleOwner, Observer {
-           adapter.submitList(it)
-           array.clear()
-           array.addAll(it)
-       })
+    private lateinit var id: String
+    private fun getID(category: String) {
+        VM.getUserID().observe(viewLifecycleOwner, Observer {
+            id = it
+            getData(category, it)
+        })
+    }
+    private fun getData(category: String, id: String){
+        VM.getCards(category, id).observe(viewLifecycleOwner, Observer {
+            adapter.submitList(it)
+            array.clear()
+            array.addAll(it)
+        })
     }
     private fun initialSearch(){
         binding.searchAlcoholText.addTextChangedListener(object: TextWatcher {
@@ -98,7 +104,7 @@ class UserFragment : Fragment(), ClickItemUser {
                     searchData(alcoholName = p0.toString())
                 }
                 else if(p0.toString().length == 0){
-                    getData(categoryTemp)
+                    getID(categoryTemp)
                 }
             }
 
@@ -122,7 +128,7 @@ class UserFragment : Fragment(), ClickItemUser {
         adapter.submitList(array)
     }
     private fun isCheckVM(checked: Boolean, model: CardModel) {
-        VM.setCheck(checked, model)
+        VM.setCheck(checked, model, id)
         mergeData(model, checked.toString())
     }
     override fun clicked(model: CardModel) {
@@ -171,15 +177,15 @@ class UserFragment : Fragment(), ClickItemUser {
                 if (tab.position == 0) {
                     binding.searchAlcoholText.text?.clear()
                     categoryTemp = "beer"
-                    getData("beer")
+                    getID("beer")
                 } else if (tab.position == 1) {
                     binding.searchAlcoholText.text?.clear()
                     categoryTemp = "wine"
-                    getData("wine")
+                    getID("wine")
                 } else if (tab.position == 2) {
                     binding.searchAlcoholText.text?.clear()
                     categoryTemp = "cocktail"
-                    getData("cocktail")
+                    getID("cocktail")
 
                 }
             }

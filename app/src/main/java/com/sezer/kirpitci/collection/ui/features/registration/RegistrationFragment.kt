@@ -1,6 +1,7 @@
 package com.sezer.kirpitci.collection.ui.features.registration
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,35 +54,36 @@ class RegistrationFragment : Fragment() {
             if (!binding.mail.text.toString().isEmpty() && !binding.password.text.toString()
                     .isEmpty()
             ) {
-                createUser()
+                getMaxID()
             } else {
                 Toast.makeText(context, getString(R.string.Empty), Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private fun createUser() {
+    private fun getMaxID(){
+        VM.getMaxId().observe(viewLifecycleOwner, Observer {
+            Log.d("TAG", "getMaxID: "+ it)
+            createUser(it)
+        })
+    }
+    private fun createUser(i: Int) {
         val model = CreateUserModel(binding.mail.text.toString(), binding.password.text.toString())
-
         VM.createUser(model)
             .observe(viewLifecycleOwner, Observer {
-
-
                 if (it) {
                     addUserStatus(
                         AddUserModel(
                             binding.mail.text.toString(),
                             binding.name.text.toString(),
                             "user",
-
+                            (i+1).toString()
                         )
                     )
-
                 } else {
                     Toast.makeText(context, getString(R.string.Create_Fail), Toast.LENGTH_SHORT)
                         .show()
                 }
-
             })
     }
     private fun addUserStatus(model: AddUserModel) {

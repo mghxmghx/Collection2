@@ -4,17 +4,13 @@ import android.Manifest
 import android.app.ProgressDialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toBitmap
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -25,7 +21,6 @@ import com.sezer.kirpitci.collection.utis.default
 import com.sezer.kirpitci.collection.utis.intentType
 import com.sezer.kirpitci.collection.utis.others.ViewModelFactory
 import com.sezer.kirpitci.collection.utis.resetImage
-import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 class AdminAddCardFragment : Fragment() {
@@ -166,30 +161,29 @@ class AdminAddCardFragment : Fragment() {
         }
 
     }
-
+    private fun getUserList(cardID: String) {
+        VM.checkUserList().observe(viewLifecycleOwner, Observer {
+            addUsersUnderCard(it, cardID)
+        })
+    }
+    private fun addUsersUnderCard(list: List<AddCardUserModel>, cardID: String) {
+        VM.addUserUnderCard(list, cardID).observe(viewLifecycleOwner, Observer {
+            binding.addCardNameText.setText("")
+            binding.cardCategoryText.setText("")
+            binding.cardCityText.setText("")
+            binding.cardCountryText.setText("")
+            binding.cardPriceText.setText("")
+            binding.cardInfoText.setText("")
+            binding.imageView2.resetImage(binding.imageView2)
+            Toast.makeText(context,"asd",Toast.LENGTH_SHORT).show()
+        })
+    }
     private fun addCard(model: AddCardModel) {
         VM.setChildImage(model.cardPath.toUri(),model.cardID).observe(viewLifecycleOwner, Observer {
             model.cardPath = it
             VM.addCard(model).observe(viewLifecycleOwner, Observer {
-                
+              getUserList(model.cardID)
             })
         })
-        VM.addCard(model).observe(viewLifecycleOwner, Observer {
-            if (it) {
-                /*         binding.addCardNameText.setText("")
-                          binding.cardCategoryText.setText("")
-                          binding.cardCityText.setText("")
-                          binding.cardCountryText.setText("")
-                          binding.cardPriceText.setText("")
-                          binding.cardInfoText.setText("")
-                          binding.imageView2.resetImage(binding.imageView2)*/
-                Toast.makeText(context,"asd",Toast.LENGTH_SHORT).show()
-
-
-            }
-        })
-
     }
-
-
 }
