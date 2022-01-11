@@ -26,9 +26,6 @@ import com.sezer.kirpitci.collection.utis.updateWithUrl
 import javax.inject.Inject
 import android.widget.CompoundButton
 
-
-
-
 class BeerFragment : Fragment(), ClickItemUser {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -82,12 +79,21 @@ class BeerFragment : Fragment(), ClickItemUser {
             adapter.submitList(it)
         })
     }
+    private var array = arrayListOf<CardModel>()
     private fun getData(category: String) {
         VM.getCards(category).observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
+            array.clear()
+            array.addAll(it)
         })
     }
-
+    private fun mergeData(model:CardModel, status: String){
+        initialRecyler()
+        val index = array.indexOf(model)
+        model.status = status
+        array.set(index,model)
+        adapter.submitList(array)
+    }
     fun initialRecyler() {
         adapter = DetailRecyclerAdapter(this)
         binding.userCardsRecycler.layoutManager = GridLayoutManager(context, 2)
@@ -99,10 +105,10 @@ class BeerFragment : Fragment(), ClickItemUser {
     }
     private fun isCheckVM(checked: Boolean, model: CardModel) {
         VM.setCheck(checked, model)
+        mergeData(model, checked.toString())
     }
     private fun checkClickedLayout(model: CardModel) {
         val view = layoutInflater.inflate(R.layout.detail_dialog_content, null)
-
         val dialog = context?.let { it1 ->
             BottomSheetDialog(
                 it1,
@@ -112,16 +118,15 @@ class BeerFragment : Fragment(), ClickItemUser {
         val closeButton = view.findViewById<ImageView>(R.id.dialogContentClose)
         val image = view.findViewById<ImageView>(R.id.dialogImagView)
         val isCheck = view.findViewById<Switch>(R.id.isCheckForAlcohol)
+        isCheck.isChecked = model.status.toBoolean()
         isCheck.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
             if (isCheck.isChecked()) {
                 isCheckVM(isCheck.isChecked(), model)
-                Log.d("TAG", "checkClickedLayout: ")
             } else {
                 isCheckVM(isCheck.isChecked(), model)
-                Log.d("TAG", "checkClickedLayout: ")
             }
         })
-        image.updateWithUrl(model.cardPath, image)
+        image.updateWithUrl(model.cardPath, image, true.toString())
         closeButton.setOnClickListener {
             if (dialog != null) {
                 dialog.cancel()

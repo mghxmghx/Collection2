@@ -7,4 +7,4 @@ data class CardModel(var cardID: String,
                          var cardCounty: String,
                          var cardCity: String?,
                          var cardPrice: String?,
-                         var cardPath: String, val status: String)
+                         var cardPath: String, var status: String)

@@ -11,12 +11,7 @@ class RegistrationViewModel @Inject constructor(val firebaseDatabase: FirebaseDa
     fun createUser(model: CreateUserModel): MutableLiveData<Boolean> {
         val isSuccess = MutableLiveData<Boolean>()
         auth.createUserWithEmailAndPassword(model.email, model.password).addOnCompleteListener {
-            if (it.isSuccessful) {
-                isSuccess.value = it.isSuccessful
-
-            } else {
-                isSuccess.value = false
-            }
+            isSuccess.value = it.isSuccessful
         }
         return isSuccess
     }

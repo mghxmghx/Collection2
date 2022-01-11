@@ -83,6 +83,8 @@ class UserFragment : Fragment(), ClickItemUser {
     private fun getData(category: String) {
        VM.getCards(category).observe(viewLifecycleOwner, Observer {
            adapter.submitList(it)
+           array.clear()
+           array.addAll(it)
        })
     }
     private fun initialSearch(){
@@ -105,14 +107,23 @@ class UserFragment : Fragment(), ClickItemUser {
 
         })
     }
+    private var array = arrayListOf<CardModel>()
     private fun searchData(alcoholName: String){
         VM.searchCards(alcoholName, categoryTemp).observe(viewLifecycleOwner, Observer {
-            Log.d("TAG", "searchData: " + it.size)
             adapter.submitList(it)
+
         })
+    }
+    private fun mergeData(model:CardModel, status: String){
+        initialRecyler()
+        val index = array.indexOf(model)
+        model.status = status
+        array.set(index,model)
+        adapter.submitList(array)
     }
     private fun isCheckVM(checked: Boolean, model: CardModel) {
         VM.setCheck(checked, model)
+        mergeData(model, checked.toString())
     }
     override fun clicked(model: CardModel) {
        checkClickedLayout(model)
@@ -129,16 +140,15 @@ class UserFragment : Fragment(), ClickItemUser {
             val closeButton = view.findViewById<ImageView>(R.id.dialogContentClose)
         val image = view.findViewById<ImageView>(R.id.dialogImagView)
         val isCheck = view.findViewById<Switch>(R.id.isCheckForAlcohol)
+        isCheck.isChecked = model.status.toBoolean()
         isCheck.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
             if (isCheck.isChecked()) {
                 isCheckVM(isCheck.isChecked(), model)
-                Log.d("TAG", "checkClickedLayout: ")
             } else {
                 isCheckVM(isCheck.isChecked(), model)
-                Log.d("TAG", "checkClickedLayout: ")
             }
         })
-        image.updateWithUrl(model.cardPath, image)
+        image.updateWithUrl(model.cardPath, image, true.toString())
             closeButton.setOnClickListener {
                 if (dialog != null) {
                     dialog.cancel()

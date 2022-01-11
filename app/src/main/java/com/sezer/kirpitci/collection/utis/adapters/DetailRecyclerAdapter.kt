@@ -4,14 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.sezer.kirpitci.collection.R
-import com.sezer.kirpitci.collection.ui.features.admin.viewcard.ViewCardStatusModel
 import com.sezer.kirpitci.collection.ui.features.registration.CardModel
-import com.sezer.kirpitci.collection.utis.updateWithBitmap
 import com.sezer.kirpitci.collection.utis.updateWithUrl
 
 class DetailRecyclerAdapter(val listener: ClickItemUser) : ListAdapter<CardModel, DetailRecyclerAdapter.WorkerHolder>(
@@ -28,7 +25,7 @@ class DetailRecyclerAdapter(val listener: ClickItemUser) : ListAdapter<CardModel
 
     override fun onBindViewHolder(holder: WorkerHolder, position: Int) {
         with(getItem(position)) {
-            holder.cardImage.updateWithUrl(this.cardPath, holder.cardImage)
+            holder.cardImage.updateWithUrl(this.cardPath, holder.cardImage, this.status)
         }
     }
     inner class WorkerHolder(iv: View) : RecyclerView.ViewHolder(iv) {
@@ -38,7 +35,6 @@ class DetailRecyclerAdapter(val listener: ClickItemUser) : ListAdapter<CardModel
                 listener.clicked(getItem(adapterPosition))
             }
         }
-
     }
 }
 

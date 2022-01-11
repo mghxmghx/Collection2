@@ -16,8 +16,9 @@ class BeerFragmentViewModel @Inject constructor(val firebaseDatabase: FirebaseDa
         var db2 = firebaseDatabase.getReference("cards")
         db2.get().addOnSuccessListener {
             for (child in it.children) {
-                if (child.child("cardCategory").getValue().toString().equals(category))
-                    list.add(
+                if (child.child("cardCategory").getValue().toString().equals(category)){
+                    val usermail = auth.currentUser?.email?.split("@")?.get(0)
+                          list.add(
                         CardModel(
                             child.child("cardID").getValue().toString(),
                             child.child("cardName").getValue().toString(),
@@ -27,9 +28,10 @@ class BeerFragmentViewModel @Inject constructor(val firebaseDatabase: FirebaseDa
                             child.child("cardCity").getValue().toString(),
                             child.child("cardPrice").getValue().toString(),
                             child.child("cardPath").getValue().toString(),
-                            child.child("status").getValue().toString(),
+                            child.child("users").child(usermail.toString()).child("status").getValue().toString(),
                         )
                     )
+            }
             }
             cardList.value = list
         }

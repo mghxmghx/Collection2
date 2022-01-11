@@ -99,7 +99,6 @@ class AdminViewCardViewModel @Inject constructor(val firebaseDatabase: FirebaseD
         val reqestDB = firebaseDatabase.getReference("cards")
         val isSuccess = MutableLiveData<String>()
         reqestDB.child(newModel.cardID).setValue(newModel).addOnCompleteListener {
-            Log.d("TAG", "updateCard: " + it.isSuccessful)
             if (it.isSuccessful) {
                 isSuccess.value = it.isSuccessful.toString()
             } else {

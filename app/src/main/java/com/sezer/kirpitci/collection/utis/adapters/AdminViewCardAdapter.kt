@@ -29,7 +29,7 @@ class AdminViewCardAdapter(private val listener: ClickListener) :
     override fun onBindViewHolder(holder: UserHolder, position: Int) {
         //val currentCard = getItem(position)
         with(getItem(position)) {
-            holder.image.updateWithUrl(this.cardPath, holder.image)
+            holder.image.updateWithUrl(this.cardPath, holder.image, true.toString())
             holder.cardName.text = this.cardName
             holder.cardCountry.text = this.cardCounty
             Log.d("TAG", "onBindViewHolder: " + this.cardID)

@@ -11,13 +11,7 @@ class LoginViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase,
         val isSuccess = MutableLiveData<Boolean>()
         if (!id.isEmpty() && !password.isEmpty()) {
             auth.signInWithEmailAndPassword(id, password).addOnCompleteListener {
-
-
-                if (it.isSuccessful) {
-                    isSuccess.value = it.isSuccessful
-                } else {
-                    isSuccess.value = it.isSuccessful
-                }
+                isSuccess.value = it.isSuccessful
             }
         } else {
             isSuccess.value = false

@@ -28,7 +28,7 @@ class RecyclerAdapter(val listener: ClickItemUser) : ListAdapter<CardModel, Recy
 
     override fun onBindViewHolder(holder: WorkerHolder, position: Int) {
         with(getItem(position)) {
-            holder.cardImage.updateWithUrl(this.cardPath, holder.cardImage)
+            holder.cardImage.updateWithUrl(this.cardPath, holder.cardImage, this.status)
         }
     }
     inner class WorkerHolder(iv: View) : RecyclerView.ViewHolder(iv) {

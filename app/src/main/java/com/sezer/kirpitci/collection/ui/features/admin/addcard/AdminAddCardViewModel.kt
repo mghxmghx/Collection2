@@ -21,7 +21,7 @@ class AdminAddCardViewModel @Inject constructor(val firebaseDatabase: FirebaseDa
     fun getMaxId(): MutableLiveData<Int> {
         val db = firebaseDatabase.getReference("cards")
         val lastInt = MutableLiveData<Int>()
-        val ref = db.push().key
+
         db.get().addOnSuccessListener {
             var lastIndex = 0
 

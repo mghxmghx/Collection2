@@ -31,7 +31,10 @@
                         android:id="@+id/searchAlcoholText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="hint" />
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:hint="Search" />
                 </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
         <LinearLayout
