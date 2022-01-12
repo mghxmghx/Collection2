@@ -81,7 +81,7 @@ class BeerFragment : Fragment(), ClickItemUser {
         })
     }
     private fun searchData(alcoholName: String){
-        VM.searchCards(alcoholName, categoryTemp).observe(viewLifecycleOwner, Observer {
+        VM.searchCards(alcoholName, categoryTemp, id).observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
         })
     }

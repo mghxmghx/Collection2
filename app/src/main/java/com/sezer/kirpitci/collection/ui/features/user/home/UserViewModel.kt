@@ -21,6 +21,27 @@ class UserViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase, 
         }
         return userID
     }
+    fun setStarInFB( model:CardModel, userID: String){
+        firebaseDatabase.getReference("cards").get().addOnSuccessListener {
+            for(child in it.children){
+                if(child.child("cardID").getValue().toString().equals(model.cardID)){
+                    firebaseDatabase.
+                    getReference("cards").
+                    child(child.key.toString()).
+                    child("users").
+                    get().addOnSuccessListener {
+                        for(i in it.children){
+                            if(i.child("userName").getValue().toString().equals(userID)){
+                                firebaseDatabase.getReference("cards").child(child
+                                    .key.toString()).child("users").child(userID).child("userStarRate").
+                                setValue(model.userStarRate)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     fun getCards(category:String, userID: String):  MutableLiveData<List<CardModel>>{
         val cardList = MutableLiveData<List<CardModel>>()
         val list = arrayListOf<CardModel>()
@@ -28,7 +49,6 @@ class UserViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase, 
         db2.get().addOnSuccessListener {
             for(child in it.children){
                 if(child.child("cardCategory").getValue().toString().equals(category)){
-
                     list.add(
                         CardModel(
                             child.child("cardID").getValue().toString(),
@@ -39,7 +59,9 @@ class UserViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase, 
                             child.child("cardCity").getValue().toString(),
                             child.child("cardPrice").getValue().toString(),
                             child.child("cardPath").getValue().toString(),
+                            child.child("cardStarAverage").getValue().toString(),
                             child.child("users").child(userID).child("userCardStatus").getValue().toString(),
+                            child.child("users").child(userID).child("userStarRate").getValue().toString()
                         )
                     )
                 }
@@ -49,7 +71,7 @@ class UserViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase, 
         }
         return cardList
     }
-    fun searchCards(alcoholName: String, category: String):  MutableLiveData<List<CardModel>>{
+    fun searchCards(alcoholName: String, category: String, userID: String):  MutableLiveData<List<CardModel>>{
         val cardList = MutableLiveData<List<CardModel>>()
         val list = arrayListOf<CardModel>()
         var db2 = firebaseDatabase.getReference("cards")
@@ -67,7 +89,9 @@ class UserViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase, 
                                 child.child("cardCity").getValue().toString(),
                                 child.child("cardPrice").getValue().toString(),
                                 child.child("cardPath").getValue().toString(),
-                                child.child("status").getValue().toString(),
+                                child.child("cardStarAverage").getValue().toString(),
+                                child.child("users").child(userID).child("userCardStatus").getValue().toString(),
+                                child.child("users").child(userID).child("userStarRate").getValue().toString()
                             )
                         )
                     }
@@ -80,7 +104,6 @@ class UserViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase, 
         return cardList
     }
     fun setCheck(checked: Boolean, model: CardModel, userID:String) {
-        val usermail = auth.currentUser?.email.toString().split("@")
         firebaseDatabase.getReference("cards").get().addOnSuccessListener {
             for(child in it.children){
                 if(child.child("cardID").getValue().toString().equals(model.cardID)){

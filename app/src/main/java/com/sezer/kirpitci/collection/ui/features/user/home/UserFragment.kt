@@ -4,14 +4,12 @@ import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.Switch
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -25,7 +23,6 @@ import com.sezer.kirpitci.collection.ui.features.registration.CardModel
 import com.sezer.kirpitci.collection.utis.adapters.ClickItemUser
 import com.sezer.kirpitci.collection.utis.adapters.RecyclerAdapter
 import com.sezer.kirpitci.collection.utis.others.ViewModelFactory
-import com.sezer.kirpitci.collection.utis.updateWithBitmap
 import com.sezer.kirpitci.collection.utis.updateWithUrl
 import javax.inject.Inject
 
@@ -115,7 +112,7 @@ class UserFragment : Fragment(), ClickItemUser {
     }
     private var array = arrayListOf<CardModel>()
     private fun searchData(alcoholName: String){
-        VM.searchCards(alcoholName, categoryTemp).observe(viewLifecycleOwner, Observer {
+        VM.searchCards(alcoholName, categoryTemp, id).observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
 
         })
@@ -144,6 +141,47 @@ class UserFragment : Fragment(), ClickItemUser {
                 )
             }
             val closeButton = view.findViewById<ImageView>(R.id.dialogContentClose)
+        val startOne = view.findViewById<ImageView>(R.id.dialog_star_one)
+        val startTwo = view.findViewById<ImageView>(R.id.dialog_star_two)
+
+        val startThree = view.findViewById<ImageView>(R.id.dialog_star_three)
+        val startFour = view.findViewById<ImageView>(R.id.dialog_star_four)
+        val startFive = view.findViewById<ImageView>(R.id.dialog_star_five)
+        val startSix = view.findViewById<ImageView>(R.id.dialog_star_six)
+        val startSeven = view.findViewById<ImageView>(R.id.dialog_star_seven)
+        val startEight = view.findViewById<ImageView>(R.id.dialog_star_eight)
+        val startNine = view.findViewById<ImageView>(R.id.dialog_star_nine)
+        val startTen = view.findViewById<ImageView>(R.id.dialog_star_ten)
+        startOne.setOnClickListener {
+            setBackGrounds(1, view, model)
+        }
+        startTwo.setOnClickListener {
+            setBackGrounds(2, view, model)
+        }
+        startThree.setOnClickListener {
+            setBackGrounds(3, view, model)
+        }
+        startFour.setOnClickListener {
+            setBackGrounds(4, view, model)
+        }
+        startFive.setOnClickListener {
+            setBackGrounds(5, view, model)
+        }
+        startSix.setOnClickListener {
+            setBackGrounds(6, view, model)
+        }
+        startSeven.setOnClickListener {
+            setBackGrounds(7, view, model)
+        }
+        startEight.setOnClickListener {
+            setBackGrounds(8, view, model)
+        }
+        startNine.setOnClickListener {
+            setBackGrounds(9, view, model)
+        }
+        startTen.setOnClickListener {
+            setBackGrounds(10,view, model)
+        }
         val image = view.findViewById<ImageView>(R.id.dialogImagView)
         val isCheck = view.findViewById<Switch>(R.id.isCheckForAlcohol)
         isCheck.isChecked = model.status.toBoolean()
@@ -154,6 +192,7 @@ class UserFragment : Fragment(), ClickItemUser {
                 isCheckVM(isCheck.isChecked(), model)
             }
         })
+
         image.updateWithUrl(model.cardPath, image, true.toString())
             closeButton.setOnClickListener {
                 if (dialog != null) {
@@ -170,7 +209,30 @@ class UserFragment : Fragment(), ClickItemUser {
             }
         }
 
-
+    private fun setBackGrounds(clickedNumber: Int, view: View, model: CardModel){
+        val list = ArrayList<ImageView>()
+        list.add(view.findViewById(R.id.dialog_star_one))
+        list.add(view.findViewById(R.id.dialog_star_two))
+        list.add(view.findViewById(R.id.dialog_star_three))
+        list.add(view.findViewById(R.id.dialog_star_four))
+        list.add(view.findViewById(R.id.dialog_star_five))
+        list.add(view.findViewById(R.id.dialog_star_six))
+        list.add(view.findViewById(R.id.dialog_star_seven))
+        list.add(view.findViewById(R.id.dialog_star_eight))
+        list.add(view.findViewById(R.id.dialog_star_nine))
+        list.add(view.findViewById(R.id.dialog_star_ten))
+        for(i in 0 until clickedNumber){
+            list.get(i).setImageResource(R.drawable.ic_dialog_rate_star_check)
+        }
+        for(t in clickedNumber..9 ){
+            list.get(t).setImageResource(R.drawable.ic_dialog_noncheck_star)
+        }
+        model.userStarRate = clickedNumber.toString()
+        setStarInFB(model)
+    }
+    private fun setStarInFB(model: CardModel, ){
+        VM.setStarInFB(model, id)
+    }
     private fun initialTablayout() {
         binding.tablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {

@@ -64,6 +64,64 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <LinearLayout
+                android:id="@+id/starLinear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/alcoholName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+                <ImageView
+                    android:id="@+id/dialog_star_one"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_dialog_noncheck_star"/>
+                <ImageView
+                    android:id="@+id/dialog_star_two"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_dialog_noncheck_star"/>
+                <ImageView
+                    android:id="@+id/dialog_star_three"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_dialog_noncheck_star"/>
+                <ImageView
+                    android:id="@+id/dialog_star_four"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_dialog_noncheck_star"/>
+                <ImageView
+                    android:id="@+id/dialog_star_five"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_dialog_noncheck_star"/>
+                <ImageView
+                    android:id="@+id/dialog_star_six"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_dialog_noncheck_star"/>
+                <ImageView
+                    android:id="@+id/dialog_star_seven"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_dialog_noncheck_star"/>
+                <ImageView
+                    android:id="@+id/dialog_star_eight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_dialog_noncheck_star"/>
+                <ImageView
+                    android:id="@+id/dialog_star_nine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_dialog_noncheck_star"/>
+                <ImageView
+                    android:id="@+id/dialog_star_ten"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_dialog_noncheck_star"/>
+            </LinearLayout>
             <TextView
                 android:id="@+id/alcoholCountry"
                 android:layout_width="wrap_content"
@@ -75,7 +133,7 @@
                 android:text="Country"
                 android:textSize="16dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/alcoholName" />
+                app:layout_constraintTop_toBottomOf="@+id/starLinear" />
 
             <TextView
                 android:id="@+id/alcoholCity"
@@ -113,16 +171,17 @@
                 android:text="Price"
                 android:textSize="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/alcoholName" />
+                app:layout_constraintTop_toBottomOf="@+id/starLinear" />
 
             <Switch
                 android:id="@+id/isCheckForAlcohol"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="@+id/alcoholName"
-                app:layout_constraintEnd_toStartOf="@+id/alcoholName"
-                app:layout_constraintTop_toTopOf="@+id/alcoholName" />
-
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/alcoholName"
+                app:layout_constraintTop_toTopOf="@+id/alcoholName"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

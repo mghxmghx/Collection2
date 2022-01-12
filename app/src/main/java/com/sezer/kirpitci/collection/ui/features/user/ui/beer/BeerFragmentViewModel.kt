@@ -28,7 +28,6 @@ class BeerFragmentViewModel @Inject constructor(val firebaseDatabase: FirebaseDa
         db2.get().addOnSuccessListener {
             for(child in it.children){
                 if(child.child("cardCategory").getValue().toString().equals(category)){
-
                     list.add(
                         CardModel(
                             child.child("cardID").getValue().toString(),
@@ -39,7 +38,9 @@ class BeerFragmentViewModel @Inject constructor(val firebaseDatabase: FirebaseDa
                             child.child("cardCity").getValue().toString(),
                             child.child("cardPrice").getValue().toString(),
                             child.child("cardPath").getValue().toString(),
+                            child.child("cardStarAverage").getValue().toString(),
                             child.child("users").child(userID).child("userCardStatus").getValue().toString(),
+                            child.child("users").child(userID).child("userStarRate").getValue().toString()
                         )
                     )
                 }
@@ -49,8 +50,39 @@ class BeerFragmentViewModel @Inject constructor(val firebaseDatabase: FirebaseDa
         }
         return cardList
     }
+    fun searchCards(alcoholName: String, category: String, userID: String):  MutableLiveData<List<CardModel>>{
+        val cardList = MutableLiveData<List<CardModel>>()
+        val list = arrayListOf<CardModel>()
+        var db2 = firebaseDatabase.getReference("cards")
+        db2.get().addOnSuccessListener {
+            for (child in it.children) {
+                if (child.child("cardCategory").getValue().toString().equals(category)){
+                    if(child.child("cardName").getValue().toString().contains(alcoholName)){
+                        list.add(
+                            CardModel(
+                                child.child("cardID").getValue().toString(),
+                                child.child("cardName").getValue().toString(),
+                                child.child("cardInfo").getValue().toString(),
+                                child.child("cardCategory").getValue().toString(),
+                                child.child("cardCounty").getValue().toString(),
+                                child.child("cardCity").getValue().toString(),
+                                child.child("cardPrice").getValue().toString(),
+                                child.child("cardPath").getValue().toString(),
+                                child.child("cardStarAverage").getValue().toString(),
+                                child.child("users").child(userID).child("userCardStatus").getValue().toString(),
+                                child.child("users").child(userID).child("userStarRate").getValue().toString()
+                            )
+                        )
+                    }
+
+                }
+
+            }
+            cardList.value = list
+        }
+        return cardList
+    }
     fun setCheck(checked: Boolean, model: CardModel, userID:String) {
-        val usermail = auth.currentUser?.email.toString().split("@")
         firebaseDatabase.getReference("cards").get().addOnSuccessListener {
             for(child in it.children){
                 if(child.child("cardID").getValue().toString().equals(model.cardID)){
@@ -70,35 +102,5 @@ class BeerFragmentViewModel @Inject constructor(val firebaseDatabase: FirebaseDa
                 }
             }
         }
-    }
-    fun searchCards(alcoholName: String, category: String):  MutableLiveData<List<CardModel>>{
-        val cardList = MutableLiveData<List<CardModel>>()
-        val list = arrayListOf<CardModel>()
-        var db2 = firebaseDatabase.getReference("cards")
-        db2.get().addOnSuccessListener {
-            for (child in it.children) {
-                if (child.child("cardCategory").getValue().toString().equals(category)){
-                    if(child.child("cardName").getValue().toString().contains(alcoholName)){
-                        list.add(
-                            CardModel(
-                                child.child("cardID").getValue().toString(),
-                                child.child("cardName").getValue().toString(),
-                                child.child("cardInfo").getValue().toString(),
-                                child.child("cardCategory").getValue().toString(),
-                                child.child("cardCounty").getValue().toString(),
-                                child.child("cardCity").getValue().toString(),
-                                child.child("cardPrice").getValue().toString(),
-                                child.child("cardPath").getValue().toString(),
-                                child.child("status").getValue().toString(),
-                            )
-                        )
-                    }
-
-                }
-
-            }
-            cardList.value = list
-        }
-        return cardList
     }
 }
