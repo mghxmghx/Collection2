@@ -25,7 +25,7 @@ import com.sezer.kirpitci.collection.utis.adapters.AdapterX
 import com.sezer.kirpitci.collection.utis.adapters.AdminViewCardAdapter
 import com.sezer.kirpitci.collection.utis.adapters.ClickListener
 import com.sezer.kirpitci.collection.utis.others.ViewModelFactory
-import com.sezer.kirpitci.collection.utis.updateWithBitmap
+import com.sezer.kirpitci.collection.utis.updateWithUrl
 import java.sql.Timestamp
 import javax.inject.Inject
 
@@ -77,7 +77,6 @@ class AdminViewCardFragment : Fragment(), ClickListener {
 
     fun getData() {
         VM.getCards().observe(viewLifecycleOwner, Observer {
-
             adapterX.swap(it)
         })
 
@@ -111,7 +110,7 @@ class AdminViewCardFragment : Fragment(), ClickListener {
             openImage()
         }
 
-        cardImage.updateWithBitmap(model.cardPath)
+        cardImage.updateWithUrl(model.cardPath, cardImage)
         Log.d("TAG", "updateCard: " + model.cardPath)
         val closeButton = view1.findViewById<ImageView>(R.id.imageView)
         closeButton.setOnClickListener {
@@ -173,26 +172,32 @@ class AdminViewCardFragment : Fragment(), ClickListener {
     }
 
     private fun updateImage(model: ViewCardModel) {
-
-
         if (!model.cardName.isEmpty() && !model.cardCategory.isEmpty() && !model.cardCounty.isEmpty()) {
+            Log.d("TAG", "updateImage1: "+ uri)
+
             if (uri.equals("")) {
+                Log.d("TAG", "updateImage2: "+ uri)
+
                 uri = "default"
             }
 
             VM.setChildImage(uri.toUri(), Timestamp(System.currentTimeMillis()).toString())
                 .observe(viewLifecycleOwner, Observer {
+                    Log.d("TAG", "updateImage3: "+ uri)
+
                     if (it.equals("default")) {
+                        Log.d("TAG", "updateImage:4 "+ uri)
                         model.cardPath = "default"
                         VM.updateCard(model).observe(viewLifecycleOwner, Observer {
                             getData()
-
                         })
                     } else {
+                        Log.d("TAG", "updateImage5: "+ uri)
+
                         model.cardPath = it
                         VM.updateCard(model).observe(viewLifecycleOwner, Observer {
                             getData()
-
+                            Log.d("TAG", "updateImage6: "+ uri)
                         })
                     }
 

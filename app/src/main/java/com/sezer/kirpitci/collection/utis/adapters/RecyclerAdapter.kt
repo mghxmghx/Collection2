@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.ui.features.registration.CardModel
-import com.sezer.kirpitci.collection.utis.updateWithBitmap
 import com.sezer.kirpitci.collection.utis.updateWithUrl
 
 class RecyclerAdapter(val listener: ClickItemUser) : ListAdapter<CardModel, RecyclerAdapter.WorkerHolder>(

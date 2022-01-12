@@ -17,7 +17,14 @@ class DiffUtilRecycler(
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition].cardID.equals(newList[newItemPosition].cardID)
+        return oldList[oldItemPosition].cardID.equals(newList[newItemPosition].cardID) &&
+                oldList[oldItemPosition].cardCounty.equals(newList[newItemPosition].cardCounty) &&
+                oldList[oldItemPosition].cardCategory.equals(newList[newItemPosition].cardCategory) &&
+                oldList[oldItemPosition].cardName.equals(newList[newItemPosition].cardName) &&
+                oldList[oldItemPosition].cardPath.equals(newList[newItemPosition].cardPath) &&
+                oldList[oldItemPosition].cardCity.equals(newList[newItemPosition].cardCity) &&
+                oldList[oldItemPosition].cardInfo.equals(newList[newItemPosition].cardInfo) &&
+                oldList[oldItemPosition].cardPrice.equals(newList[newItemPosition].cardPrice)
     }
 
 }

@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.ui.features.registration.CardModel
-import com.sezer.kirpitci.collection.utis.updateWithBitmap
 
 class UserAdapter(initCList: List<CardModel>, val listener: ClickItemUser) :
     RecyclerView.Adapter<UserAdapter.ViewHolder>() {
@@ -46,7 +45,6 @@ class UserAdapter(initCList: List<CardModel>, val listener: ClickItemUser) :
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val cardImage: ImageView = itemView.findViewById(R.id.user_card_view_image)
         fun bind(model: CardModel) {
-            cardImage.updateWithBitmap(model.cardPath)
         }
     }
 }

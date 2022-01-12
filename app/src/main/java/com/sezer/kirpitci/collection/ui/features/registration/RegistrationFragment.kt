@@ -54,7 +54,11 @@ class RegistrationFragment : Fragment() {
             if (!binding.mail.text.toString().isEmpty() && !binding.password.text.toString()
                     .isEmpty()
             ) {
-                getMaxID()
+                if(binding.password.text.toString().equals(binding.confirmPassword.text.toString())){
+                    getMaxID()
+                } else {
+                    getString(R.string.notConfirm)
+                }
             } else {
                 Toast.makeText(context, getString(R.string.Empty), Toast.LENGTH_SHORT).show()
             }
