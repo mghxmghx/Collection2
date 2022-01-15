@@ -47,7 +47,8 @@ class AdminViewCardViewModel @Inject constructor(val firebaseDatabase: FirebaseD
 
     fun deleteChildren(model: ViewCardModel) {
         val reqestDB = firebaseDatabase.getReference("cards")
-        reqestDB.child(model.cardID.toString()).removeValue().addOnCompleteListener {
+        Log.d("TAG", "deleteChildren: " + model.cardID)
+        reqestDB.child(model.cardID).removeValue().addOnCompleteListener {
             Log.d("TAG", "deleteChildren: " + it.isSuccessful)
             Log.d("TAG", "deleteChildren: " + it.isComplete)
         }
@@ -98,12 +99,14 @@ class AdminViewCardViewModel @Inject constructor(val firebaseDatabase: FirebaseD
     fun updateCard(newModel: ViewCardModel): MutableLiveData<String> {
         val reqestDB = firebaseDatabase.getReference("cards")
         val isSuccess = MutableLiveData<String>()
-        reqestDB.child(newModel.cardID).setValue(newModel).addOnCompleteListener {
-            if (it.isSuccessful) {
-                isSuccess.value = it.isSuccessful.toString()
-            } else {
-                isSuccess.value = "default"
-            }
+        reqestDB.child(newModel.cardID).child("cardCategory").setValue(newModel.cardCategory)
+        reqestDB.child(newModel.cardID).child("cardCity").setValue(newModel.cardCity)
+        reqestDB.child(newModel.cardID).child("cardCounty").setValue(newModel.cardCounty)
+        reqestDB.child(newModel.cardID).child("cardName").setValue(newModel.cardName)
+        reqestDB.child(newModel.cardID).child("cardInfo").setValue(newModel.cardInfo)
+        reqestDB.child(newModel.cardID).child("cardPath").setValue(newModel.cardPath)
+        reqestDB.child(newModel.cardID).child("cardPrice").setValue(newModel.cardPrice).addOnCompleteListener{
+            isSuccess.value= it.isSuccessful.toString()
         }
         return isSuccess
     }

@@ -78,11 +78,9 @@ class AdminViewCardFragment : Fragment(), ClickListener {
     fun getData() {
         VM.getCards().observe(viewLifecycleOwner, Observer {
             adapterX.swap(it)
+            adapterX.notifyDataSetChanged()
         })
-
     }
-
-
     private fun updateCard(model: ViewCardModel) {
         view1 = layoutInflater.inflate(R.layout.dialog_card_update, null)
 
@@ -152,7 +150,6 @@ class AdminViewCardFragment : Fragment(), ClickListener {
     }
 
     override fun itemUpdateClick(data: ViewCardModel) {
-        Log.d("TAG", "itemUpdateClick: " + data.cardName)
         updateCard(data)
     }
 
@@ -173,51 +170,36 @@ class AdminViewCardFragment : Fragment(), ClickListener {
 
     private fun updateImage(model: ViewCardModel) {
         if (!model.cardName.isEmpty() && !model.cardCategory.isEmpty() && !model.cardCounty.isEmpty()) {
-            Log.d("TAG", "updateImage1: "+ uri)
-
             if (uri.equals("")) {
-                Log.d("TAG", "updateImage2: "+ uri)
-
                 uri = "default"
             }
-
-            VM.setChildImage(uri.toUri(), Timestamp(System.currentTimeMillis()).toString())
-                .observe(viewLifecycleOwner, Observer {
-                    Log.d("TAG", "updateImage3: "+ uri)
-
-                    if (it.equals("default")) {
-                        Log.d("TAG", "updateImage:4 "+ uri)
-                        model.cardPath = "default"
-                        VM.updateCard(model).observe(viewLifecycleOwner, Observer {
-                            getData()
-                        })
-                    } else {
-                        Log.d("TAG", "updateImage5: "+ uri)
-
+            if(!uri.equals("default")){
+                VM.setChildImage(uri.toUri(), Timestamp(System.currentTimeMillis()).toString())
+                    .observe(viewLifecycleOwner, Observer {
                         model.cardPath = it
-                        VM.updateCard(model).observe(viewLifecycleOwner, Observer {
-                            getData()
-                            Log.d("TAG", "updateImage6: "+ uri)
-                        })
-                    }
-
+                            VM.updateCard(model).observe(viewLifecycleOwner, Observer {
+                                getData()
+                                uri = ""
+                            })
+                    })
+            } else {
+                VM.updateCard(model).observe(viewLifecycleOwner, Observer {
+                    getData()
+                    uri = ""
                 })
+            }
         } else {
             Toast.makeText(context, getString(R.string.wrong_message), Toast.LENGTH_SHORT).show()
         }
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (data?.data != null) {
             uri = data.data.toString()
-            //binding.imageView2.setImageURI(data.data)
             val x = view1.findViewById<ImageView>(R.id.imageView2)
             x.setImageURI(data.data)
-            Log.d("TAG", "onActivityResult: " + data.data.toString())
         }
         progressDialog.dismiss()
-
         super.onActivityResult(requestCode, resultCode, data)
     }
 }

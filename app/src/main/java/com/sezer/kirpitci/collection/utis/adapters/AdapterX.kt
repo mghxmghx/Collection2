@@ -36,15 +36,14 @@ class AdapterX(initCList: List<ViewCardModel>, val listener: ClickListener) :
         val deleteButton = holder.itemView.findViewById<ImageView>(R.id.delete)
         val updateButton = holder.itemView.findViewById<ImageView>(R.id.update)
         deleteButton.setOnClickListener {
-
             if (modelList.size == 1) {
                 listener.itemDeleteClick(modelList[0])
-            } else {
+            }
+            else {
                 listener.itemDeleteClick(modelList[position])
             }
         }
         updateButton.setOnClickListener {
-
             if (modelList.size == 1) {
                 listener.itemUpdateClick(modelList[0])
             } else {
@@ -56,9 +55,9 @@ class AdapterX(initCList: List<ViewCardModel>, val listener: ClickListener) :
     fun swap(modelList: List<ViewCardModel>) {
         val diffCallback = DiffUtilRecycler(this.modelList, modelList)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
-
         this.modelList.clear()
         this.modelList.addAll(modelList)
+
         diffResult.dispatchUpdatesTo(this)
     }
 

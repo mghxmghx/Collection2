@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.Switch
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -143,7 +144,6 @@ class UserFragment : Fragment(), ClickItemUser {
             val closeButton = view.findViewById<ImageView>(R.id.dialogContentClose)
         val startOne = view.findViewById<ImageView>(R.id.dialog_star_one)
         val startTwo = view.findViewById<ImageView>(R.id.dialog_star_two)
-
         val startThree = view.findViewById<ImageView>(R.id.dialog_star_three)
         val startFour = view.findViewById<ImageView>(R.id.dialog_star_four)
         val startFive = view.findViewById<ImageView>(R.id.dialog_star_five)
@@ -153,36 +153,52 @@ class UserFragment : Fragment(), ClickItemUser {
         val startNine = view.findViewById<ImageView>(R.id.dialog_star_nine)
         val startTen = view.findViewById<ImageView>(R.id.dialog_star_ten)
         startOne.setOnClickListener {
-            setBackGrounds(1, view, model)
+            starControl(1, view, model)
         }
         startTwo.setOnClickListener {
-            setBackGrounds(2, view, model)
+            starControl(2, view, model)
         }
         startThree.setOnClickListener {
-            setBackGrounds(3, view, model)
+            starControl(3, view, model)
         }
         startFour.setOnClickListener {
-            setBackGrounds(4, view, model)
+            starControl(4, view, model)
         }
         startFive.setOnClickListener {
-            setBackGrounds(5, view, model)
+            starControl(5, view, model)
         }
         startSix.setOnClickListener {
-            setBackGrounds(6, view, model)
+            starControl(6, view, model)
         }
         startSeven.setOnClickListener {
-            setBackGrounds(7, view, model)
+            starControl(7, view, model)
         }
         startEight.setOnClickListener {
-            setBackGrounds(8, view, model)
+            starControl(8, view, model)
         }
         startNine.setOnClickListener {
-            setBackGrounds(9, view, model)
+            starControl(9, view, model)
         }
         startTen.setOnClickListener {
-            setBackGrounds(10,view, model)
+            starControl(10,view, model)
         }
         val image = view.findViewById<ImageView>(R.id.dialogImagView)
+        val nameTw = view.findViewById<TextView>(R.id.alcoholName)
+        val countryTw = view.findViewById<TextView>(R.id.alcoholCountry)
+        val priceTw = view.findViewById<TextView>(R.id.alcoholPrice)
+        val cityTw = view.findViewById<TextView>(R.id.alcoholCity)
+        val infoTw = view.findViewById<TextView>(R.id.alcoholInfo)
+        nameTw.text = model.cardName
+        countryTw.text = model.cardCounty
+        priceTw.text = model.cardPrice
+        cityTw.text = model.cardCity
+        infoTw.text = model.cardInfo
+        if(!model.userStarRate.isNullOrEmpty() && !model.userStarRate.toString().equals("null")){
+            setBackGrounds(model.userStarRate!!.toInt(), view, model)
+        } else {
+            setBackGrounds(0, view, model)
+
+        }
         val isCheck = view.findViewById<Switch>(R.id.isCheckForAlcohol)
         isCheck.isChecked = model.status.toBoolean()
         isCheck.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
@@ -208,7 +224,10 @@ class UserFragment : Fragment(), ClickItemUser {
                 dialog.show()
             }
         }
-
+    private fun starControl(i: Int, view: View, model: CardModel) {
+        setBackGrounds(i,view,model)
+        setStarInFB(model)
+    }
     private fun setBackGrounds(clickedNumber: Int, view: View, model: CardModel){
         val list = ArrayList<ImageView>()
         list.add(view.findViewById(R.id.dialog_star_one))
@@ -228,7 +247,7 @@ class UserFragment : Fragment(), ClickItemUser {
             list.get(t).setImageResource(R.drawable.ic_dialog_noncheck_star)
         }
         model.userStarRate = clickedNumber.toString()
-        setStarInFB(model)
+
     }
     private fun setStarInFB(model: CardModel, ){
         VM.setStarInFB(model, id)
