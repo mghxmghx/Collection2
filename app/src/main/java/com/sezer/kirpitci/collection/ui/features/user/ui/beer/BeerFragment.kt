@@ -1,5 +1,6 @@
 package com.sezer.kirpitci.collection.ui.features.user.ui.beer
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -24,6 +25,7 @@ import com.sezer.kirpitci.collection.utis.others.ViewModelFactory
 import com.sezer.kirpitci.collection.utis.updateWithUrl
 import javax.inject.Inject
 import android.widget.CompoundButton
+import com.sezer.kirpitci.collection.utis.updateWithUrlWithStatus
 
 class BeerFragment : Fragment(), ClickItemUser {
     @Inject
@@ -132,7 +134,7 @@ class BeerFragment : Fragment(), ClickItemUser {
                 isCheckVM(isCheck.isChecked(), model)
             }
         })
-        image.updateWithUrl(model.cardPath, image, true.toString())
+        image.updateWithUrlWithStatus(model.cardPath, image, true.toString())
         closeButton.setOnClickListener {
             if (dialog != null) {
                 dialog.cancel()
@@ -146,6 +148,7 @@ class BeerFragment : Fragment(), ClickItemUser {
             dialog.show()
         }
     }
+
     private fun initialTablayout() {
         binding.tablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {

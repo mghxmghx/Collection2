@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +25,7 @@ import com.sezer.kirpitci.collection.ui.features.registration.CardModel
 import com.sezer.kirpitci.collection.utis.adapters.ClickItemUser
 import com.sezer.kirpitci.collection.utis.adapters.RecyclerAdapter
 import com.sezer.kirpitci.collection.utis.others.ViewModelFactory
-import com.sezer.kirpitci.collection.utis.updateWithUrl
+import com.sezer.kirpitci.collection.utis.updateWithUrlWithStatus
 import javax.inject.Inject
 
 class UserFragment : Fragment(), ClickItemUser {
@@ -51,20 +52,44 @@ class UserFragment : Fragment(), ClickItemUser {
         getID("beer")
         initialSearch()
         categoryTemp = "beer"
-        binding.customProgress1.max = 10
-        binding.customProgress2.max = 10
-        val currentProgress = 6
-        val currentProgress2 = 8
-        ObjectAnimator.ofInt(binding.customProgress1, "progress", currentProgress)
-            .setDuration(1000)
-            .start()
         super.onViewCreated(view, savedInstanceState)
+    }
+    private fun setStatus(totalCount: Int, totalTrueStatus: Int) {
+     //   binding.customProgress1.max = 10
+        binding.customProgress2.max = totalCount
+    //    val currentProgress = 6
+        val currentProgress2 = totalTrueStatus
+        binding.progress2NumberText.text = "$totalTrueStatus/$totalCount"
+     /*   ObjectAnimator.ofInt(binding.customProgress1, "progress", currentProgress)
+            .setDuration(1000)
+            .start() */
         ObjectAnimator.ofInt(binding.customProgress2, "progress", currentProgress2)
             .setDuration(1000)
             .start()
-        super.onViewCreated(view, savedInstanceState)
     }
-
+    private fun countAlcoholStatus(list: List<CardModel>?, isCheckted: String) {
+        var totalCount = 0
+        var totalTrueStatus = 0
+        if(isCheckted.equals("plus")){
+            val text = binding.progress2NumberText.text.split("/")
+            totalCount = text.get(1).toInt()
+            totalTrueStatus = text.get(0).toInt()+1
+        } else if(isCheckted.equals("minus")){
+            val text = binding.progress2NumberText.text.split("/")
+            totalCount = text.get(1).toInt()
+            totalTrueStatus = text.get(0).toInt()-1
+        }else{
+            if (list != null) {
+                for(i in 0 until list.size){
+                    totalCount++
+                    if(list.get(i).status.equals("true")){
+                        totalTrueStatus++
+                    }
+                }
+            }
+        }
+        setStatus(totalCount, totalTrueStatus)
+    }
     fun initialRecyler() {
         adapter = RecyclerAdapter(this)
         binding.userCardsRecycler.layoutManager = GridLayoutManager(context, 8)
@@ -87,8 +112,9 @@ class UserFragment : Fragment(), ClickItemUser {
     private fun getData(category: String, id: String){
         VM.getCards(category, id).observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
-            array.clear()
-            array.addAll(it)
+        //    array.clear()
+        //    array.addAll(it)
+            countAlcoholStatus(it, "default")
         })
     }
     private fun initialSearch(){
@@ -115,19 +141,21 @@ class UserFragment : Fragment(), ClickItemUser {
     private fun searchData(alcoholName: String){
         VM.searchCards(alcoholName, categoryTemp, id).observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
-
         })
     }
-    private fun mergeData(model:CardModel, status: String){
+  /*  private fun mergeData(model:CardModel, status: String){
         initialRecyler()
         val index = array.indexOf(model)
         model.status = status
         array.set(index,model)
         adapter.submitList(array)
-    }
+    } */
     private fun isCheckVM(checked: Boolean, model: CardModel) {
-        VM.setCheck(checked, model, id)
-        mergeData(model, checked.toString())
+        VM.setCheck(checked, model, id).observe(viewLifecycleOwner, Observer {
+            initialRecyler()
+            getData(categoryTemp,id)
+        })
+       // mergeData(model, checked.toString())
     }
     override fun clicked(model: CardModel) {
        checkClickedLayout(model)
@@ -203,13 +231,16 @@ class UserFragment : Fragment(), ClickItemUser {
         isCheck.isChecked = model.status.toBoolean()
         isCheck.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
             if (isCheck.isChecked()) {
-                isCheckVM(isCheck.isChecked(), model)
+                isCheckVM(true, model)
+                countAlcoholStatus(null, "plus")
             } else {
-                isCheckVM(isCheck.isChecked(), model)
+                isCheckVM(false, model)
+                countAlcoholStatus(null, "minus")
+
             }
         })
 
-        image.updateWithUrl(model.cardPath, image, true.toString())
+        image.updateWithUrlWithStatus(model.cardPath, image, true.toString())
             closeButton.setOnClickListener {
                 if (dialog != null) {
                     dialog.cancel()
@@ -267,18 +298,10 @@ class UserFragment : Fragment(), ClickItemUser {
                     binding.searchAlcoholText.text?.clear()
                     categoryTemp = "cocktail"
                     getID("cocktail")
-
                 }
             }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-
-            }
-
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
     }
 }

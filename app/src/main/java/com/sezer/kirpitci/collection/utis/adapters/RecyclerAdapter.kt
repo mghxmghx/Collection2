@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.ui.features.registration.CardModel
 import com.sezer.kirpitci.collection.utis.updateWithUrl
+import com.sezer.kirpitci.collection.utis.updateWithUrlWithStatus
 
 class RecyclerAdapter(val listener: ClickItemUser) : ListAdapter<CardModel, RecyclerAdapter.WorkerHolder>(
     diffCallback
@@ -27,7 +28,7 @@ class RecyclerAdapter(val listener: ClickItemUser) : ListAdapter<CardModel, Recy
 
     override fun onBindViewHolder(holder: WorkerHolder, position: Int) {
         with(getItem(position)) {
-            holder.cardImage.updateWithUrl(this.cardPath, holder.cardImage, this.status)
+            holder.cardImage.updateWithUrlWithStatus(this.cardPath, holder.cardImage, this.status)
         }
     }
     inner class WorkerHolder(iv: View) : RecyclerView.ViewHolder(iv) {
@@ -43,13 +44,23 @@ class RecyclerAdapter(val listener: ClickItemUser) : ListAdapter<CardModel, Recy
 
 private val diffCallback = object : DiffUtil.ItemCallback<CardModel>() {
     override fun areItemsTheSame(oldItem: CardModel, newItem: CardModel): Boolean {
-        return oldItem.cardName.equals(newItem.cardName)
+        return oldItem.cardName == newItem.cardName
     }
 
     override fun areContentsTheSame(
         oldItem: CardModel,
         newItem: CardModel
     ): Boolean {
-        return oldItem.cardID.equals(newItem.cardID)
+        return oldItem.cardName == newItem.cardName &&
+                oldItem.cardID == newItem.cardID &&
+                oldItem.cardCategory == newItem.cardCategory &&
+                oldItem.cardCity == newItem.cardCity &&
+                oldItem.cardCounty == newItem.cardCounty &&
+                oldItem.cardInfo == newItem.cardInfo &&
+                oldItem.cardPrice == newItem.cardPrice &&
+                oldItem.cardStarAverage == newItem.cardStarAverage &&
+                oldItem.status == newItem.status &&
+                oldItem.cardPath == newItem.cardPath
+
     }
 }

@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide
 import com.sezer.kirpitci.collection.R
 import com.squareup.picasso.Picasso
 
-fun ImageView.updateWithUrl(url: String, imageViewAvatar: ImageView, status: String) {
+fun ImageView.updateWithUrlWithStatus(url: String, imageViewAvatar: ImageView, status: String) {
 
     if (!url.equals("default")) {
         if(status.equals("true")){

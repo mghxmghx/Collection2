@@ -138,7 +138,7 @@ class AdminViewCardFragment : Fragment(), ClickListener {
             }
         }
         if (dialog != null) {
-            dialog.setCancelable(false)
+            dialog.setCancelable(true)
         }
         if (dialog != null) {
 

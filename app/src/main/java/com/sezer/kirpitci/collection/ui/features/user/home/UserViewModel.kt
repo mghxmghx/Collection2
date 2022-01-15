@@ -103,7 +103,8 @@ class UserViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase, 
         }
         return cardList
     }
-    fun setCheck(checked: Boolean, model: CardModel, userID:String) {
+    fun setCheck(checked: Boolean, model: CardModel, userID:String): MutableLiveData<Boolean> {
+        val isSuccess = MutableLiveData<Boolean>()
         firebaseDatabase.getReference("cards").get().addOnSuccessListener {
             for(child in it.children){
                 if(child.child("cardID").getValue().toString().equals(model.cardID)){
@@ -116,12 +117,15 @@ class UserViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase, 
                             if(i.child("userName").getValue().toString().equals(userID)){
                                 firebaseDatabase.getReference("cards").child(child
                                     .key.toString()).child("users").child(userID).child("userCardStatus").
-                                setValue(checked.toString())
+                                setValue(checked.toString()).addOnSuccessListener {
+                                    isSuccess.value = true
+                                }
                             }
                         }
                     }
                 }
             }
         }
+        return isSuccess
     }
 }

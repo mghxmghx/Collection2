@@ -59,6 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="5"
             android:orientation="horizontal"
+            android:visibility="gone"
             android:layout_marginStart="16dp">
             <TextView
                 android:id="@+id/titleText"
@@ -81,11 +82,13 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical"
+                android:visibility="gone"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:orientation="horizontal">
                     <TextView
                         android:id="@+id/progress1Text"
@@ -100,7 +103,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
-                    <ProgressBar
+              <!--      <ProgressBar
                         android:id="@+id/customProgress1"
                         style="@style/CustomProgressBar"
                         android:layout_width="match_parent"
@@ -108,7 +111,7 @@
                         android:progress="0"
                         android:layout_weight="1"
                         android:layout_gravity="center"
-                        />
+                        /> -->
                     </LinearLayout>
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -198,18 +201,19 @@
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
                     android:text="Beer" />
 
-                <com.google.android.material.tabs.TabItem
+            <!--    <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Wine" />
+                    android:visibility="gone"
+                    android:text="Wine" />-->
 
-                <com.google.android.material.tabs.TabItem
+                <!--<com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cocktail" />
+                    android:visibility="invisible"
+                    android:text="Cocktail" />-->
             </com.google.android.material.tabs.TabLayout>
 
         </LinearLayout>
