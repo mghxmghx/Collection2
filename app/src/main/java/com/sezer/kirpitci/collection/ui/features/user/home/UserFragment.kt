@@ -140,6 +140,7 @@ class UserFragment : Fragment(), ClickItemUser {
     private var array = arrayListOf<CardModel>()
     private fun searchData(alcoholName: String){
         VM.searchCards(alcoholName, categoryTemp, id).observe(viewLifecycleOwner, Observer {
+            initialRecyler()
             adapter.submitList(it)
         })
     }

@@ -1,5 +1,6 @@
 package com.sezer.kirpitci.collection.ui.features.login
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -24,6 +25,7 @@ class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private lateinit var VM: LoginViewModel
     private lateinit var sharedPreferencesClass: SharedPreferencesClass
+    private lateinit var progressDialog: ProgressDialog
 
 
     override fun onCreateView(
@@ -43,37 +45,43 @@ class LoginFragment : Fragment() {
         loginClickListener()
         super.onViewCreated(view, savedInstanceState)
     }
-    private fun initialUI(){
+
+    private fun initialUI() {
+        progressDialog = ProgressDialog(context)
         MyApp.appComponent.inject(this)
     }
 
     private fun initialShared() {
         sharedPreferencesClass = SharedPreferencesClass()
-        //sharedPreferencesClass.instantPref()
         context?.let { sharedPreferencesClass.instantPref(it) }
 
     }
-    private fun goToDeneme() {
-        binding.denemebuton.setOnClickListener {
-            //Navigation.findNavController(it)
-            //.navigate(R.id.action_loginFragment_to_trainingFragment)
 
-        }
-    }
     private fun goToRegister() {
         binding.loginRegisterTextview.setOnClickListener {
             Navigation.findNavController(it)
                 .navigate(R.id.action_loginFragment_to_registrationFragment)
         }
     }
+
     private fun initialVM() {
         VM = ViewModelProvider(this, viewModelFactory)[LoginViewModel::class.java]
     }
+
     private fun loginClickListener() {
         binding.loginButton.setOnClickListener {
+            onPreExecute()
             auth()
         }
     }
+    private fun onPreExecute(){
+        progressDialog.setMessage("Giriş yapılıyor..")
+        progressDialog.show()
+    }
+    private fun onPostExecute(){
+        progressDialog.dismiss()
+    }
+
     private fun auth() {
         VM.auth(binding.loginEmail.text.toString(), binding.loginPassword.text.toString())
             .observe(viewLifecycleOwner,
@@ -84,6 +92,7 @@ class LoginFragment : Fragment() {
                             sharedPreferencesClass.addUserPassword(binding.loginPassword.text.toString())
                         }
                         VM.getStatus().observe(viewLifecycleOwner, Observer {
+                            onPostExecute()
                             if (it.equals("admin")) {
                                 Navigation.findNavController(binding.root)
                                     .navigate(R.id.action_loginFragment_to_adminPanelFragment)
