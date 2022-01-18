@@ -83,4 +83,13 @@
         android:name="com.sezer.kirpitci.collection.ui.features.user.ui.home.HomePageFragment"
         android:label="fragment_home_page"
         tools:layout="@layout/fragment_home_page" />
+    <fragment
+        android:id="@+id/personalInfo"
+        android:name="com.sezer.kirpitci.collection.ui.features.user.ui.notifications.personalinfo.PersonalInfo"
+        android:label="personal_info_fragment"
+        tools:layout="@layout/personal_info_fragment" >
+        <action
+            android:id="@+id/action_personalInfo_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
 </navigation>
