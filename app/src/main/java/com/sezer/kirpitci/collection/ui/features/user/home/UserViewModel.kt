@@ -31,7 +31,7 @@ class UserViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase, 
                     child("users").
                     get().addOnSuccessListener {
                         for(i in it.children){
-                            if(i.child("userName").getValue().toString().equals(userID)){
+                            if(i.key.toString().equals(userID)){
                                 firebaseDatabase.getReference("cards").child(child
                                     .key.toString()).child("users").child(userID).child("userStarRate").
                                 setValue(model.userStarRate)
@@ -78,7 +78,7 @@ class UserViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase, 
         db2.get().addOnSuccessListener {
             for (child in it.children) {
                 if (child.child("cardCategory").getValue().toString().equals(category)){
-                    if(child.child("cardName").getValue().toString().contains(alcoholName)){
+                    if(child.child("cardName").getValue().toString().toLowerCase().contains(alcoholName.toLowerCase())){
                         list.add(
                             CardModel(
                                 child.child("cardID").getValue().toString(),
@@ -114,7 +114,7 @@ class UserViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase, 
                     child("users").
                     get().addOnSuccessListener {
                         for(i in it.children){
-                            if(i.child("userName").getValue().toString().equals(userID)){
+                            if(i.key.toString().equals(userID)){
                                 firebaseDatabase.getReference("cards").child(child
                                     .key.toString()).child("users").child(userID).child("userCardStatus").
                                 setValue(checked.toString()).addOnSuccessListener {

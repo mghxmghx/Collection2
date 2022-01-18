@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -26,11 +27,13 @@ class DetailRecyclerAdapter(val listener: ClickItemUser) : ListAdapter<CardModel
 
     override fun onBindViewHolder(holder: WorkerHolder, position: Int) {
         with(getItem(position)) {
-            holder.cardImage.updateWithUrlWithStatus(this.cardPath, holder.cardImage, this.status)
+            holder.cardImage.updateWithUrlWithStatus(this.cardPath, holder.cardImage, true.toString())
+            holder.nameText.text = this.cardName
         }
     }
     inner class WorkerHolder(iv: View) : RecyclerView.ViewHolder(iv) {
         val cardImage: ImageView = itemView.findViewById(R.id.user_card_view_image)
+        val nameText: TextView = itemView.findViewById(R.id.detailAlcoholName)
         init {
             itemView.setOnClickListener{
                 listener.clicked(getItem(adapterPosition))
@@ -41,13 +44,21 @@ class DetailRecyclerAdapter(val listener: ClickItemUser) : ListAdapter<CardModel
 
 private val diffCallback = object : DiffUtil.ItemCallback<CardModel>() {
     override fun areItemsTheSame(oldItem: CardModel, newItem: CardModel): Boolean {
-        return oldItem.cardName.equals(newItem.cardName)
+        return oldItem == newItem
     }
 
     override fun areContentsTheSame(
         oldItem: CardModel,
         newItem: CardModel
     ): Boolean {
-        return oldItem.cardID.equals(newItem.cardID)
+        return oldItem.cardID == newItem.cardID &&
+                oldItem.cardName == newItem.cardName &&
+                oldItem.cardCity == newItem.cardCity &&
+                oldItem.cardCounty == newItem.cardCounty &&
+                oldItem.cardInfo == newItem.cardInfo &&
+                oldItem.cardPath == newItem.cardPath &&
+                oldItem.cardPrice == newItem.cardPrice &&
+                oldItem.cardCategory == newItem.cardCategory &&
+                oldItem.status == newItem.status
     }
 }

@@ -44,23 +44,21 @@ class RecyclerAdapter(val listener: ClickItemUser) : ListAdapter<CardModel, Recy
 
 private val diffCallback = object : DiffUtil.ItemCallback<CardModel>() {
     override fun areItemsTheSame(oldItem: CardModel, newItem: CardModel): Boolean {
-        return oldItem.cardName == newItem.cardName
+        return oldItem == newItem
     }
 
     override fun areContentsTheSame(
         oldItem: CardModel,
         newItem: CardModel
     ): Boolean {
-        return oldItem.cardName == newItem.cardName &&
-                oldItem.cardID == newItem.cardID &&
-                oldItem.cardCategory == newItem.cardCategory &&
+        return oldItem.cardID == newItem.cardID &&
+                oldItem.cardName == newItem.cardName &&
                 oldItem.cardCity == newItem.cardCity &&
                 oldItem.cardCounty == newItem.cardCounty &&
                 oldItem.cardInfo == newItem.cardInfo &&
+                oldItem.cardPath == newItem.cardPath &&
                 oldItem.cardPrice == newItem.cardPrice &&
-                oldItem.cardStarAverage == newItem.cardStarAverage &&
-                oldItem.status == newItem.status &&
-                oldItem.cardPath == newItem.cardPath
-
+                oldItem.cardCategory == newItem.cardCategory &&
+                oldItem.status == newItem.status
     }
 }

@@ -57,7 +57,7 @@ class BeerFragmentViewModel @Inject constructor(val firebaseDatabase: FirebaseDa
         db2.get().addOnSuccessListener {
             for (child in it.children) {
                 if (child.child("cardCategory").getValue().toString().equals(category)){
-                    if(child.child("cardName").getValue().toString().contains(alcoholName)){
+                    if(child.child("cardName").getValue().toString().lowercase().contains(alcoholName.lowercase())){
                         list.add(
                             CardModel(
                                 child.child("cardID").getValue().toString(),
@@ -82,7 +82,8 @@ class BeerFragmentViewModel @Inject constructor(val firebaseDatabase: FirebaseDa
         }
         return cardList
     }
-    fun setCheck(checked: Boolean, model: CardModel, userID:String) {
+    fun setCheck(checked: Boolean, model: CardModel, userID:String): MutableLiveData<Boolean> {
+        val isSuccess = MutableLiveData<Boolean>()
         firebaseDatabase.getReference("cards").get().addOnSuccessListener {
             for(child in it.children){
                 if(child.child("cardID").getValue().toString().equals(model.cardID)){
@@ -92,15 +93,18 @@ class BeerFragmentViewModel @Inject constructor(val firebaseDatabase: FirebaseDa
                     child("users").
                     get().addOnSuccessListener {
                         for(i in it.children){
-                            if(i.child("userName").getValue().toString().equals(userID)){
+                            if(i.key.toString().equals(userID)){
                                 firebaseDatabase.getReference("cards").child(child
                                     .key.toString()).child("users").child(userID).child("userCardStatus").
-                                setValue(checked.toString())
+                                setValue(checked.toString()).addOnCompleteListener {
+                                    isSuccess.value = it.isSuccessful
+                                }
                             }
                         }
                     }
                 }
             }
         }
+        return isSuccess
     }
 }

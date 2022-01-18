@@ -137,26 +137,17 @@ class UserFragment : Fragment(), ClickItemUser {
 
         })
     }
-    private var array = arrayListOf<CardModel>()
     private fun searchData(alcoholName: String){
         VM.searchCards(alcoholName, categoryTemp, id).observe(viewLifecycleOwner, Observer {
-            initialRecyler()
             adapter.submitList(it)
         })
     }
-  /*  private fun mergeData(model:CardModel, status: String){
-        initialRecyler()
-        val index = array.indexOf(model)
-        model.status = status
-        array.set(index,model)
-        adapter.submitList(array)
-    } */
+
     private fun isCheckVM(checked: Boolean, model: CardModel) {
         VM.setCheck(checked, model, id).observe(viewLifecycleOwner, Observer {
             initialRecyler()
             getData(categoryTemp,id)
         })
-       // mergeData(model, checked.toString())
     }
     override fun clicked(model: CardModel) {
        checkClickedLayout(model)

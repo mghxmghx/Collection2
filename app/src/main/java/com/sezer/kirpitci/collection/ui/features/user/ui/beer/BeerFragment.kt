@@ -1,6 +1,7 @@
 package com.sezer.kirpitci.collection.ui.features.user.ui.beer
 
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -25,6 +26,7 @@ import com.sezer.kirpitci.collection.utis.others.ViewModelFactory
 import com.sezer.kirpitci.collection.utis.updateWithUrl
 import javax.inject.Inject
 import android.widget.CompoundButton
+import android.widget.TextView
 import com.sezer.kirpitci.collection.utis.updateWithUrlWithStatus
 
 class BeerFragment : Fragment(), ClickItemUser {
@@ -87,20 +89,12 @@ class BeerFragment : Fragment(), ClickItemUser {
             adapter.submitList(it)
         })
     }
-    private var array = arrayListOf<CardModel>()
+    @SuppressLint("NotifyDataSetChanged")
     private fun getData(category: String, s: String) {
         VM.getCards(category, s).observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
-            array.clear()
-            array.addAll(it)
+          //  adapter.notifyDataSetChanged()
         })
-    }
-    private fun mergeData(model:CardModel, status: String){
-        initialRecyler()
-        val index = array.indexOf(model)
-        model.status = status
-        array.set(index,model)
-        adapter.submitList(array)
     }
     fun initialRecyler() {
         adapter = DetailRecyclerAdapter(this)
@@ -112,8 +106,12 @@ class BeerFragment : Fragment(), ClickItemUser {
         checkClickedLayout(model)
     }
     private fun isCheckVM(checked: Boolean, model: CardModel) {
-        VM.setCheck(checked, model, id)
-        mergeData(model, checked.toString())
+        VM.setCheck(checked, model, id).observe(viewLifecycleOwner, Observer {
+            if(it) {
+             //   initialRecyler()
+             //   getData(categoryTemp,id)
+            }
+        })
     }
     private fun checkClickedLayout(model: CardModel) {
         val view = layoutInflater.inflate(R.layout.detail_dialog_content, null)
@@ -125,6 +123,16 @@ class BeerFragment : Fragment(), ClickItemUser {
         }
         val closeButton = view.findViewById<ImageView>(R.id.dialogContentClose)
         val image = view.findViewById<ImageView>(R.id.dialogImagView)
+        val name = view.findViewById<TextView>(R.id.alcoholName)
+        val country = view.findViewById<TextView>(R.id.alcoholCountry)
+        val city = view.findViewById<TextView>(R.id.alcoholCity)
+        val info = view.findViewById<TextView>(R.id.alcoholInfo)
+        val price = view.findViewById<TextView>(R.id.alcoholPrice)
+        name.text = model.cardName
+        country.text = model.cardCounty
+        city.text = model.cardCity
+        info.text = model.cardInfo
+        price.text = model.cardPrice
         val isCheck = view.findViewById<Switch>(R.id.isCheckForAlcohol)
         isCheck.isChecked = model.status.toBoolean()
         isCheck.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
