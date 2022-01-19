@@ -1,21 +1,27 @@
 package com.sezer.kirpitci.collection.ui.features.user.home
 
 import android.animation.ObjectAnimator
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.Switch
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.airbnb.lottie.utils.Utils
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayout
 import com.sezer.kirpitci.collection.R
@@ -49,6 +55,7 @@ class UserFragment : Fragment(), ClickItemUser {
         initialVM()
         initialRecyler()
         initialTablayout()
+        hideKeyboardx()
         getID("beer")
         initialSearch()
         categoryTemp = "beer"
@@ -104,10 +111,29 @@ class UserFragment : Fragment(), ClickItemUser {
     }
     private lateinit var id: String
     private fun getID(category: String) {
+
         VM.getUserID().observe(viewLifecycleOwner, Observer {
             id = it
             getData(category, it)
         })
+    }
+
+    fun hideKeyboardx(){
+
+        binding.searchAlcoholText.setOnFocusChangeListener(OnFocusChangeListener { v, hasFocus ->
+            Log.d("TAG", "hideKeyboardx: " + hasFocus)
+
+            if (!hasFocus) {
+                Log.d("TAG", "hideKeyboardx: "+ hasFocus)
+               // Utils.hideSoftKeyboard(activity)
+                hideSoftKeyboard(v)
+            }
+        })
+    }
+    fun hideSoftKeyboard(view: View) {
+        val inputMethodManager =
+            activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
     private fun getData(category: String, id: String){
         VM.getCards(category, id).observe(viewLifecycleOwner, Observer {
@@ -272,7 +298,7 @@ class UserFragment : Fragment(), ClickItemUser {
         model.userStarRate = clickedNumber.toString()
 
     }
-    private fun setStarInFB(model: CardModel, ){
+    private fun setStarInFB(model: CardModel){
         VM.setStarInFB(model, id)
     }
     private fun initialTablayout() {

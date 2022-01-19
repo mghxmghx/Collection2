@@ -6,6 +6,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/black"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:context=".ui.features.UserFragment">
     <LinearLayout
         android:id="@id/layouttop"
@@ -31,6 +34,9 @@
                     android:id="@+id/searchAlcoholText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:clickable="true"
                     android:background="@android:color/transparent"
                     android:hint="Search" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -49,6 +55,9 @@
         android:orientation="vertical"
         android:layout_marginTop="8dp"
         android:background="@drawable/backgroud_small"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         app:layout_constraintBottom_toTopOf="@+id/userCardsRecycler"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,6 +67,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="5"
+            android:clickable="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="horizontal"
             android:visibility="gone"
             android:layout_marginStart="16dp">
@@ -76,6 +88,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="5"
+            android:clickable="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="horizontal">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -100,6 +115,9 @@
                         android:textColor="@color/white"/>
                 </LinearLayout>
                     <LinearLayout
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
@@ -132,12 +150,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="5"
+            android:clickable="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="horizontal">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical"
+                android:clickable="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp">
                 <LinearLayout
@@ -155,6 +179,9 @@
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:layout_height="16dp"
                     android:orientation="horizontal">
                 <ProgressBar
@@ -185,7 +212,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:clickable="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:layout_weight="5"
             android:orientation="horizontal"
             android:background="@color/gray"
@@ -196,6 +225,9 @@
                 app:tabTextColor="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:background="@color/gray">
 
                 <com.google.android.material.tabs.TabItem
@@ -224,6 +256,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="0dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layout"

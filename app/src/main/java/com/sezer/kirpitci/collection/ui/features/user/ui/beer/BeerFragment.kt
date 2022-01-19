@@ -7,6 +7,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Switch
@@ -28,6 +29,13 @@ import javax.inject.Inject
 import android.widget.CompoundButton
 import android.widget.TextView
 import com.sezer.kirpitci.collection.utis.updateWithUrlWithStatus
+import android.app.Activity
+
+import androidx.core.content.ContextCompat.getSystemService
+
+import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat
+
 
 class BeerFragment : Fragment(), ClickItemUser {
     @Inject
@@ -49,6 +57,7 @@ class BeerFragment : Fragment(), ClickItemUser {
         initialVM()
         initialTablayout()
         initialRecyler()
+        focusListener()
         getID("beer")
         categoryTemp = "beer"
         initialSearch()
@@ -110,6 +119,17 @@ class BeerFragment : Fragment(), ClickItemUser {
             if(it) {
              //   initialRecyler()
              //   getData(categoryTemp,id)
+            }
+        })
+    }
+    fun hideKeyboard(view:View){
+        val inputMethodManager = context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+    private fun focusListener(){
+        binding.searchAlcoholText.setOnFocusChangeListener(OnFocusChangeListener { v, hasFocus ->
+            if (!hasFocus) {
+                hideKeyboard(v)
             }
         })
     }
