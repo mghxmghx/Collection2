@@ -2,7 +2,6 @@ package com.sezer.kirpitci.collection.ui.features.user.home
 
 import android.animation.ObjectAnimator
 import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -16,12 +15,10 @@ import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.Switch
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import com.airbnb.lottie.utils.Utils
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayout
 import com.sezer.kirpitci.collection.R
@@ -61,35 +58,37 @@ class UserFragment : Fragment(), ClickItemUser {
         categoryTemp = "beer"
         super.onViewCreated(view, savedInstanceState)
     }
+
     private fun setStatus(totalCount: Int, totalTrueStatus: Int) {
-     //   binding.customProgress1.max = 10
+        //   binding.customProgress1.max = 10
         binding.customProgress2.max = totalCount
-    //    val currentProgress = 6
+        //    val currentProgress = 6
         val currentProgress2 = totalTrueStatus
         binding.progress2NumberText.text = "$totalTrueStatus/$totalCount"
-     /*   ObjectAnimator.ofInt(binding.customProgress1, "progress", currentProgress)
-            .setDuration(1000)
-            .start() */
+        /*   ObjectAnimator.ofInt(binding.customProgress1, "progress", currentProgress)
+               .setDuration(1000)
+               .start() */
         ObjectAnimator.ofInt(binding.customProgress2, "progress", currentProgress2)
             .setDuration(1000)
             .start()
     }
+
     private fun countAlcoholStatus(list: List<CardModel>?, isCheckted: String) {
         var totalCount = 0
         var totalTrueStatus = 0
-        if(isCheckted.equals("plus")){
+        if (isCheckted.equals("plus")) {
             val text = binding.progress2NumberText.text.split("/")
             totalCount = text.get(1).toInt()
-            totalTrueStatus = text.get(0).toInt()+1
-        } else if(isCheckted.equals("minus")){
+            totalTrueStatus = text.get(0).toInt() + 1
+        } else if (isCheckted.equals("minus")) {
             val text = binding.progress2NumberText.text.split("/")
             totalCount = text.get(1).toInt()
-            totalTrueStatus = text.get(0).toInt()-1
-        }else{
+            totalTrueStatus = text.get(0).toInt() - 1
+        } else {
             if (list != null) {
-                for(i in 0 until list.size){
+                for (i in 0 until list.size) {
                     totalCount++
-                    if(list.get(i).status.equals("true")){
+                    if (list.get(i).status.equals("true")) {
                         totalTrueStatus++
                     }
                 }
@@ -97,18 +96,22 @@ class UserFragment : Fragment(), ClickItemUser {
         }
         setStatus(totalCount, totalTrueStatus)
     }
+
     fun initialRecyler() {
         adapter = RecyclerAdapter(this)
         binding.userCardsRecycler.layoutManager = GridLayoutManager(context, 8)
         binding.userCardsRecycler.adapter = adapter
     }
-    private fun initialUI(){
+
+    private fun initialUI() {
         MyApp.appComponent.inject(this)
     }
+
     private fun initialVM() {
         VM = ViewModelProvider(this, viewModelFactory)[UserViewModel::class.java]
 
     }
+
     private lateinit var id: String
     private fun getID(category: String) {
 
@@ -118,42 +121,42 @@ class UserFragment : Fragment(), ClickItemUser {
         })
     }
 
-    fun hideKeyboardx(){
+    fun hideKeyboardx() {
 
-        binding.searchAlcoholText.setOnFocusChangeListener(OnFocusChangeListener { v, hasFocus ->
+        binding.searchAlcoholText.onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
             Log.d("TAG", "hideKeyboardx: " + hasFocus)
 
             if (!hasFocus) {
-                Log.d("TAG", "hideKeyboardx: "+ hasFocus)
-               // Utils.hideSoftKeyboard(activity)
+                Log.d("TAG", "hideKeyboardx: " + hasFocus)
+                // Utils.hideSoftKeyboard(activity)
                 hideSoftKeyboard(v)
             }
-        })
+        }
     }
+
     fun hideSoftKeyboard(view: View) {
         val inputMethodManager =
             activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
-    private fun getData(category: String, id: String){
+
+    private fun getData(category: String, id: String) {
         VM.getCards(category, id).observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
-        //    array.clear()
-        //    array.addAll(it)
             countAlcoholStatus(it, "default")
         })
     }
-    private fun initialSearch(){
-        binding.searchAlcoholText.addTextChangedListener(object: TextWatcher {
+
+    private fun initialSearch() {
+        binding.searchAlcoholText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if(p0.toString().length>=3){
+                if (p0.toString().length >= 3) {
                     searchData(alcoholName = p0.toString())
-                }
-                else if(p0.toString().length == 0){
+                } else if (p0.toString().length == 0) {
                     getID(categoryTemp)
                 }
             }
@@ -163,7 +166,8 @@ class UserFragment : Fragment(), ClickItemUser {
 
         })
     }
-    private fun searchData(alcoholName: String){
+
+    private fun searchData(alcoholName: String) {
         VM.searchCards(alcoholName, categoryTemp, id).observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
         })
@@ -172,22 +176,24 @@ class UserFragment : Fragment(), ClickItemUser {
     private fun isCheckVM(checked: Boolean, model: CardModel) {
         VM.setCheck(checked, model, id).observe(viewLifecycleOwner, Observer {
             initialRecyler()
-            getData(categoryTemp,id)
+            getData(categoryTemp, id)
         })
     }
+
     override fun clicked(model: CardModel) {
-       checkClickedLayout(model)
+        checkClickedLayout(model)
     }
+
     private fun checkClickedLayout(model: CardModel) {
         val view = layoutInflater.inflate(R.layout.detail_dialog_content, null)
 
         val dialog = context?.let { it1 ->
-                BottomSheetDialog(
-                    it1,
-                    R.style.BottomSheetDialogTheme
-                )
-            }
-            val closeButton = view.findViewById<ImageView>(R.id.dialogContentClose)
+            BottomSheetDialog(
+                it1,
+                R.style.BottomSheetDialogTheme
+            )
+        }
+        val closeButton = view.findViewById<ImageView>(R.id.dialogContentClose)
         val startOne = view.findViewById<ImageView>(R.id.dialog_star_one)
         val startTwo = view.findViewById<ImageView>(R.id.dialog_star_two)
         val startThree = view.findViewById<ImageView>(R.id.dialog_star_three)
@@ -226,7 +232,7 @@ class UserFragment : Fragment(), ClickItemUser {
             starControl(9, view, model)
         }
         startTen.setOnClickListener {
-            starControl(10,view, model)
+            starControl(10, view, model)
         }
         val image = view.findViewById<ImageView>(R.id.dialogImagView)
         val nameTw = view.findViewById<TextView>(R.id.alcoholName)
@@ -239,7 +245,7 @@ class UserFragment : Fragment(), ClickItemUser {
         priceTw.text = model.cardPrice
         cityTw.text = model.cardCity
         infoTw.text = model.cardInfo
-        if(!model.userStarRate.isNullOrEmpty() && !model.userStarRate.toString().equals("null")){
+        if (!model.userStarRate.isNullOrEmpty() && !model.userStarRate.toString().equals("null")) {
             setBackGrounds(model.userStarRate!!.toInt(), view, model)
         } else {
             setBackGrounds(0, view, model)
@@ -248,7 +254,7 @@ class UserFragment : Fragment(), ClickItemUser {
         val isCheck = view.findViewById<Switch>(R.id.isCheckForAlcohol)
         isCheck.isChecked = model.status.toBoolean()
         isCheck.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
-            if (isCheck.isChecked()) {
+            if (isCheck.isChecked) {
                 isCheckVM(true, model)
                 countAlcoholStatus(null, "plus")
             } else {
@@ -259,25 +265,27 @@ class UserFragment : Fragment(), ClickItemUser {
         })
 
         image.updateWithUrlWithStatus(model.cardPath, image, true.toString())
-            closeButton.setOnClickListener {
-                if (dialog != null) {
-                    dialog.cancel()
-                    (view.getParent() as ViewGroup).removeView(view)
-                }
-            }
-
+        closeButton.setOnClickListener {
             if (dialog != null) {
-                dialog.setContentView(view)
-            }
-            if (dialog != null) {
-                dialog.show()
+                dialog.cancel()
+                (view.parent as ViewGroup).removeView(view)
             }
         }
+
+        if (dialog != null) {
+            dialog.setContentView(view)
+        }
+        if (dialog != null) {
+            dialog.show()
+        }
+    }
+
     private fun starControl(i: Int, view: View, model: CardModel) {
-        setBackGrounds(i,view,model)
+        setBackGrounds(i, view, model)
         setStarInFB(model)
     }
-    private fun setBackGrounds(clickedNumber: Int, view: View, model: CardModel){
+
+    private fun setBackGrounds(clickedNumber: Int, view: View, model: CardModel) {
         val list = ArrayList<ImageView>()
         list.add(view.findViewById(R.id.dialog_star_one))
         list.add(view.findViewById(R.id.dialog_star_two))
@@ -289,18 +297,20 @@ class UserFragment : Fragment(), ClickItemUser {
         list.add(view.findViewById(R.id.dialog_star_eight))
         list.add(view.findViewById(R.id.dialog_star_nine))
         list.add(view.findViewById(R.id.dialog_star_ten))
-        for(i in 0 until clickedNumber){
+        for (i in 0 until clickedNumber) {
             list.get(i).setImageResource(R.drawable.ic_dialog_rate_star_check)
         }
-        for(t in clickedNumber..9 ){
+        for (t in clickedNumber..9) {
             list.get(t).setImageResource(R.drawable.ic_dialog_noncheck_star)
         }
         model.userStarRate = clickedNumber.toString()
 
     }
-    private fun setStarInFB(model: CardModel){
+
+    private fun setStarInFB(model: CardModel) {
         VM.setStarInFB(model, id)
     }
+
     private fun initialTablayout() {
         binding.tablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
@@ -318,6 +328,7 @@ class UserFragment : Fragment(), ClickItemUser {
                     getID("cocktail")
                 }
             }
+
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
             override fun onTabReselected(tab: TabLayout.Tab?) {}
         })

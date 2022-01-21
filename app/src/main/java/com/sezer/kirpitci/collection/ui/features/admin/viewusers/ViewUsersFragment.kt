@@ -45,9 +45,11 @@ class ViewUsersFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         super.onViewCreated(view, savedInstanceState)
     }
-    private fun initialUI(){
+
+    private fun initialUI() {
         MyApp.appComponent.inject(this)
     }
+
     fun getUsers() {
         VM.getUsers().observe(viewLifecycleOwner, Observer {
             adapter.swap(it)

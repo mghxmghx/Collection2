@@ -1,7 +1,6 @@
 package com.sezer.kirpitci.collection.ui.features.user.ui.notifications.personalinfo
 
 import androidx.lifecycle.ViewModel
-import com.sezer.kirpitci.collection.ui.features.user.ui.notifications.settings.PersonalSettingsViewModel
 import com.sezer.kirpitci.collection.utis.others.ViewModelKey
 import dagger.Binds
 import dagger.Module

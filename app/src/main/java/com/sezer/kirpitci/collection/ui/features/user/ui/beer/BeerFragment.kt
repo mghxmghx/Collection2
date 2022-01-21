@@ -1,7 +1,7 @@
 package com.sezer.kirpitci.collection.ui.features.user.ui.beer
 
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -9,8 +9,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.Switch
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -24,17 +27,8 @@ import com.sezer.kirpitci.collection.ui.features.registration.CardModel
 import com.sezer.kirpitci.collection.utis.adapters.ClickItemUser
 import com.sezer.kirpitci.collection.utis.adapters.DetailRecyclerAdapter
 import com.sezer.kirpitci.collection.utis.others.ViewModelFactory
-import com.sezer.kirpitci.collection.utis.updateWithUrl
-import javax.inject.Inject
-import android.widget.CompoundButton
-import android.widget.TextView
 import com.sezer.kirpitci.collection.utis.updateWithUrlWithStatus
-import android.app.Activity
-
-import androidx.core.content.ContextCompat.getSystemService
-
-import android.view.inputmethod.InputMethodManager
-import androidx.core.content.ContextCompat
+import javax.inject.Inject
 
 
 class BeerFragment : Fragment(), ClickItemUser {
@@ -43,7 +37,7 @@ class BeerFragment : Fragment(), ClickItemUser {
     private lateinit var binding: FragmentBeerBinding
     private lateinit var VM: BeerFragmentViewModel
     private lateinit var adapter: DetailRecyclerAdapter
-    private var categoryTemp: String=""
+    private var categoryTemp: String = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -63,48 +57,56 @@ class BeerFragment : Fragment(), ClickItemUser {
         initialSearch()
         super.onViewCreated(view, savedInstanceState)
     }
-    private fun initialUI(){
+
+    private fun initialUI() {
         MyApp.appComponent.inject(this)
     }
+
     private fun initialVM() {
         VM = ViewModelProvider(this, viewModelFactory)[BeerFragmentViewModel::class.java]
     }
-    private fun initialSearch(){
-        binding.searchAlcoholText.addTextChangedListener(object: TextWatcher{
+
+    private fun initialSearch() {
+        binding.searchAlcoholText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
+
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if(p0.toString().length>=3){
+                if (p0.toString().length >= 3) {
                     searchData(alcoholName = p0.toString())
-                }
-                else if(p0.toString().length == 0){
+                } else if (p0.toString().length == 0) {
                     getID(categoryTemp)
                 }
             }
+
             override fun afterTextChanged(p0: Editable?) {
             }
 
         })
     }
+
     private lateinit var id: String
-    private fun getID(category: String){
+    private fun getID(category: String) {
         VM.getUserID().observe(viewLifecycleOwner, Observer {
             id = it
             getData(category, it)
         })
     }
-    private fun searchData(alcoholName: String){
+
+    private fun searchData(alcoholName: String) {
         VM.searchCards(alcoholName, categoryTemp, id).observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
         })
     }
+
     @SuppressLint("NotifyDataSetChanged")
     private fun getData(category: String, s: String) {
         VM.getCards(category, s).observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
-          //  adapter.notifyDataSetChanged()
+            //  adapter.notifyDataSetChanged()
         })
     }
+
     fun initialRecyler() {
         adapter = DetailRecyclerAdapter(this)
         binding.userCardsRecycler.layoutManager = GridLayoutManager(context, 2)
@@ -114,25 +116,30 @@ class BeerFragment : Fragment(), ClickItemUser {
     override fun clicked(model: CardModel) {
         checkClickedLayout(model)
     }
+
     private fun isCheckVM(checked: Boolean, model: CardModel) {
         VM.setCheck(checked, model, id).observe(viewLifecycleOwner, Observer {
-            if(it) {
-             //   initialRecyler()
-             //   getData(categoryTemp,id)
+            if (it) {
+                //   initialRecyler()
+                //   getData(categoryTemp,id)
             }
         })
     }
-    fun hideKeyboard(view:View){
-        val inputMethodManager = context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+
+    fun hideKeyboard(view: View) {
+        val inputMethodManager =
+            context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
-    private fun focusListener(){
-        binding.searchAlcoholText.setOnFocusChangeListener(OnFocusChangeListener { v, hasFocus ->
+
+    private fun focusListener() {
+        binding.searchAlcoholText.onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
             if (!hasFocus) {
                 hideKeyboard(v)
             }
-        })
+        }
     }
+
     private fun checkClickedLayout(model: CardModel) {
         val view = layoutInflater.inflate(R.layout.detail_dialog_content, null)
         val dialog = context?.let { it1 ->
@@ -156,17 +163,17 @@ class BeerFragment : Fragment(), ClickItemUser {
         val isCheck = view.findViewById<Switch>(R.id.isCheckForAlcohol)
         isCheck.isChecked = model.status.toBoolean()
         isCheck.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
-            if (isCheck.isChecked()) {
-                isCheckVM(isCheck.isChecked(), model)
+            if (isCheck.isChecked) {
+                isCheckVM(isCheck.isChecked, model)
             } else {
-                isCheckVM(isCheck.isChecked(), model)
+                isCheckVM(isCheck.isChecked, model)
             }
         })
         image.updateWithUrlWithStatus(model.cardPath, image, true.toString())
         closeButton.setOnClickListener {
             if (dialog != null) {
                 dialog.cancel()
-                (view.getParent() as ViewGroup).removeView(view)
+                (view.parent as ViewGroup).removeView(view)
             }
         }
         if (dialog != null) {

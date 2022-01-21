@@ -15,7 +15,8 @@ import javax.inject.Inject
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
-class AdminViewCardViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase) : ViewModel() {
+class AdminViewCardViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase) :
+    ViewModel() {
     var quote: MutableLiveData<List<ViewCardModel>>? = getCards()
     fun getCards(): MutableLiveData<List<ViewCardModel>> {
 
@@ -105,9 +106,10 @@ class AdminViewCardViewModel @Inject constructor(val firebaseDatabase: FirebaseD
         reqestDB.child(newModel.cardID).child("cardName").setValue(newModel.cardName)
         reqestDB.child(newModel.cardID).child("cardInfo").setValue(newModel.cardInfo)
         reqestDB.child(newModel.cardID).child("cardPath").setValue(newModel.cardPath)
-        reqestDB.child(newModel.cardID).child("cardPrice").setValue(newModel.cardPrice).addOnCompleteListener{
-            isSuccess.value= it.isSuccessful.toString()
-        }
+        reqestDB.child(newModel.cardID).child("cardPrice").setValue(newModel.cardPrice)
+            .addOnCompleteListener {
+                isSuccess.value = it.isSuccessful.toString()
+            }
         return isSuccess
     }
 

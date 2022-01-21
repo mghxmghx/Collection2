@@ -41,9 +41,11 @@ class RegistrationFragment : Fragment() {
         clickListeners()
         super.onViewCreated(view, savedInstanceState)
     }
-    private fun initialUI(){
+
+    private fun initialUI() {
         MyApp.appComponent.inject(this)
     }
+
     private fun initialVM() {
         VM = ViewModelProvider(this, viewModelFactory)[RegistrationViewModel::class.java]
 
@@ -54,7 +56,9 @@ class RegistrationFragment : Fragment() {
             if (!binding.mail.text.toString().isEmpty() && !binding.password.text.toString()
                     .isEmpty()
             ) {
-                if(binding.password.text.toString().equals(binding.confirmPassword.text.toString())){
+                if (binding.password.text.toString()
+                        .equals(binding.confirmPassword.text.toString())
+                ) {
                     getMaxID()
                 } else {
                     getString(R.string.notConfirm)
@@ -65,12 +69,13 @@ class RegistrationFragment : Fragment() {
         }
     }
 
-    private fun getMaxID(){
+    private fun getMaxID() {
         VM.getMaxId().observe(viewLifecycleOwner, Observer {
-            Log.d("TAG", "getMaxID: "+ it)
+            Log.d("TAG", "getMaxID: " + it)
             createUser(it)
         })
     }
+
     private fun createUser(i: Int) {
         val model = CreateUserModel(binding.mail.text.toString(), binding.password.text.toString())
         VM.createUser(model)
@@ -81,7 +86,7 @@ class RegistrationFragment : Fragment() {
                             binding.mail.text.toString(),
                             binding.name.text.toString(),
                             "user",
-                            (i+1).toString()
+                            (i + 1).toString()
                         )
                     )
                 } else {
@@ -90,6 +95,7 @@ class RegistrationFragment : Fragment() {
                 }
             })
     }
+
     private fun addUserStatus(model: AddUserModel) {
         VM.createStatus(model).observe(viewLifecycleOwner, Observer {
             if (it) {

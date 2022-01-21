@@ -15,19 +15,20 @@ class PersonalInfoViewModel @Inject constructor(
         val model = MutableLiveData<PersonalInfoModel>()
         firebaseDatabase.getReference("users").child(id).get().addOnSuccessListener {
             model.value = PersonalInfoModel(
-                it.child("email").getValue().toString(),
-                it.child("status").getValue().toString(),
-                it.child("userID").getValue().toString(),
-                it.child("userName").getValue().toString()
+                it.child("email").value.toString(),
+                it.child("status").value.toString(),
+                it.child("userID").value.toString(),
+                it.child("userName").value.toString()
             )
         }
         return model
     }
+
     fun getUserID(): MutableLiveData<String> {
         val userID = MutableLiveData<String>()
         firebaseDatabase.getReference("users").get().addOnSuccessListener {
             for (i in it.children) {
-                if (i.child("email").getValue().toString()
+                if (i.child("email").value.toString()
                         .equals(auth.currentUser?.email.toString())
                 ) {
                     userID.value = i.key.toString()
@@ -36,14 +37,16 @@ class PersonalInfoViewModel @Inject constructor(
         }
         return userID
     }
-    fun deleteAccount(): MutableLiveData<Boolean>{
+
+    fun deleteAccount(): MutableLiveData<Boolean> {
         val isSuccess = MutableLiveData<Boolean>()
         FirebaseAuth.getInstance().currentUser?.delete()?.addOnCompleteListener {
             isSuccess.value = it.isSuccessful
         }
         return isSuccess
     }
-    fun deleteAccountRTDB(id:String): MutableLiveData<Boolean>{
+
+    fun deleteAccountRTDB(id: String): MutableLiveData<Boolean> {
         val user = FirebaseAuth.getInstance().currentUser?.email
         val isSuccess = MutableLiveData<Boolean>()
         val db = FirebaseDatabase.getInstance().getReference("users")
@@ -52,19 +55,20 @@ class PersonalInfoViewModel @Inject constructor(
         }
         return isSuccess
     }
-        fun changePassword(password: String): MutableLiveData<Boolean>{
-            val isSuccess = MutableLiveData<Boolean>()
-            val user = FirebaseAuth.getInstance().currentUser
 
-            user!!.updatePassword(password).addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    isSuccess.value = task.isSuccessful
-                    println("Update Success")
-                } else {
-                    isSuccess.value = task.isSuccessful
-                    println("Erorr Update")
-                }
+    fun changePassword(password: String): MutableLiveData<Boolean> {
+        val isSuccess = MutableLiveData<Boolean>()
+        val user = FirebaseAuth.getInstance().currentUser
+
+        user!!.updatePassword(password).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                isSuccess.value = task.isSuccessful
+                println("Update Success")
+            } else {
+                isSuccess.value = task.isSuccessful
+                println("Erorr Update")
             }
-            return isSuccess
         }
+        return isSuccess
+    }
 }

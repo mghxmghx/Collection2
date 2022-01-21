@@ -3,6 +3,6 @@ package com.sezer.kirpitci.collection.ui.features.user.ui.notifications.analytic
 import androidx.lifecycle.ViewModel
 import javax.inject.Inject
 
-class PersonalAnalyticsViewModel@Inject constructor() : ViewModel() {
+class PersonalAnalyticsViewModel @Inject constructor() : ViewModel() {
     // TODO: Implement the ViewModel
 }

@@ -74,11 +74,13 @@ class LoginFragment : Fragment() {
             auth()
         }
     }
-    private fun onPreExecute(){
+
+    private fun onPreExecute() {
         progressDialog.setMessage("Giriş yapılıyor..")
         progressDialog.show()
     }
-    private fun onPostExecute(){
+
+    private fun onPostExecute() {
         progressDialog.dismiss()
     }
 

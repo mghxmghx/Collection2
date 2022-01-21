@@ -15,9 +15,11 @@ import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 
-class AdminAddCardViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase,
-        val firebaseStorage: FirebaseStorage,
-        val firebaseFirestore: FirebaseFirestore) : ViewModel() {
+class AdminAddCardViewModel @Inject constructor(
+    val firebaseDatabase: FirebaseDatabase,
+    val firebaseStorage: FirebaseStorage,
+    val firebaseFirestore: FirebaseFirestore
+) : ViewModel() {
     fun getMaxId(): MutableLiveData<Int> {
         val db = firebaseDatabase.getReference("cards")
         val lastInt = MutableLiveData<Int>()
@@ -42,6 +44,7 @@ class AdminAddCardViewModel @Inject constructor(val firebaseDatabase: FirebaseDa
         }
         return isSuccess
     }
+
     fun setChildImage(filePath: Uri, imageID: String): MutableLiveData<String> {
         val isSuccess = MutableLiveData<String>()
         if (!filePath.toString().equals("default")) {
@@ -82,15 +85,16 @@ class AdminAddCardViewModel @Inject constructor(val firebaseDatabase: FirebaseDa
         }
         return isSuccess
     }
-    fun checkUserList(): MutableLiveData<List<AddCardUserModel>>{
+
+    fun checkUserList(): MutableLiveData<List<AddCardUserModel>> {
         val list = MutableLiveData<List<AddCardUserModel>>()
         val tempList = ArrayList<AddCardUserModel>()
         firebaseDatabase.getReference("users").get().addOnSuccessListener {
-            for(child in it.children){
+            for (child in it.children) {
                 tempList.add(
                     AddCardUserModel(
                         child.key.toString(),
-                        child.child("email").getValue().toString(),
+                        child.child("email").value.toString(),
                         false.toString()
                     )
                 )
@@ -99,11 +103,13 @@ class AdminAddCardViewModel @Inject constructor(val firebaseDatabase: FirebaseDa
         }
         return list
     }
-    fun addUserUnderCard(list: List<AddCardUserModel>, cardID: String): MutableLiveData<Boolean>{
+
+    fun addUserUnderCard(list: List<AddCardUserModel>, cardID: String): MutableLiveData<Boolean> {
         val isSucces = MutableLiveData<Boolean>()
-        firebaseDatabase.getReference("cards").child(cardID).child("users").setValue(list).addOnCompleteListener{
-            isSucces.value = it.isSuccessful
-        }
+        firebaseDatabase.getReference("cards").child(cardID).child("users").setValue(list)
+            .addOnCompleteListener {
+                isSucces.value = it.isSuccessful
+            }
         return isSucces
     }
 }

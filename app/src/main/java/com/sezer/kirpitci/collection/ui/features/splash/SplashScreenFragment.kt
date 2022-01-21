@@ -55,9 +55,11 @@ class SplashScreenFragment : Fragment() {
             "innitialShared: " + sharedPreferencesClass.getEmail() + " " + sharedPreferencesClass.getPassword()
         )
     }
-    private fun initialUI(){
+
+    private fun initialUI() {
         MyApp.appComponent.inject(this)
     }
+
     fun innitialVM() {
         VM = ViewModelProvider(this, viewModelFactory)[SplashViewModel::class.java]
     }

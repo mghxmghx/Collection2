@@ -6,7 +6,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.sezer.kirpitci.collection.ui.features.registration.calisma.TrainingModelReal
 import javax.inject.Inject
 
-class ViewUsersViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase): ViewModel() {
+class ViewUsersViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase) : ViewModel() {
 
     fun getUsers(): MutableLiveData<List<TrainingModelReal>> {
         val list = MutableLiveData<List<TrainingModelReal>>()

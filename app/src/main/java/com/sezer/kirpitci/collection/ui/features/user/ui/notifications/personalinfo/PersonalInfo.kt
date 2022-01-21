@@ -9,8 +9,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
-import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.databinding.PersonalInfoFragmentBinding
 import com.sezer.kirpitci.collection.di.MyApp
 import com.sezer.kirpitci.collection.ui.features.MainActivity
@@ -23,11 +21,13 @@ class PersonalInfo : Fragment() {
     companion object {
         fun newInstance() = PersonalInfo()
     }
+
     private lateinit var binding: PersonalInfoFragmentBinding
     private lateinit var viewModel: PersonalInfoViewModel
+
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-    private lateinit var sharedPreferencesClass : SharedPreferencesClass
+    private lateinit var sharedPreferencesClass: SharedPreferencesClass
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,22 +43,26 @@ class PersonalInfo : Fragment() {
         clickListeners()
         super.onActivityCreated(savedInstanceState)
     }
-    private fun initialUI(){
+
+    private fun initialUI() {
         MyApp.appComponent.inject(this)
     }
+
     private fun initialVM() {
         viewModel = ViewModelProvider(this, viewModelFactory)[PersonalInfoViewModel::class.java]
     }
-    private fun getUserId(){
+
+    private fun getUserId() {
         viewModel.getUserID().observe(viewLifecycleOwner, Observer {
-            if(!it.isNullOrEmpty()){
+            if (!it.isNullOrEmpty()) {
                 getUserDetail(it)
             }
         })
     }
-    private fun clickListeners(){
+
+    private fun clickListeners() {
         binding.changePassword.setOnClickListener {
-            if(binding.newPassword.text.toString().length>=6){
+            if (binding.newPassword.text.toString().length >= 6) {
                 changePassword(binding.newPassword.text.toString())
             }
         }
@@ -69,16 +73,18 @@ class PersonalInfo : Fragment() {
             logOut()
         }
     }
+
     private fun changePassword(newPassword: String) {
         viewModel.changePassword(newPassword).observe(viewLifecycleOwner, Observer {
-            if(it){
+            if (it) {
                 Toast.makeText(context, "Pasword Changed!", Toast.LENGTH_LONG).show()
             }
         })
     }
-    private fun deleteUser(){
+
+    private fun deleteUser() {
         viewModel.deleteAccount().observe(viewLifecycleOwner, Observer {
-            if(it){
+            if (it) {
                 viewModel.deleteAccountRTDB(binding.userID.text.toString()).observe(
                     viewLifecycleOwner, Observer {
                         Toast.makeText(context, "Your account deleted!", Toast.LENGTH_LONG).show()
@@ -90,24 +96,28 @@ class PersonalInfo : Fragment() {
             }
         })
     }
-    private fun logOut(){
-       initialShared()
+
+    private fun logOut() {
+        initialShared()
         logoutSet()
         val intent = Intent(activity, MainActivity::class.java)
         startActivity(intent)
         requireActivity().finish()
     }
+
     private fun initialShared() {
         sharedPreferencesClass = SharedPreferencesClass()
         //sharedPreferencesClass.instantPref()
         context?.let { sharedPreferencesClass.instantPref(it) }
 
     }
-    private fun logoutSet(){
+
+    private fun logoutSet() {
         sharedPreferencesClass.addUserEmail("")
         sharedPreferencesClass.addUserPassword("")
     }
-    private fun getUserDetail(id: String){
+
+    private fun getUserDetail(id: String) {
         viewModel.getDetails(id).observe(viewLifecycleOwner, Observer {
             binding.userID.text = it.userID
             binding.userMail.text = it.email

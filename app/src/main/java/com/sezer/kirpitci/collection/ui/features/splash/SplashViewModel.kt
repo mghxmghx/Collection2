@@ -6,8 +6,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import javax.inject.Inject
 
-class SplashViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase,
-                                          val auth: FirebaseAuth): ViewModel() {
+class SplashViewModel @Inject constructor(
+    val firebaseDatabase: FirebaseDatabase,
+    val auth: FirebaseAuth
+) : ViewModel() {
     fun auth(id: String, password: String): MutableLiveData<Boolean> {
         val isSuccess = MutableLiveData<Boolean>()
         if (!id.isEmpty() && !password.isEmpty()) {

@@ -67,9 +67,11 @@ class AdminViewCardFragment : Fragment(), ClickListener {
         binding.cardRecycler.layoutManager = LinearLayoutManager(context)
         binding.cardRecycler.adapter = adapterX
     }
-    private fun initialUI(){
+
+    private fun initialUI() {
         MyApp.appComponent.inject(this)
     }
+
     private fun initialVM() {
         VM = ViewModelProvider(this, viewModelFactory)[AdminViewCardViewModel::class.java]
 
@@ -81,6 +83,7 @@ class AdminViewCardFragment : Fragment(), ClickListener {
             adapterX.notifyDataSetChanged()
         })
     }
+
     private fun updateCard(model: ViewCardModel) {
         view1 = layoutInflater.inflate(R.layout.dialog_card_update, null)
 
@@ -173,14 +176,14 @@ class AdminViewCardFragment : Fragment(), ClickListener {
             if (uri.equals("")) {
                 uri = "default"
             }
-            if(!uri.equals("default")){
+            if (!uri.equals("default")) {
                 VM.setChildImage(uri.toUri(), Timestamp(System.currentTimeMillis()).toString())
                     .observe(viewLifecycleOwner, Observer {
                         model.cardPath = it
-                            VM.updateCard(model).observe(viewLifecycleOwner, Observer {
-                                getData()
-                                uri = ""
-                            })
+                        VM.updateCard(model).observe(viewLifecycleOwner, Observer {
+                            getData()
+                            uri = ""
+                        })
                     })
             } else {
                 VM.updateCard(model).observe(viewLifecycleOwner, Observer {

@@ -1,7 +1,6 @@
 package com.sezer.kirpitci.collection.ui.features.admin.viewusers
 
 import androidx.lifecycle.ViewModel
-import com.sezer.kirpitci.collection.ui.features.admin.viewcard.AdminViewCardViewModel
 import com.sezer.kirpitci.collection.utis.others.ViewModelKey
 import dagger.Binds
 import dagger.Module

@@ -50,7 +50,8 @@ class AdminAddCardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
     }
-    private fun initialUI(){
+
+    private fun initialUI() {
         MyApp.appComponent.inject(this)
     }
 
@@ -151,7 +152,9 @@ class AdminAddCardFragment : Fragment() {
                             cardCountry,
                             cardCity,
                             cardPrice,
-                            uri
+                            uri,
+                            "0",
+                            "0"
                         )
                     )
 
@@ -161,11 +164,13 @@ class AdminAddCardFragment : Fragment() {
         }
 
     }
+
     private fun getUserList(cardID: String) {
         VM.checkUserList().observe(viewLifecycleOwner, Observer {
             addUsersUnderCard(it, cardID)
         })
     }
+
     private fun addUsersUnderCard(list: List<AddCardUserModel>, cardID: String) {
         VM.addUserUnderCard(list, cardID).observe(viewLifecycleOwner, Observer {
             binding.addCardNameText.setText("")
@@ -175,15 +180,17 @@ class AdminAddCardFragment : Fragment() {
             binding.cardPriceText.setText("")
             binding.cardInfoText.setText("")
             binding.imageView2.resetImage(binding.imageView2)
-            Toast.makeText(context,"asd",Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "asd", Toast.LENGTH_SHORT).show()
         })
     }
+
     private fun addCard(model: AddCardModel) {
-        VM.setChildImage(model.cardPath.toUri(),model.cardID).observe(viewLifecycleOwner, Observer {
-            model.cardPath = it
-            VM.addCard(model).observe(viewLifecycleOwner, Observer {
-              getUserList(model.cardID)
+        VM.setChildImage(model.cardPath.toUri(), model.cardID)
+            .observe(viewLifecycleOwner, Observer {
+                model.cardPath = it
+                VM.addCard(model).observe(viewLifecycleOwner, Observer {
+                    getUserList(model.cardID)
+                })
             })
-        })
     }
 }
