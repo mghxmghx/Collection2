@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.ui.features.admin.viewcard.ViewCardModel
-import com.sezer.kirpitci.collection.utis.updateWithUrl
 import com.sezer.kirpitci.collection.utis.updateWithUrlWithStatus
 
 class AdminViewCardAdapter(private val listener: ClickListener) :

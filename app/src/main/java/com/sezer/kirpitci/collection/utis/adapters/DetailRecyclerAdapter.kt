@@ -10,12 +10,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.ui.features.registration.CardModel
-import com.sezer.kirpitci.collection.utis.updateWithUrl
 import com.sezer.kirpitci.collection.utis.updateWithUrlWithStatus
 
-class DetailRecyclerAdapter(val listener: ClickItemUser) : ListAdapter<CardModel, DetailRecyclerAdapter.WorkerHolder>(
-    diffCallback
-) {
+class DetailRecyclerAdapter(val listener: ClickItemUser) :
+    ListAdapter<CardModel, DetailRecyclerAdapter.WorkerHolder>(
+        diffCallback
+    ) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkerHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(
             R.layout.item_detail,
@@ -27,15 +27,21 @@ class DetailRecyclerAdapter(val listener: ClickItemUser) : ListAdapter<CardModel
 
     override fun onBindViewHolder(holder: WorkerHolder, position: Int) {
         with(getItem(position)) {
-            holder.cardImage.updateWithUrlWithStatus(this.cardPath, holder.cardImage, true.toString())
+            holder.cardImage.updateWithUrlWithStatus(
+                this.cardPath,
+                holder.cardImage,
+                true.toString()
+            )
             holder.nameText.text = this.cardName
         }
     }
+
     inner class WorkerHolder(iv: View) : RecyclerView.ViewHolder(iv) {
         val cardImage: ImageView = itemView.findViewById(R.id.user_card_view_image)
         val nameText: TextView = itemView.findViewById(R.id.detailAlcoholName)
+
         init {
-            itemView.setOnClickListener{
+            itemView.setOnClickListener {
                 listener.clicked(getItem(adapterPosition))
             }
         }

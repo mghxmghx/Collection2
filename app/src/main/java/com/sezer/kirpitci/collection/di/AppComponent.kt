@@ -61,7 +61,7 @@ interface AppComponent {
     fun inject(userFragment: UserFragment)
     fun inject(beerFragment: BeerFragment)
     fun inject(homePageFragment: HomePageFragment)
-    fun inject(personalInfo:PersonalInfo)
+    fun inject(personalInfo: PersonalInfo)
     fun inject(personalAnalytics: PersonalAnalytics)
     fun inject(settingsFragment: SettingsFragment)
     fun inject(mainActivity: MainActivity)

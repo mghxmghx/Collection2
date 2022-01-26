@@ -187,11 +187,17 @@ class BeerFragment : Fragment(), ClickItemUser {
             dialog.show()
         }
     }
-    private fun setBackgrounds(model: CardModel, view: View){
-        Log.d("TAG", "setBackgrounds: " + model.cardAverage.toString().toFloat().toInt() + " " + model.voteCount)
+
+    private fun setBackgrounds(model: CardModel, view: View) {
+        Log.d("TAG",
+            "setBackgrounds: " + model.cardAverage.toString().toFloat()
+                .toInt() + " " + model.voteCount
+        )
         var averageRate = 0
-        if(!model.cardAverage.toString().equals("0") && !model.voteCount.toString().equals("0")){
-             averageRate = (model.cardAverage.toString().toFloat().toInt()/model.voteCount.toString().toInt())
+        if (!model.cardAverage.toString().equals("0") && !model.voteCount.toString().equals("0")) {
+            averageRate =
+                (model.cardAverage.toString().toFloat().toInt() / model.voteCount.toString()
+                    .toInt())
         }
         val list = ArrayList<ImageView>()
         list.add(view.findViewById(R.id.dialog_star_one))

@@ -38,8 +38,7 @@ class AdapterX(initCList: List<ViewCardModel>, val listener: ClickListener) :
         deleteButton.setOnClickListener {
             if (modelList.size == 1) {
                 listener.itemDeleteClick(modelList[0])
-            }
-            else {
+            } else {
                 listener.itemDeleteClick(modelList[position])
             }
         }

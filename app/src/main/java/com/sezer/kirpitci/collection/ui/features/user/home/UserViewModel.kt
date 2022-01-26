@@ -1,6 +1,5 @@
 package com.sezer.kirpitci.collection.ui.features.user.home
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
@@ -29,7 +28,8 @@ class UserViewModel @Inject constructor(
 
     fun setStarInFB(model: CardModel, userID: String, oldVote: String?, newVote: String) {
         setAverage(model, oldVote, newVote)
-        firebaseDatabase.getReference("cards").child(model.cardID).child("voteCount").setValue(model.voteCount).addOnSuccessListener {
+        firebaseDatabase.getReference("cards").child(model.cardID).child("voteCount")
+            .setValue(model.voteCount).addOnSuccessListener {
             firebaseDatabase.getReference("cards").get().addOnSuccessListener {
                 for (child in it.children) {
                     if (child.child("cardID").value.toString().equals(model.cardID)) {
@@ -56,9 +56,10 @@ class UserViewModel @Inject constructor(
             }
         }
     }
+
     private fun compareOldNew(oldVote: String?, newVote: String): Int {
         var vote = 0
-        if(oldVote.equals("null")){
+        if (oldVote.equals("null")) {
             vote = newVote.toInt()
         } else {
             vote = newVote.toInt() - oldVote.toString().toInt()
@@ -66,12 +67,13 @@ class UserViewModel @Inject constructor(
         return vote
     }
 
-    private fun setAverage(model: CardModel, oldVote: String?, newVote: String){
-       val diff =  compareOldNew(oldVote, newVote)
+    private fun setAverage(model: CardModel, oldVote: String?, newVote: String) {
+        val diff = compareOldNew(oldVote, newVote)
         firebaseDatabase.getReference("cards").child(model.cardID).get().addOnSuccessListener {
-           val cardAverage = it.child("cardAverage").getValue().toString().toFloat() //6
-            val newRate = cardAverage+diff
-            firebaseDatabase.getReference("cards").child(model.cardID).child("cardAverage").setValue(newRate.toString())
+            val cardAverage = it.child("cardAverage").value.toString().toFloat() //6
+            val newRate = cardAverage + diff
+            firebaseDatabase.getReference("cards").child(model.cardID).child("cardAverage")
+                .setValue(newRate.toString())
         }
     }
 
@@ -97,8 +99,9 @@ class UserViewModel @Inject constructor(
                                 .toString(),
                             child.child("users").child(userID).child("userStarRate").value
                                 .toString(),
-                            voteCount = child.child("voteCount").getValue().toString(),
-                            userVoted = child.child("users").child(userID).child("userVoted").getValue().toString()
+                            voteCount = child.child("voteCount").value.toString(),
+                            userVoted = child.child("users").child(userID).child("userVoted")
+                                .value.toString()
                         )
                     )
                 }
@@ -157,18 +160,18 @@ class UserViewModel @Inject constructor(
                 if (child.child("cardID").value.toString().equals(model.cardID)) {
                     firebaseDatabase.getReference("cards").child(child.key.toString())
                         .child("users").get().addOnSuccessListener {
-                        for (i in it.children) {
-                            if (i.key.toString().equals(userID)) {
-                                firebaseDatabase.getReference("cards").child(
-                                    child
-                                        .key.toString()
-                                ).child("users").child(userID).child("userCardStatus")
-                                    .setValue(checked.toString()).addOnSuccessListener {
-                                    isSuccess.value = true
+                            for (i in it.children) {
+                                if (i.key.toString().equals(userID)) {
+                                    firebaseDatabase.getReference("cards").child(
+                                        child
+                                            .key.toString()
+                                    ).child("users").child(userID).child("userCardStatus")
+                                        .setValue(checked.toString()).addOnSuccessListener {
+                                            isSuccess.value = true
+                                        }
                                 }
                             }
                         }
-                    }
                 }
             }
         }

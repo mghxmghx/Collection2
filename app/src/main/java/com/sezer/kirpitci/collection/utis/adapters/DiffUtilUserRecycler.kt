@@ -1,7 +1,6 @@
 package com.sezer.kirpitci.collection.utis.adapters
 
 import androidx.recyclerview.widget.DiffUtil
-import com.sezer.kirpitci.collection.ui.features.admin.viewcard.ViewCardStatusModel
 import com.sezer.kirpitci.collection.ui.features.registration.CardModel
 
 

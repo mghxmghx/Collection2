@@ -11,14 +11,13 @@ import com.squareup.picasso.Picasso
 fun ImageView.updateWithUrlWithStatus(url: String, imageViewAvatar: ImageView, status: String) {
 
     if (!url.equals("default")) {
-        if(status.equals("true")){
+        if (status.equals("true")) {
             Glide.with(context).load(url).into(imageViewAvatar)
-        }
-        else {
-             val colorMatrix = ColorMatrix()
+        } else {
+            val colorMatrix = ColorMatrix()
             colorMatrix.setSaturation(0f)
             val filter = ColorMatrixColorFilter(colorMatrix)
-            imageViewAvatar.setColorFilter(filter)
+            imageViewAvatar.colorFilter = filter
             Glide.with(context).load(url).into(imageViewAvatar)
         }
 
@@ -31,10 +30,10 @@ fun ImageView.updateWithUrl(url: String, imageViewAvatar: ImageView) {
 
     if (!url.equals("default")) {
 
-            Log.d("TAG", "updateWithUrl: --------------" + url)
-            Picasso.get()
-                .load(url).fit().centerInside()
-                .into(imageViewAvatar)
+        Log.d("TAG", "updateWithUrl: --------------" + url)
+        Picasso.get()
+            .load(url).fit().centerInside()
+            .into(imageViewAvatar)
     } else {
         Glide.with(context).load(R.drawable.ic_add_new_card_image).into(imageViewAvatar)
         Log.d("TAG", "onBindViewHolder: +++++++")

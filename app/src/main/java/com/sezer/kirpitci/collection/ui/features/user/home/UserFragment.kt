@@ -144,8 +144,8 @@ class UserFragment : Fragment(), ClickItemUser {
     private fun getData(category: String, id: String) {
         VM.getCards(category, id).observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
-            Log.d("TAG", "getData: "+ it.get(0).voteCount)
-            Log.d("TAG", "getData: "+ it.get(0).cardAverage)
+            Log.d("TAG", "getData: " + it.get(0).voteCount)
+            Log.d("TAG", "getData: " + it.get(0).cardAverage)
             Log.d("TAG", "getData: " + it.size)
             countAlcoholStatus(it, "default")
         })
@@ -291,8 +291,8 @@ class UserFragment : Fragment(), ClickItemUser {
         val oldVote = model.userStarRate
         val newVote = i.toString()
         model.userStarRate = i.toString()
-        Log.d("TAG", "starControl: "+ model.userStarRate)
-        if(model.userVoted.equals("null") || model.userVoted.equals("false")){
+        Log.d("TAG", "starControl: " + model.userStarRate)
+        if (model.userVoted.equals("null") || model.userVoted.equals("false")) {
             model.voteCount = (model.voteCount?.toInt()?.plus(1)).toString()
             model.userVoted = true.toString()
         }

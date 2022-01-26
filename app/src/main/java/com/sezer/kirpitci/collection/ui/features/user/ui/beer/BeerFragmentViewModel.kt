@@ -42,12 +42,12 @@ class BeerFragmentViewModel @Inject constructor(
                             child.child("cardCity").value.toString(),
                             child.child("cardPrice").value.toString(),
                             child.child("cardPath").value.toString(),
-                           cardAverage =  child.child("cardAverage").value.toString(),
+                            cardAverage = child.child("cardAverage").value.toString(),
                             child.child("users").child(userID).child("userCardStatus").value
                                 .toString(),
                             child.child("users").child(userID).child("userStarRate").value
                                 .toString(),
-                            voteCount = child.child("voteCount").getValue().toString(),
+                            voteCount = child.child("voteCount").value.toString(),
                         )
                     )
                 }
@@ -106,18 +106,18 @@ class BeerFragmentViewModel @Inject constructor(
                 if (child.child("cardID").value.toString().equals(model.cardID)) {
                     firebaseDatabase.getReference("cards").child(child.key.toString())
                         .child("users").get().addOnSuccessListener {
-                        for (i in it.children) {
-                            if (i.key.toString().equals(userID)) {
-                                firebaseDatabase.getReference("cards").child(
-                                    child
-                                        .key.toString()
-                                ).child("users").child(userID).child("userCardStatus")
-                                    .setValue(checked.toString()).addOnCompleteListener {
-                                    isSuccess.value = it.isSuccessful
+                            for (i in it.children) {
+                                if (i.key.toString().equals(userID)) {
+                                    firebaseDatabase.getReference("cards").child(
+                                        child
+                                            .key.toString()
+                                    ).child("users").child(userID).child("userCardStatus")
+                                        .setValue(checked.toString()).addOnCompleteListener {
+                                            isSuccess.value = it.isSuccessful
+                                        }
                                 }
                             }
                         }
-                    }
                 }
             }
         }
