@@ -42,11 +42,12 @@ class BeerFragmentViewModel @Inject constructor(
                             child.child("cardCity").value.toString(),
                             child.child("cardPrice").value.toString(),
                             child.child("cardPath").value.toString(),
-                            child.child("cardStarAverage").value.toString(),
+                           cardAverage =  child.child("cardAverage").value.toString(),
                             child.child("users").child(userID).child("userCardStatus").value
                                 .toString(),
                             child.child("users").child(userID).child("userStarRate").value
-                                .toString()
+                                .toString(),
+                            voteCount = child.child("voteCount").getValue().toString(),
                         )
                     )
                 }

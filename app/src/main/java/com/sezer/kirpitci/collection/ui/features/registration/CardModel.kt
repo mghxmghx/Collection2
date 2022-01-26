@@ -9,7 +9,9 @@ data class CardModel(
     var cardCity: String?,
     var cardPrice: String?,
     var cardPath: String,
-    var cardStarAverage: String?,
+    var cardAverage: String?,
     var status: String,
-    var userStarRate: String?
+    var userStarRate: String?,
+    var voteCount: String? = null,
+    var userVoted: String? = null
 )

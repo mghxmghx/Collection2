@@ -22,4 +22,9 @@
         android:name="com.sezer.kirpitci.collection.ui.features.user.ui.notifications.panel.PersonalFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.sezer.kirpitci.collection.ui.features.user.ui.generalanalysis.GeneralAnalysisFragment"
+        android:label="@string/title_notifications"
+        tools:layout="@layout/fragment_general_analysis" />
 </navigation>

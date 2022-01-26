@@ -15,6 +15,7 @@ import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.Switch
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -143,6 +144,9 @@ class UserFragment : Fragment(), ClickItemUser {
     private fun getData(category: String, id: String) {
         VM.getCards(category, id).observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
+            Log.d("TAG", "getData: "+ it.get(0).voteCount)
+            Log.d("TAG", "getData: "+ it.get(0).cardAverage)
+            Log.d("TAG", "getData: " + it.size)
             countAlcoholStatus(it, "default")
         })
     }
@@ -240,6 +244,8 @@ class UserFragment : Fragment(), ClickItemUser {
         val priceTw = view.findViewById<TextView>(R.id.alcoholPrice)
         val cityTw = view.findViewById<TextView>(R.id.alcoholCity)
         val infoTw = view.findViewById<TextView>(R.id.alcoholInfo)
+        val voteCount = view.findViewById<TextView>(R.id.voteTotal)
+        voteCount.isVisible = false
         nameTw.text = model.cardName
         countryTw.text = model.cardCounty
         priceTw.text = model.cardPrice
@@ -282,7 +288,15 @@ class UserFragment : Fragment(), ClickItemUser {
 
     private fun starControl(i: Int, view: View, model: CardModel) {
         setBackGrounds(i, view, model)
-        setStarInFB(model)
+        val oldVote = model.userStarRate
+        val newVote = i.toString()
+        model.userStarRate = i.toString()
+        Log.d("TAG", "starControl: "+ model.userStarRate)
+        if(model.userVoted.equals("null") || model.userVoted.equals("false")){
+            model.voteCount = (model.voteCount?.toInt()?.plus(1)).toString()
+            model.userVoted = true.toString()
+        }
+        setStarInFB(model, oldVote, newVote)
     }
 
     private fun setBackGrounds(clickedNumber: Int, view: View, model: CardModel) {
@@ -303,12 +317,10 @@ class UserFragment : Fragment(), ClickItemUser {
         for (t in clickedNumber..9) {
             list.get(t).setImageResource(R.drawable.ic_dialog_noncheck_star)
         }
-        model.userStarRate = clickedNumber.toString()
-
     }
 
-    private fun setStarInFB(model: CardModel) {
-        VM.setStarInFB(model, id)
+    private fun setStarInFB(model: CardModel, oldVote: String?, newVote: String) {
+        VM.setStarInFB(model, id, oldVote, newVote)
     }
 
     private fun initialTablayout() {

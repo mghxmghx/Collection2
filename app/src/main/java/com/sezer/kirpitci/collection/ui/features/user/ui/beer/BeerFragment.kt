@@ -5,6 +5,7 @@ import android.app.Activity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnFocusChangeListener
@@ -155,12 +156,15 @@ class BeerFragment : Fragment(), ClickItemUser {
         val city = view.findViewById<TextView>(R.id.alcoholCity)
         val info = view.findViewById<TextView>(R.id.alcoholInfo)
         val price = view.findViewById<TextView>(R.id.alcoholPrice)
+        val voteTotal = view.findViewById<TextView>(R.id.voteTotal)
         name.text = model.cardName
         country.text = model.cardCounty
         city.text = model.cardCity
         info.text = model.cardInfo
         price.text = model.cardPrice
+        voteTotal.text = "(" + model.voteCount.toString() + ")"
         val isCheck = view.findViewById<Switch>(R.id.isCheckForAlcohol)
+        setBackgrounds(model, view)
         isCheck.isChecked = model.status.toBoolean()
         isCheck.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
             if (isCheck.isChecked) {
@@ -181,6 +185,30 @@ class BeerFragment : Fragment(), ClickItemUser {
         }
         if (dialog != null) {
             dialog.show()
+        }
+    }
+    private fun setBackgrounds(model: CardModel, view: View){
+        Log.d("TAG", "setBackgrounds: " + model.cardAverage.toString().toFloat().toInt() + " " + model.voteCount)
+        var averageRate = 0
+        if(!model.cardAverage.toString().equals("0") && !model.voteCount.toString().equals("0")){
+             averageRate = (model.cardAverage.toString().toFloat().toInt()/model.voteCount.toString().toInt())
+        }
+        val list = ArrayList<ImageView>()
+        list.add(view.findViewById(R.id.dialog_star_one))
+        list.add(view.findViewById(R.id.dialog_star_two))
+        list.add(view.findViewById(R.id.dialog_star_three))
+        list.add(view.findViewById(R.id.dialog_star_four))
+        list.add(view.findViewById(R.id.dialog_star_five))
+        list.add(view.findViewById(R.id.dialog_star_six))
+        list.add(view.findViewById(R.id.dialog_star_seven))
+        list.add(view.findViewById(R.id.dialog_star_eight))
+        list.add(view.findViewById(R.id.dialog_star_nine))
+        list.add(view.findViewById(R.id.dialog_star_ten))
+        for (i in 0 until averageRate) {
+            list.get(i).setImageResource(R.drawable.ic_dialog_rate_star_check)
+        }
+        for (t in averageRate..9) {
+            list.get(t).setImageResource(R.drawable.ic_dialog_noncheck_star)
         }
     }
 
