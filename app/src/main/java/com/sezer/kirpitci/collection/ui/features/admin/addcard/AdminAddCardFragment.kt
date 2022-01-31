@@ -1,13 +1,16 @@
 package com.sezer.kirpitci.collection.ui.features.admin.addcard
 
 import android.Manifest
+import android.R
 import android.app.ProgressDialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -47,6 +50,9 @@ class AdminAddCardFragment : Fragment() {
         imageClickListener()
         initialVM()
         clickListener()
+        getCategoryList()
+        getCompanyList()
+        getCountryList()
         super.onViewCreated(view, savedInstanceState)
 
     }
@@ -127,34 +133,41 @@ class AdminAddCardFragment : Fragment() {
 
     }
 
+    private var companyList = listOf<String>()
+
+    private var categoryList = listOf<String>()
+
+    private var countryList = listOf<String>()
+
     private fun clickListener() {
         binding.button2.setOnClickListener {
             VM.getMaxId().observe(viewLifecycleOwner, Observer {
-
                 val cardID = (it + 1).toString()
                 val cardName = binding.addCardNameText.text.toString()
                 val cardInfo = binding.cardInfoText.text.toString()
-                val cardCategory = binding.cardCategoryText.text.toString()
-                val cardCountry = binding.cardCountryText.text.toString()
-                val cardCity = binding.cardCityText.text.toString()
+                val cardCategory = categoryList.get(binding.cardCategory.selectedItemPosition).toString()
+                val cardCountry =categoryList.get(binding.cardCountry.selectedItemPosition).toString()
                 val cardPrice = binding.cardPriceText.text.toString()
-
+                val cardABV = binding.cardAbvText.text.toString()
+                val cardCompany = categoryList.get(binding.cardCompany.selectedItemPosition).toString()
                 if (!cardName.isEmpty() && !cardCategory.isEmpty() && !cardCountry.isEmpty()) {
                     if (uri.equals("")) {
                         uri = default
                     }
                     addCard(
                         AddCardModel(
-                            cardID,
-                            cardName,
-                            cardInfo,
-                            cardCategory,
-                            cardCountry,
-                            cardCity,
-                            cardPrice,
-                            uri,
-                            "0",
-                            "0"
+                            cardID = cardID,
+                            cardName = cardName,
+                            cardInfo = cardInfo,
+                            cardCategory = cardCategory,
+                            cardCounty = cardCountry,
+                            cardCity = "",
+                            cardPrice = cardPrice,
+                            cardABV = cardABV,
+                            cardPath =  uri,
+                            cardAverage = "0",
+                            voteCount = "0",
+                            cardCompany = cardCompany
                         )
                     )
 
@@ -174,14 +187,81 @@ class AdminAddCardFragment : Fragment() {
     private fun addUsersUnderCard(list: List<AddCardUserModel>, cardID: String) {
         VM.addUserUnderCard(list, cardID).observe(viewLifecycleOwner, Observer {
             binding.addCardNameText.setText("")
-            binding.cardCategoryText.setText("")
-            binding.cardCityText.setText("")
-            binding.cardCountryText.setText("")
+         //   binding.cardCategoryText.setText("")
+       ///     binding.cardCityText.setText("")
+        //    binding.cardCompanyText.setText("")
+         //   binding.cardTypeText.setText("")
+            binding.cardAbvText.setText("")
+          //  binding.cardCountryText.setText("")
             binding.cardPriceText.setText("")
             binding.cardInfoText.setText("")
             binding.imageView2.resetImage(binding.imageView2)
             Toast.makeText(context, "asd", Toast.LENGTH_SHORT).show()
         })
+    }
+    private fun getCategoryList(){
+        VM.getCategoryList().observe(viewLifecycleOwner, Observer {
+            categoryList = it
+            initCategorySpinner(it)
+        })
+    }
+    private fun getCompanyList(){
+        VM.getCompanyList().observe(viewLifecycleOwner, Observer {
+            companyList = it
+            initCompanySpinner(it)
+        })
+    }
+    private fun getCountryList(){
+        VM.getCountryList().observe(viewLifecycleOwner, Observer {
+            countryList = it
+            initCountrySpinner(it)
+        })
+    }
+    private fun initCategorySpinner(list: List<String>) {
+        val listx = arrayListOf<String>()
+        for (i in 0 until listx.size) {
+            listx.add(list.get(i))
+        }
+        list.toTypedArray()
+        val adapter = context?.let {
+            ArrayAdapter(
+                it,
+                R.layout.simple_spinner_dropdown_item, list
+            )
+        }
+        binding.cardCategory.setBackgroundColor(Color.WHITE)
+        binding.cardCategory.adapter = adapter
+    }
+    private fun initCompanySpinner(list: List<String>) {
+        val listx = arrayListOf<String>()
+        for (i in 0 until listx.size) {
+            listx.add(list.get(i))
+        }
+        list.toTypedArray()
+        val adapter = context?.let {
+            ArrayAdapter(
+                it,
+                R.layout.simple_spinner_dropdown_item, list
+            )
+        }
+        binding.cardCompany.setBackgroundColor(Color.WHITE)
+
+        binding.cardCompany.adapter = adapter
+    }
+    private fun initCountrySpinner(list: List<String>) {
+        val listx = arrayListOf<String>()
+        for (i in 0 until listx.size) {
+            listx.add(list.get(i))
+        }
+        list.toTypedArray()
+        val adapter = context?.let {
+            ArrayAdapter(
+                it,
+                R.layout.simple_spinner_dropdown_item, list
+            )
+        }
+        binding.cardCountry.setBackgroundColor(Color.WHITE)
+        binding.cardCountry.adapter = adapter
     }
 
     private fun addCard(model: AddCardModel) {

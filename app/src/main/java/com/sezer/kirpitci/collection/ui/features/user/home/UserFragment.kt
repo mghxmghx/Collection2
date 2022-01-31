@@ -11,10 +11,7 @@ import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.CompoundButton
-import android.widget.ImageView
-import android.widget.Switch
-import android.widget.TextView
+import android.widget.*
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -31,6 +28,10 @@ import com.sezer.kirpitci.collection.utis.adapters.RecyclerAdapter
 import com.sezer.kirpitci.collection.utis.others.ViewModelFactory
 import com.sezer.kirpitci.collection.utis.updateWithUrlWithStatus
 import javax.inject.Inject
+import android.widget.CompoundButton
+
+
+
 
 class UserFragment : Fragment(), ClickItemUser {
     @Inject
@@ -140,7 +141,6 @@ class UserFragment : Fragment(), ClickItemUser {
             activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
-
     private fun getData(category: String, id: String) {
         VM.getCards(category, id).observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
@@ -185,7 +185,7 @@ class UserFragment : Fragment(), ClickItemUser {
     }
 
     override fun clicked(model: CardModel) {
-        checkClickedLayout(model)
+        getCardDetailsForBottomSheet(model.cardID)
     }
 
     private fun checkClickedLayout(model: CardModel) {
@@ -197,6 +197,7 @@ class UserFragment : Fragment(), ClickItemUser {
                 R.style.BottomSheetDialogTheme
             )
         }
+
         val closeButton = view.findViewById<ImageView>(R.id.dialogContentClose)
         val startOne = view.findViewById<ImageView>(R.id.dialog_star_one)
         val startTwo = view.findViewById<ImageView>(R.id.dialog_star_two)
@@ -208,35 +209,47 @@ class UserFragment : Fragment(), ClickItemUser {
         val startEight = view.findViewById<ImageView>(R.id.dialog_star_eight)
         val startNine = view.findViewById<ImageView>(R.id.dialog_star_nine)
         val startTen = view.findViewById<ImageView>(R.id.dialog_star_ten)
+        val isCheck = view.findViewById<Switch>(R.id.isCheckForAlcohol)
         startOne.setOnClickListener {
+            isCheck.isChecked = true
             starControl(1, view, model)
         }
         startTwo.setOnClickListener {
+            isCheck.isChecked = true
             starControl(2, view, model)
         }
         startThree.setOnClickListener {
+            isCheck.isChecked = true
             starControl(3, view, model)
         }
         startFour.setOnClickListener {
+            isCheck.isChecked = true
             starControl(4, view, model)
         }
         startFive.setOnClickListener {
+            isCheck.isChecked = true
             starControl(5, view, model)
         }
         startSix.setOnClickListener {
+            isCheck.isChecked = true
             starControl(6, view, model)
         }
         startSeven.setOnClickListener {
+            isCheck.isChecked = true
             starControl(7, view, model)
         }
         startEight.setOnClickListener {
+            isCheck.isChecked = true
             starControl(8, view, model)
         }
         startNine.setOnClickListener {
+            isCheck.isChecked = true
             starControl(9, view, model)
         }
         startTen.setOnClickListener {
+            isCheck.isChecked = true
             starControl(10, view, model)
+
         }
         val image = view.findViewById<ImageView>(R.id.dialogImagView)
         val nameTw = view.findViewById<TextView>(R.id.alcoholName)
@@ -257,8 +270,10 @@ class UserFragment : Fragment(), ClickItemUser {
             setBackGrounds(0, view, model)
 
         }
-        val isCheck = view.findViewById<Switch>(R.id.isCheckForAlcohol)
+
+        isCheck.isVisible = true
         isCheck.isChecked = model.status.toBoolean()
+
         isCheck.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
             if (isCheck.isChecked) {
                 isCheckVM(true, model)
@@ -285,7 +300,11 @@ class UserFragment : Fragment(), ClickItemUser {
             dialog.show()
         }
     }
-
+    private fun getCardDetailsForBottomSheet(cardId: String){
+        VM.getCardDetails(cardId, id).observe(viewLifecycleOwner, Observer {
+            checkClickedLayout(it)
+        })
+    }
     private fun starControl(i: Int, view: View, model: CardModel) {
         setBackGrounds(i, view, model)
         val oldVote = model.userStarRate
@@ -311,6 +330,7 @@ class UserFragment : Fragment(), ClickItemUser {
         list.add(view.findViewById(R.id.dialog_star_eight))
         list.add(view.findViewById(R.id.dialog_star_nine))
         list.add(view.findViewById(R.id.dialog_star_ten))
+
         for (i in 0 until clickedNumber) {
             list.get(i).setImageResource(R.drawable.ic_dialog_rate_star_check)
         }

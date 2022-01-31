@@ -85,7 +85,39 @@ class AdminAddCardViewModel @Inject constructor(
         }
         return isSuccess
     }
-
+    fun getCompanyList(): MutableLiveData<List<String>> {
+        val list = arrayListOf<String>()
+        val returnList = MutableLiveData<List<String>>()
+        firebaseDatabase.getReference("companies").get().addOnSuccessListener {
+            for (child in it.children){
+                list.add(child.getValue().toString())
+            }
+            returnList.value = list
+        }
+        return returnList
+    }
+    fun getCountryList(): MutableLiveData<List<String>> {
+        val list = arrayListOf<String>()
+        val returnList = MutableLiveData<List<String>>()
+        firebaseDatabase.getReference("countries").get().addOnSuccessListener {
+            for (child in it.children){
+                list.add(child.getValue().toString())
+            }
+            returnList.value = list
+        }
+        return returnList
+    }
+    fun getCategoryList(): MutableLiveData<List<String>> {
+        val list = arrayListOf<String>()
+        val returnList = MutableLiveData<List<String>>()
+        firebaseDatabase.getReference("categories").get().addOnSuccessListener {
+            for (child in it.children){
+                list.add(child.getValue().toString())
+            }
+            returnList.value = list
+        }
+        return returnList
+    }
     fun checkUserList(): MutableLiveData<List<AddCardUserModel>> {
         val list = MutableLiveData<List<AddCardUserModel>>()
         val tempList = ArrayList<AddCardUserModel>()

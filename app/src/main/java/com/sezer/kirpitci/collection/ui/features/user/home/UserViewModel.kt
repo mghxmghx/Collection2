@@ -76,7 +76,28 @@ class UserViewModel @Inject constructor(
                 .setValue(newRate.toString())
         }
     }
-
+    fun getCardDetails(id:String, userID: String): MutableLiveData<CardModel> {
+        val model = MutableLiveData<CardModel>()
+        firebaseDatabase.getReference("cards").child(id).get().addOnSuccessListener {
+            model.value = CardModel(
+                it.child("cardID").value.toString(),
+                it.child("cardName").value.toString(),
+                it.child("cardInfo").value.toString(),
+                it.child("cardCategory").value.toString(),
+                it.child("cardCounty").value.toString(),
+                it.child("cardCity").value.toString(),
+                it.child("cardPrice").value.toString(),
+                it.child("cardPath").value.toString(),
+                cardAverage = it.child("cardAverage").value.toString(),
+                it.child("users").child(userID).child("userCardStatus").value
+                    .toString(),
+                it.child("users").child(userID).child("userStarRate").value
+                    .toString(),
+                voteCount = it.child("voteCount").value.toString(),
+            )
+        }
+        return model
+    }
     fun getCards(category: String, userID: String): MutableLiveData<List<CardModel>> {
         val cardList = MutableLiveData<List<CardModel>>()
         val list = arrayListOf<CardModel>()

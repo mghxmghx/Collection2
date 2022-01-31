@@ -9,6 +9,8 @@ data class AddCardModel(
     var cardCity: String?,
     var cardPrice: String?,
     var cardPath: String,
+    var cardABV: String,
+    var cardCompany: String,
     var cardAverage: String,
     var voteCount: String
 )

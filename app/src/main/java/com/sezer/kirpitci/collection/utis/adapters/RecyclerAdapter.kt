@@ -59,6 +59,7 @@ private val diffCallback = object : DiffUtil.ItemCallback<CardModel>() {
                 oldItem.cardPath == newItem.cardPath &&
                 oldItem.cardPrice == newItem.cardPrice &&
                 oldItem.cardCategory == newItem.cardCategory &&
-                oldItem.status == newItem.status
+                oldItem.status == newItem.status &&
+                oldItem.userStarRate == newItem.userStarRate
     }
 }

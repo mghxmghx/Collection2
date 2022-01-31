@@ -180,6 +180,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="@+id/alcoholName"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="gone"
                 app:layout_constraintStart_toEndOf="@+id/alcoholName"
                 app:layout_constraintTop_toTopOf="@+id/alcoholName"
                 tools:ignore="UseSwitchCompatOrMaterialXml" />

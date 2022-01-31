@@ -11,10 +11,7 @@ import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.CompoundButton
-import android.widget.ImageView
-import android.widget.Switch
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -199,6 +196,7 @@ class BeerFragment : Fragment(), ClickItemUser {
                 (model.cardAverage.toString().toFloat().toInt() / model.voteCount.toString()
                     .toInt())
         }
+        Log.d("TAG", "setBackgrounds: " +averageRate)
         val list = ArrayList<ImageView>()
         list.add(view.findViewById(R.id.dialog_star_one))
         list.add(view.findViewById(R.id.dialog_star_two))
