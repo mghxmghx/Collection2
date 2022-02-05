@@ -12,6 +12,7 @@ import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -53,6 +54,7 @@ class BeerFragment : Fragment(), ClickItemUser {
         getID("beer")
         categoryTemp = "beer"
         initialSearch()
+        (activity as AppCompatActivity).supportActionBar?.hide()
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -107,7 +109,7 @@ class BeerFragment : Fragment(), ClickItemUser {
 
     fun initialRecyler() {
         adapter = DetailRecyclerAdapter(this)
-        binding.userCardsRecycler.layoutManager = GridLayoutManager(context, 2)
+        binding.userCardsRecycler.layoutManager = GridLayoutManager(context, 3)
         binding.userCardsRecycler.adapter = adapter
     }
 

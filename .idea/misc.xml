@@ -5,9 +5,13 @@
       <map>
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.19537037037037036" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/drawable/backgroud_small.xml" value="0.2755208333333333" />
+        <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/drawable/bar_style.xml" value="0.14947916666666666" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/drawable/bg.xml" value="0.2755208333333333" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/drawable/bg_progress_bar.xml" value="0.2755208333333333" />
+        <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/drawable/bg_seach.xml" value="0.2755208333333333" />
+        <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/drawable/bg_seachbutton.xml" value="0.2755208333333333" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/drawable/bg_spinner.xml" value="0.18703703703703703" />
+        <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/drawable/bg_tab.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/drawable/btn_bg.xml" value="0.14895833333333333" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/drawable/btn_bg2.xml" value="0.11458333333333333" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/drawable/buton_deneme.xml" value="0.11458333333333333" />
@@ -16,6 +20,7 @@
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/drawable/custom_progress_bar_horizontal.xml" value="0.2755208333333333" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/drawable/deneme.xml" value="0.4036458333333333" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/drawable/deneme1.xml" value="0.264" />
+        <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/drawable/flag_res.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/drawable/ic_add_item_picture.xml" value="0.2755208333333333" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/drawable/ic_add_new_card_image.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/drawable/ic_admin_view_settings.xml" value="0.4036458333333333" />
@@ -31,6 +36,7 @@
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/drawable/ic_launcher_background.xml" value="0.18489583333333334" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/drawable/ic_login_email.xml" value="0.1625" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/drawable/ic_login_password.xml" value="0.1625" />
+        <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/drawable/ic_search.xml" value="0.2755208333333333" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/drawable/login_edittext_color.xml" value="0.28177083333333336" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/drawable/login_fragment_buton_background.xml" value="0.4036458333333333" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/drawable/sss.xml" value="0.4036458333333333" />
@@ -43,7 +49,7 @@
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/fragment_admin_add_card.xml" value="0.23697916666666666" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/fragment_admin_panel.xml" value="0.2" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/fragment_admin_view_card.xml" value="0.2203125" />
-        <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/fragment_beer.xml" value="0.264" />
+        <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/fragment_beer.xml" value="0.265625" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/fragment_beer2.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/fragment_cocktail.xml" value="0.15833333333333333" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/fragment_dashboard.xml" value="0.1" />
@@ -60,7 +66,8 @@
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/fragment_settings.xml" value="0.1" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/fragment_splash_screen.xml" value="0.291866028708134" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/fragment_training.xml" value="0.2" />
-        <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/fragment_user.xml" value="0.264" />
+        <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/fragment_user.xml" value="0.2" />
+        <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/fragment_user2.xml" value="0.259375" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/fragment_view_users.xml" value="0.22418478260869565" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/fragment_wine.xml" value="0.15833333333333333" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/item_admin_view_card.xml" value="0.35502958579881655" />
@@ -72,6 +79,7 @@
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/layout/personal_info_fragment.xml" value="0.4326672458731538" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/menu/bottom_menu.xml" value="0.1" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/menu/bottom_nav_menu.xml" value="0.264" />
+        <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/menu/menu_options.xml" value="0.259375" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.11458333333333333" />
         <entry key="..\:/Users/sezer/AndroidStudioProjects/Collection/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.11458333333333333" />
         <entry key="..\:/Users/sezer/AppData/Local/Android/Sdk/platforms/android-30/data/res/drawable/spinner_background.xml" value="0.18703703703703703" />

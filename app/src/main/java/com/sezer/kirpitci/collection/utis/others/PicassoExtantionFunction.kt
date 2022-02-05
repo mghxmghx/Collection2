@@ -22,7 +22,7 @@ fun ImageView.updateWithUrlWithStatus(url: String, imageViewAvatar: ImageView, s
         }
 
     } else {
-        Glide.with(context).load(R.drawable.ic_add_new_card_image).into(imageViewAvatar)
+        Glide.with(context).load(R.drawable.no_image).into(imageViewAvatar)
     }
 }
 

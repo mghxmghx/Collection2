@@ -6,10 +6,9 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
+import android.view.*
 import android.view.View.OnFocusChangeListener
-import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.core.view.isVisible
@@ -29,8 +28,7 @@ import com.sezer.kirpitci.collection.utis.others.ViewModelFactory
 import com.sezer.kirpitci.collection.utis.updateWithUrlWithStatus
 import javax.inject.Inject
 import android.widget.CompoundButton
-
-
+import androidx.appcompat.app.AppCompatActivity
 
 
 class UserFragment : Fragment(), ClickItemUser {
@@ -57,10 +55,23 @@ class UserFragment : Fragment(), ClickItemUser {
         hideKeyboardx()
         getID("beer")
         initialSearch()
+        clickListener()
         categoryTemp = "beer"
         super.onViewCreated(view, savedInstanceState)
     }
+    private fun clickListener(){
+        binding.seachb.setOnClickListener {
+            setAnimation()
+        }
+    }
+    private fun setAnimation(){
+        val animationFadeOut = AnimationUtils.loadAnimation(context, R.anim.slide_in)
+        binding.seachText.isVisible = true
+        binding.seachText.startAnimation(animationFadeOut)
 
+       // val animationSlideOut = AnimationUtils.loadAnimation(context, R.anim.slide_out_components)
+      //  val animationSlideIn = AnimationUtils.loadAnimation(context, R.anim.slide_in_components)
+    }
     private fun setStatus(totalCount: Int, totalTrueStatus: Int) {
         //   binding.customProgress1.max = 10
         binding.customProgress2.max = totalCount
@@ -343,6 +354,27 @@ class UserFragment : Fragment(), ClickItemUser {
         VM.setStarInFB(model, id, oldVote, newVote)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_options, menu)
+        Log.d("TAG", "onQueryTextChange: ")
+
+        val searchItem = menu.findItem(R.id.action_search)
+        val searchView = searchItem.actionView as SearchView
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(searhQuery: String?): Boolean {
+                if (searhQuery != null) {
+                    searchView.clearFocus()
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+                Log.d("TAG", "onQueryTextChange: "+ p0)
+                return true
+            }
+        })
+    }
     private fun initialTablayout() {
         binding.tablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {

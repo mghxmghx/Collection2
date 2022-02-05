@@ -1,5 +1,6 @@
 package com.sezer.kirpitci.collection.utis.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,15 +17,28 @@ class DetailRecyclerAdapter(val listener: ClickItemUser) :
     ListAdapter<CardModel, DetailRecyclerAdapter.WorkerHolder>(
         diffCallback
     ) {
+   // private lateinit var list: List<Drawable>
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkerHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(
             R.layout.item_detail,
             parent,
             false
         )
+       setContent()
         return WorkerHolder(itemView)
     }
-
+    private lateinit var listPath: ArrayList<Int>
+    private lateinit var listName: ArrayList<String>
+    private fun setContent(){
+        listPath = arrayListOf()
+        listName = arrayListOf()
+        listPath.add(R.drawable.germany)
+        listPath.add(R.drawable.russia)
+        listPath.add(R.drawable.ukraine)
+        listName.add("germany")
+        listName.add("russia")
+        listName.add("ukraine")
+    }
     override fun onBindViewHolder(holder: WorkerHolder, position: Int) {
         with(getItem(position)) {
             holder.cardImage.updateWithUrlWithStatus(
@@ -33,13 +47,17 @@ class DetailRecyclerAdapter(val listener: ClickItemUser) :
                 true.toString()
             )
             holder.nameText.text = this.cardName
+            val index = listName.indexOf(this.cardCounty.toLowerCase())
+            if(index != -1){
+                holder.cardFlag.setImageResource(listPath.get(index))
+            }
         }
     }
 
     inner class WorkerHolder(iv: View) : RecyclerView.ViewHolder(iv) {
         val cardImage: ImageView = itemView.findViewById(R.id.user_card_view_image)
         val nameText: TextView = itemView.findViewById(R.id.detailAlcoholName)
-
+        val cardFlag: ImageView = itemView.findViewById(R.id.user_card_view_flag)
         init {
             itemView.setOnClickListener {
                 listener.clicked(getItem(adapterPosition))
