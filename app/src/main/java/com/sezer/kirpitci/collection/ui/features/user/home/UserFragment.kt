@@ -2,6 +2,7 @@ package com.sezer.kirpitci.collection.ui.features.user.home
 
 import android.animation.ObjectAnimator
 import android.app.Activity
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -56,6 +57,7 @@ class UserFragment : Fragment(), ClickItemUser {
         getID("beer")
         initialSearch()
         clickListener()
+        setUpTabLayout()
         categoryTemp = "beer"
         super.onViewCreated(view, savedInstanceState)
     }
@@ -124,6 +126,14 @@ class UserFragment : Fragment(), ClickItemUser {
         VM = ViewModelProvider(this, viewModelFactory)[UserViewModel::class.java]
 
     }
+    private fun setUpTabLayout(){
+        val tabLayout = binding.tablayout
+        tabLayout.addTab(tabLayout.newTab().setText("Beer"))
+        tabLayout.addTab(tabLayout.newTab().setText("Wine"))
+        tabLayout.addTab(tabLayout.newTab().setText("Cocktail"))
+        tabLayout.setTabTextColors(Color.parseColor("#000000"), Color.parseColor("#000000"))
+
+    }
 
     private lateinit var id: String
     private fun getID(category: String) {
@@ -137,11 +147,7 @@ class UserFragment : Fragment(), ClickItemUser {
     fun hideKeyboardx() {
 
         binding.searchAlcoholText.onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
-            Log.d("TAG", "hideKeyboardx: " + hasFocus)
-
             if (!hasFocus) {
-                Log.d("TAG", "hideKeyboardx: " + hasFocus)
-                // Utils.hideSoftKeyboard(activity)
                 hideSoftKeyboard(v)
             }
         }
@@ -155,9 +161,6 @@ class UserFragment : Fragment(), ClickItemUser {
     private fun getData(category: String, id: String) {
         VM.getCards(category, id).observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
-            Log.d("TAG", "getData: " + it.get(0).voteCount)
-            Log.d("TAG", "getData: " + it.get(0).cardAverage)
-            Log.d("TAG", "getData: " + it.size)
             countAlcoholStatus(it, "default")
         })
     }

@@ -31,7 +31,7 @@ class RecyclerAdapter(val listener: ClickItemUser) :
     }
 
     inner class WorkerHolder(iv: View) : RecyclerView.ViewHolder(iv) {
-        val cardImage: ImageView = itemView.findViewById(R.id.user_card_view_image)
+        val cardImage: ImageView = itemView.findViewById(R.id.imageView)
 
         init {
             itemView.setOnClickListener {
