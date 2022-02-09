@@ -139,6 +139,8 @@ class AdminAddCardFragment : Fragment() {
 
     private var countryList = listOf<String>()
 
+    private var typeList = listOf<String>()
+
     private fun clickListener() {
         binding.button2.setOnClickListener {
             VM.getMaxId().observe(viewLifecycleOwner, Observer {
@@ -146,10 +148,11 @@ class AdminAddCardFragment : Fragment() {
                 val cardName = binding.addCardNameText.text.toString()
                 val cardInfo = binding.cardInfoText.text.toString()
                 val cardCategory = categoryList.get(binding.cardCategory.selectedItemPosition).toString()
-                val cardCountry =categoryList.get(binding.cardCountry.selectedItemPosition).toString()
+                val cardType = typeList.get(binding.cardType.selectedItemPosition)
+                val cardCountry = countryList.get(binding.cardCountry.selectedItemPosition).toString()
                 val cardPrice = binding.cardPriceText.text.toString()
                 val cardABV = binding.cardAbvText.text.toString()
-                val cardCompany = categoryList.get(binding.cardCompany.selectedItemPosition).toString()
+                val cardCompany = companyList.get(binding.cardCompany.selectedItemPosition).toString()
                 if (!cardName.isEmpty() && !cardCategory.isEmpty() && !cardCountry.isEmpty()) {
                     if (uri.equals("")) {
                         uri = default
@@ -159,7 +162,7 @@ class AdminAddCardFragment : Fragment() {
                             cardID = cardID,
                             cardName = cardName,
                             cardInfo = cardInfo,
-                            cardCategory = cardCategory,
+                            cardCategory = cardType.toLowerCase(),
                             cardCounty = cardCountry,
                             cardCity = "",
                             cardPrice = cardPrice,
@@ -167,7 +170,8 @@ class AdminAddCardFragment : Fragment() {
                             cardPath =  uri,
                             cardAverage = "0",
                             voteCount = "0",
-                            cardCompany = cardCompany
+                            cardCompany = cardCompany,
+                            cardType = cardCategory
                         )
                     )
 
@@ -202,7 +206,8 @@ class AdminAddCardFragment : Fragment() {
     private fun getCategoryList(){
         VM.getCategoryList().observe(viewLifecycleOwner, Observer {
             categoryList = it
-            initCategorySpinner(it)
+            initTypeSpinner(it)
+            initCategorySpinner()
         })
     }
     private fun getCompanyList(){
@@ -217,7 +222,19 @@ class AdminAddCardFragment : Fragment() {
             initCountrySpinner(it)
         })
     }
-    private fun initCategorySpinner(list: List<String>) {
+    private fun initCategorySpinner() {
+        val listx = arrayListOf("Beer", "Wine", "Cocktail")
+        typeList = listx
+        val adapter = context?.let {
+            ArrayAdapter(
+                it,
+                R.layout.simple_spinner_dropdown_item, listx
+            )
+        }
+        binding.cardCategory.setBackgroundColor(Color.WHITE)
+        binding.cardCategory.adapter = adapter
+    }
+    private fun initTypeSpinner(list: List<String>) {
         val listx = arrayListOf<String>()
         for (i in 0 until listx.size) {
             listx.add(list.get(i))
@@ -229,8 +246,8 @@ class AdminAddCardFragment : Fragment() {
                 R.layout.simple_spinner_dropdown_item, list
             )
         }
-        binding.cardCategory.setBackgroundColor(Color.WHITE)
-        binding.cardCategory.adapter = adapter
+        binding.cardType.setBackgroundColor(Color.WHITE)
+        binding.cardType.adapter = adapter
     }
     private fun initCompanySpinner(list: List<String>) {
         val listx = arrayListOf<String>()
