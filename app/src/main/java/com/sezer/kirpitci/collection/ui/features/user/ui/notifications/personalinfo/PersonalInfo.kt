@@ -1,6 +1,5 @@
 package com.sezer.kirpitci.collection.ui.features.user.ui.notifications.personalinfo
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,7 +16,7 @@ import com.sezer.kirpitci.collection.utis.others.SharedPreferencesClass
 import com.sezer.kirpitci.collection.utis.others.ViewModelFactory
 import javax.inject.Inject
 
-class PersonalInfo() : Fragment() {
+class PersonalInfo : Fragment() {
 
     private lateinit var binding: PersonalInfoFragmentBinding
     private lateinit var viewModel: PersonalInfoViewModel

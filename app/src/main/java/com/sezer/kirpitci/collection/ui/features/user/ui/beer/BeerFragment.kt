@@ -188,7 +188,8 @@ class BeerFragment : Fragment(), ClickItemUser {
     }
 
     private fun setBackgrounds(model: CardModel, view: View) {
-        Log.d("TAG",
+        Log.d(
+            "TAG",
             "setBackgrounds: " + model.cardAverage.toString().toFloat()
                 .toInt() + " " + model.voteCount
         )
@@ -198,7 +199,7 @@ class BeerFragment : Fragment(), ClickItemUser {
                 (model.cardAverage.toString().toFloat().toInt() / model.voteCount.toString()
                     .toInt())
         }
-        Log.d("TAG", "setBackgrounds: " +averageRate)
+        Log.d("TAG", "setBackgrounds: " + averageRate)
         val list = ArrayList<ImageView>()
         list.add(view.findViewById(R.id.dialog_star_one))
         list.add(view.findViewById(R.id.dialog_star_two))

@@ -11,7 +11,11 @@ import android.view.*
 import android.view.View.OnFocusChangeListener
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
-import android.widget.*
+import android.widget.CompoundButton
+import android.widget.ImageView
+import android.widget.SearchView
+import android.widget.Switch
+import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -28,8 +32,6 @@ import com.sezer.kirpitci.collection.utis.adapters.RecyclerAdapter
 import com.sezer.kirpitci.collection.utis.others.ViewModelFactory
 import com.sezer.kirpitci.collection.utis.updateWithUrlWithStatus
 import javax.inject.Inject
-import android.widget.CompoundButton
-import androidx.appcompat.app.AppCompatActivity
 
 
 class UserFragment : Fragment(), ClickItemUser {
@@ -61,19 +63,22 @@ class UserFragment : Fragment(), ClickItemUser {
         categoryTemp = "beer"
         super.onViewCreated(view, savedInstanceState)
     }
-    private fun clickListener(){
+
+    private fun clickListener() {
         binding.seachb.setOnClickListener {
             setAnimation()
         }
     }
-    private fun setAnimation(){
+
+    private fun setAnimation() {
         val animationFadeOut = AnimationUtils.loadAnimation(context, R.anim.slide_in)
         binding.seachText.isVisible = true
         binding.seachText.startAnimation(animationFadeOut)
 
-       // val animationSlideOut = AnimationUtils.loadAnimation(context, R.anim.slide_out_components)
-      //  val animationSlideIn = AnimationUtils.loadAnimation(context, R.anim.slide_in_components)
+        // val animationSlideOut = AnimationUtils.loadAnimation(context, R.anim.slide_out_components)
+        //  val animationSlideIn = AnimationUtils.loadAnimation(context, R.anim.slide_in_components)
     }
+
     private fun setStatus(totalCount: Int, totalTrueStatus: Int) {
         //   binding.customProgress1.max = 10
         binding.customProgress2.max = totalCount
@@ -126,7 +131,8 @@ class UserFragment : Fragment(), ClickItemUser {
         VM = ViewModelProvider(this, viewModelFactory)[UserViewModel::class.java]
 
     }
-    private fun setUpTabLayout(){
+
+    private fun setUpTabLayout() {
         val tabLayout = binding.tablayout
         tabLayout.addTab(tabLayout.newTab().setText("Beer"))
         tabLayout.addTab(tabLayout.newTab().setText("Wine"))
@@ -158,6 +164,7 @@ class UserFragment : Fragment(), ClickItemUser {
             activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
+
     private fun getData(category: String, id: String) {
         VM.getCards(category, id).observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
@@ -314,11 +321,13 @@ class UserFragment : Fragment(), ClickItemUser {
             dialog.show()
         }
     }
-    private fun getCardDetailsForBottomSheet(cardId: String){
+
+    private fun getCardDetailsForBottomSheet(cardId: String) {
         VM.getCardDetails(cardId, id).observe(viewLifecycleOwner, Observer {
             checkClickedLayout(it)
         })
     }
+
     private fun starControl(i: Int, view: View, model: CardModel) {
         setBackGrounds(i, view, model)
         val oldVote = model.userStarRate
@@ -373,11 +382,12 @@ class UserFragment : Fragment(), ClickItemUser {
             }
 
             override fun onQueryTextChange(p0: String?): Boolean {
-                Log.d("TAG", "onQueryTextChange: "+ p0)
+                Log.d("TAG", "onQueryTextChange: " + p0)
                 return true
             }
         })
     }
+
     private fun initialTablayout() {
         binding.tablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {

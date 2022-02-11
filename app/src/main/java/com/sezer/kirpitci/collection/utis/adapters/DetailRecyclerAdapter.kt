@@ -1,6 +1,5 @@
 package com.sezer.kirpitci.collection.utis.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,24 +11,27 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.ui.features.registration.CardModel
 import com.sezer.kirpitci.collection.utis.updateWithUrlWithStatus
+import java.util.*
+import kotlin.collections.ArrayList
 
 class DetailRecyclerAdapter(val listener: ClickItemUser) :
     ListAdapter<CardModel, DetailRecyclerAdapter.WorkerHolder>(
         diffCallback
     ) {
-   // private lateinit var list: List<Drawable>
+    // private lateinit var list: List<Drawable>
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkerHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(
             R.layout.item_detail,
             parent,
             false
         )
-       setContent()
+        setContent()
         return WorkerHolder(itemView)
     }
+
     private lateinit var listPath: ArrayList<Int>
     private lateinit var listName: ArrayList<String>
-    private fun setContent(){
+    private fun setContent() {
         listPath = arrayListOf()
         listName = arrayListOf()
         listPath.add(R.drawable.germany)
@@ -39,6 +41,7 @@ class DetailRecyclerAdapter(val listener: ClickItemUser) :
         listName.add("russia")
         listName.add("ukraine")
     }
+
     override fun onBindViewHolder(holder: WorkerHolder, position: Int) {
         with(getItem(position)) {
             holder.cardImage.updateWithUrlWithStatus(
@@ -47,8 +50,8 @@ class DetailRecyclerAdapter(val listener: ClickItemUser) :
                 true.toString()
             )
             holder.nameText.text = this.cardName
-            val index = listName.indexOf(this.cardCounty.toLowerCase())
-            if(index != -1){
+            val index = listName.indexOf(this.cardCounty.lowercase(Locale.getDefault()))
+            if (index != -1) {
                 holder.cardFlag.setImageResource(listPath.get(index))
             }
         }
@@ -58,6 +61,7 @@ class DetailRecyclerAdapter(val listener: ClickItemUser) :
         val cardImage: ImageView = itemView.findViewById(R.id.user_card_view_image)
         val nameText: TextView = itemView.findViewById(R.id.detailAlcoholName)
         val cardFlag: ImageView = itemView.findViewById(R.id.user_card_view_flag)
+
         init {
             itemView.setOnClickListener {
                 listener.clicked(getItem(adapterPosition))

@@ -24,7 +24,9 @@ import com.sezer.kirpitci.collection.utis.default
 import com.sezer.kirpitci.collection.utis.intentType
 import com.sezer.kirpitci.collection.utis.others.ViewModelFactory
 import com.sezer.kirpitci.collection.utis.resetImage
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 class AdminAddCardFragment : Fragment() {
     @Inject
@@ -147,12 +149,15 @@ class AdminAddCardFragment : Fragment() {
                 val cardID = (it + 1).toString()
                 val cardName = binding.addCardNameText.text.toString()
                 val cardInfo = binding.cardInfoText.text.toString()
-                val cardCategory = categoryList.get(binding.cardCategory.selectedItemPosition).toString()
+                val cardCategory =
+                    categoryList.get(binding.cardCategory.selectedItemPosition).toString()
                 val cardType = typeList.get(binding.cardType.selectedItemPosition)
-                val cardCountry = countryList.get(binding.cardCountry.selectedItemPosition).toString()
+                val cardCountry =
+                    countryList.get(binding.cardCountry.selectedItemPosition).toString()
                 val cardPrice = binding.cardPriceText.text.toString()
                 val cardABV = binding.cardAbvText.text.toString()
-                val cardCompany = companyList.get(binding.cardCompany.selectedItemPosition).toString()
+                val cardCompany =
+                    companyList.get(binding.cardCompany.selectedItemPosition).toString()
                 if (!cardName.isEmpty() && !cardCategory.isEmpty() && !cardCountry.isEmpty()) {
                     if (uri.equals("")) {
                         uri = default
@@ -162,12 +167,12 @@ class AdminAddCardFragment : Fragment() {
                             cardID = cardID,
                             cardName = cardName,
                             cardInfo = cardInfo,
-                            cardCategory = cardType.toLowerCase(),
+                            cardCategory = cardType.lowercase(Locale.getDefault()),
                             cardCounty = cardCountry,
                             cardCity = "",
                             cardPrice = cardPrice,
                             cardABV = cardABV,
-                            cardPath =  uri,
+                            cardPath = uri,
                             cardAverage = "0",
                             voteCount = "0",
                             cardCompany = cardCompany,
@@ -191,37 +196,41 @@ class AdminAddCardFragment : Fragment() {
     private fun addUsersUnderCard(list: List<AddCardUserModel>, cardID: String) {
         VM.addUserUnderCard(list, cardID).observe(viewLifecycleOwner, Observer {
             binding.addCardNameText.setText("")
-         //   binding.cardCategoryText.setText("")
-       ///     binding.cardCityText.setText("")
-        //    binding.cardCompanyText.setText("")
-         //   binding.cardTypeText.setText("")
+            //   binding.cardCategoryText.setText("")
+            ///     binding.cardCityText.setText("")
+            //    binding.cardCompanyText.setText("")
+            //   binding.cardTypeText.setText("")
             binding.cardAbvText.setText("")
-          //  binding.cardCountryText.setText("")
+            //  binding.cardCountryText.setText("")
             binding.cardPriceText.setText("")
             binding.cardInfoText.setText("")
             binding.imageView2.resetImage(binding.imageView2)
             Toast.makeText(context, "asd", Toast.LENGTH_SHORT).show()
         })
     }
-    private fun getCategoryList(){
+
+    private fun getCategoryList() {
         VM.getCategoryList().observe(viewLifecycleOwner, Observer {
             categoryList = it
             initTypeSpinner(it)
             initCategorySpinner()
         })
     }
-    private fun getCompanyList(){
+
+    private fun getCompanyList() {
         VM.getCompanyList().observe(viewLifecycleOwner, Observer {
             companyList = it
             initCompanySpinner(it)
         })
     }
-    private fun getCountryList(){
+
+    private fun getCountryList() {
         VM.getCountryList().observe(viewLifecycleOwner, Observer {
             countryList = it
             initCountrySpinner(it)
         })
     }
+
     private fun initCategorySpinner() {
         val listx = arrayListOf("Beer", "Wine", "Cocktail")
         typeList = listx
@@ -234,6 +243,7 @@ class AdminAddCardFragment : Fragment() {
         binding.cardCategory.setBackgroundColor(Color.WHITE)
         binding.cardCategory.adapter = adapter
     }
+
     private fun initTypeSpinner(list: List<String>) {
         val listx = arrayListOf<String>()
         for (i in 0 until listx.size) {
@@ -249,6 +259,7 @@ class AdminAddCardFragment : Fragment() {
         binding.cardType.setBackgroundColor(Color.WHITE)
         binding.cardType.adapter = adapter
     }
+
     private fun initCompanySpinner(list: List<String>) {
         val listx = arrayListOf<String>()
         for (i in 0 until listx.size) {
@@ -265,6 +276,7 @@ class AdminAddCardFragment : Fragment() {
 
         binding.cardCompany.adapter = adapter
     }
+
     private fun initCountrySpinner(list: List<String>) {
         val listx = arrayListOf<String>()
         for (i in 0 until listx.size) {

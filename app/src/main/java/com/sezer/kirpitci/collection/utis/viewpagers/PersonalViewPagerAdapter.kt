@@ -4,9 +4,6 @@ import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.sezer.kirpitci.collection.ui.features.user.ui.notifications.analytics.PersonalAnalytics
-import com.sezer.kirpitci.collection.ui.features.user.ui.notifications.personalinfo.PersonalInfo
-import com.sezer.kirpitci.collection.ui.features.user.ui.notifications.settings.SettingsFragment
 
 class PersonalViewPagerAdapter(val fragmentManager: FragmentManager, internal var totalTabs: Int) :
     FragmentPagerAdapter(fragmentManager) {
@@ -16,13 +13,13 @@ class PersonalViewPagerAdapter(val fragmentManager: FragmentManager, internal va
 
     override fun getItem(position: Int): Fragment {
         var fragment = Fragment()
-        Log.d("TAG", "getItem: "+ position)
+        Log.d("TAG", "getItem: " + position)
         if (position == 0) {
-       //     return PersonalInfo()
+            //     return PersonalInfo()
         } else if (position == 1) {
-        //    return PersonalAnalytics()
+            //    return PersonalAnalytics()
         } else if (position == 2) {
-      //      return SettingsFragment()
+            //      return SettingsFragment()
         }
         return fragment
     }

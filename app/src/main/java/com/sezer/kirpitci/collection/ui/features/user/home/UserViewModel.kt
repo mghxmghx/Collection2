@@ -30,31 +30,31 @@ class UserViewModel @Inject constructor(
         setAverage(model, oldVote, newVote)
         firebaseDatabase.getReference("cards").child(model.cardID).child("voteCount")
             .setValue(model.voteCount).addOnSuccessListener {
-            firebaseDatabase.getReference("cards").get().addOnSuccessListener {
-                for (child in it.children) {
-                    if (child.child("cardID").value.toString().equals(model.cardID)) {
-                        firebaseDatabase.getReference("cards").child(child.key.toString())
-                            .child("users").get().addOnSuccessListener {
-                                for (i in it.children) {
+                firebaseDatabase.getReference("cards").get().addOnSuccessListener {
+                    for (child in it.children) {
+                        if (child.child("cardID").value.toString().equals(model.cardID)) {
+                            firebaseDatabase.getReference("cards").child(child.key.toString())
+                                .child("users").get().addOnSuccessListener {
+                                    for (i in it.children) {
 
-                                    if (i.key.toString().equals(userID)) {
-                                        firebaseDatabase.getReference("cards").child(
-                                            child
-                                                .key.toString()
-                                        ).child("users").child(userID).child("userStarRate")
-                                            .setValue(model.userStarRate)
-                                        firebaseDatabase.getReference("cards").child(
-                                            child
-                                                .key.toString()
-                                        ).child("users").child(userID).child("userVoted")
-                                            .setValue(model.userVoted)
+                                        if (i.key.toString().equals(userID)) {
+                                            firebaseDatabase.getReference("cards").child(
+                                                child
+                                                    .key.toString()
+                                            ).child("users").child(userID).child("userStarRate")
+                                                .setValue(model.userStarRate)
+                                            firebaseDatabase.getReference("cards").child(
+                                                child
+                                                    .key.toString()
+                                            ).child("users").child(userID).child("userVoted")
+                                                .setValue(model.userVoted)
+                                        }
                                     }
                                 }
-                            }
+                        }
                     }
                 }
             }
-        }
     }
 
     private fun compareOldNew(oldVote: String?, newVote: String): Int {
@@ -76,7 +76,8 @@ class UserViewModel @Inject constructor(
                 .setValue(newRate.toString())
         }
     }
-    fun getCardDetails(id:String, userID: String): MutableLiveData<CardModel> {
+
+    fun getCardDetails(id: String, userID: String): MutableLiveData<CardModel> {
         val model = MutableLiveData<CardModel>()
         firebaseDatabase.getReference("cards").child(id).get().addOnSuccessListener {
             model.value = CardModel(
@@ -98,6 +99,7 @@ class UserViewModel @Inject constructor(
         }
         return model
     }
+
     fun getCards(category: String, userID: String): MutableLiveData<List<CardModel>> {
         val cardList = MutableLiveData<List<CardModel>>()
         val list = arrayListOf<CardModel>()
