@@ -1,5 +1,6 @@
 package com.sezer.kirpitci.collection.utis.viewpagers
 
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
@@ -14,13 +15,14 @@ class HomeViewPagerAdapter(val fragmentManager: FragmentManager, internal var to
     }
 
     override fun getItem(position: Int): Fragment {
-        var fragment: Fragment = Fragment()
+        var fragment = Fragment()
+        Log.d("TAG", "getItem: "+ position)
         if (position == 0) {
-            fragment = PersonalInfo()
+          //  return PersonalInfo()
         } else if (position == 1) {
-            fragment = PersonalAnalytics()
+       //     return PersonalAnalytics()
         } else if (position == 2) {
-            fragment = SettingsFragment()
+      //      return SettingsFragment()
         }
         return fragment
     }

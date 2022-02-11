@@ -63,7 +63,6 @@ class UserAct : AppCompatActivity() {
         val viewPager = binding.root.findViewById<ViewPager>(R.id.pagerName)
         viewPager.apply {
             adapter = adapterx
-
         }
         home_lay.setOnClickListener {
             viewPager.currentItem = 0

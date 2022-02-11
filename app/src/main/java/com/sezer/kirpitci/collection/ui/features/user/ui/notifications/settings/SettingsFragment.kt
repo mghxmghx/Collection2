@@ -1,5 +1,6 @@
 package com.sezer.kirpitci.collection.ui.features.user.ui.notifications.settings
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View

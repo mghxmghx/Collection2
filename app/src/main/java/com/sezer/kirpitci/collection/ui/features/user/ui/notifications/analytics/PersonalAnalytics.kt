@@ -1,5 +1,6 @@
 package com.sezer.kirpitci.collection.ui.features.user.ui.notifications.analytics
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,11 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.sezer.kirpitci.collection.R
 
-class PersonalAnalytics : Fragment() {
-
-    companion object {
-        fun newInstance() = PersonalAnalytics()
-    }
+class PersonalAnalytics() : Fragment() {
 
     private lateinit var viewModel: PersonalAnalyticsViewModel
 

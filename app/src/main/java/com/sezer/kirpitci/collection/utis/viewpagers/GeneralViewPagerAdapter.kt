@@ -15,7 +15,7 @@ class GeneralViewPagerAdapter(val fragmentManager: FragmentManager, internal var
     }
 
     override fun getItem(position: Int): Fragment {
-        var fragment: Fragment = Fragment()
+        var fragment = Fragment()
         if (position == 0) {
             fragment = HomePageFragment()
         } else if (position == 1) {
