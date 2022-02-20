@@ -21,7 +21,7 @@ class DetailRecyclerAdapter(val listener: ClickItemUser) :
     // private lateinit var list: List<Drawable>
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkerHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(
-            R.layout.item_detail,
+            R.layout.item_list,
             parent,
             false
         )
@@ -61,12 +61,12 @@ class DetailRecyclerAdapter(val listener: ClickItemUser) :
         val cardImage: ImageView = itemView.findViewById(R.id.user_card_view_image)
         val nameText: TextView = itemView.findViewById(R.id.detailAlcoholName)
         val cardFlag: ImageView = itemView.findViewById(R.id.user_card_view_flag)
-
         init {
-            itemView.setOnClickListener {
+            iv.setOnClickListener {
                 listener.clicked(getItem(adapterPosition))
             }
         }
+
     }
 }
 

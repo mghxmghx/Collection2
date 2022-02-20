@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/home_lay"
+        android:icon="@drawable/ic_home_line"
+        android:title="Home"
+        app:cnb_backgroundColor="@color/bottomselect"
+        app:cnb_iconColor="#d55f39"
+        app:cnb_textColor="#d55f39" />
+    <item
+        android:id="@+id/drink_lay"
+        android:icon="@drawable/ic_beer_outline"
+        android:title="Drink"
+        app:cnb_backgroundColor="@color/bottomselect"
+        app:cnb_iconColor="#d55f39"
+        app:cnb_textColor="#d55f39" />
+    <item
+        android:id="@+id/user_lay"
+        android:icon="@drawable/ic_user_line"
+        android:title="Personal"
+        app:cnb_backgroundColor="@color/bottomselect"
+        app:cnb_iconColor="#d55f39"
+        app:cnb_textColor="#d55f39" />
+    <item
+        android:id="@+id/phone_lay"
+        android:icon="@drawable/ic_statistics"
+        android:title="Stats."
+        app:cnb_backgroundColor="@color/bottomselect"
+        app:cnb_iconColor="#d55f39"
+        app:cnb_textColor="#d55f39" />
+</menu>

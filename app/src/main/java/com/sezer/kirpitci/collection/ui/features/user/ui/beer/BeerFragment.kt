@@ -28,6 +28,8 @@ import com.sezer.kirpitci.collection.utis.adapters.DetailRecyclerAdapter
 import com.sezer.kirpitci.collection.utis.others.ViewModelFactory
 import com.sezer.kirpitci.collection.utis.updateWithUrlWithStatus
 import javax.inject.Inject
+import kotlinx.android.synthetic.main.view_search.*
+import kotlinx.android.synthetic.main.view_search.view.*
 
 
 class BeerFragment : Fragment(), ClickItemUser {
@@ -67,21 +69,21 @@ class BeerFragment : Fragment(), ClickItemUser {
     }
 
     private fun initialSearch() {
-        binding.searchAlcoholText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0.toString().length >= 3) {
-                    searchData(alcoholName = p0.toString())
-                } else if (p0.toString().length == 0) {
-                    getID(categoryTemp)
+        binding.searchBar.search_input_text.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                Log.e("afterTextChanged",search_input_text.text.toString())
+                if(s.toString().length>=3){
+                    searchData(s.toString())
+                } else if(s.toString().length == 0) {
+                    getData(categoryTemp, s.toString())
                 }
             }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
-            override fun afterTextChanged(p0: Editable?) {
             }
-
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                Log.e("onTextChanged",search_input_text.text.toString())
+            }
         })
     }
 
@@ -133,11 +135,11 @@ class BeerFragment : Fragment(), ClickItemUser {
     }
 
     private fun focusListener() {
-        binding.searchAlcoholText.onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
+      /*  binding.searchAlcoholText.onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
             if (!hasFocus) {
                 hideKeyboard(v)
             }
-        }
+        }*/
     }
 
     private fun checkClickedLayout(model: CardModel) {
@@ -188,11 +190,6 @@ class BeerFragment : Fragment(), ClickItemUser {
     }
 
     private fun setBackgrounds(model: CardModel, view: View) {
-        Log.d(
-            "TAG",
-            "setBackgrounds: " + model.cardAverage.toString().toFloat()
-                .toInt() + " " + model.voteCount
-        )
         var averageRate = 0
         if (!model.cardAverage.toString().equals("0") && !model.voteCount.toString().equals("0")) {
             averageRate =
@@ -220,33 +217,35 @@ class BeerFragment : Fragment(), ClickItemUser {
     }
 
     private fun initialTablayout() {
-        binding.tablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                if (tab.position == 0) {
-                    binding.searchAlcoholText.text?.clear()
-                    categoryTemp = "beer"
-                    getID("beer")
-                } else if (tab.position == 1) {
-                    binding.searchAlcoholText.text?.clear()
-                    categoryTemp = "wine"
-                    getID("wine")
-                } else if (tab.position == 2) {
-                    binding.searchAlcoholText.text?.clear()
-                    categoryTemp = "cocktail"
-                    getID("cocktail")
+        binding.ltbeer.isSelected = true
+        categoryTemp = "beer"
+        binding.ltbeer.setOnClickListener {
+            binding.ltcocktail.isSelected = false
+            binding.ltwine.isSelected = false
+            binding.ltbeer.isSelected = true
+            categoryTemp = "beer"
+            getID("beer")
+            //
+        }
+        binding.ltwine.setOnClickListener {
+            binding.ltcocktail.isSelected = false
+            binding.ltwine.isSelected = true
+            binding.ltbeer.isSelected = false
+            categoryTemp = "wine"
+            getID("wine")
 
-                }
-            }
+            //
+        }
+        binding.ltcocktail.setOnClickListener {
+            binding.ltcocktail.isSelected = true
+            binding.ltwine.isSelected = false
+            binding.ltbeer.isSelected = false
+            categoryTemp = "cocktail"
+            getID("cocktail")
 
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            //
+        }
 
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-
-            }
-
-        })
     }
 
 

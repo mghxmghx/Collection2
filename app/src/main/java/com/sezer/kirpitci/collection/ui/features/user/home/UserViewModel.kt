@@ -146,8 +146,8 @@ class UserViewModel @Inject constructor(
         db2.get().addOnSuccessListener {
             for (child in it.children) {
                 if (child.child("cardCategory").value.toString().equals(category)) {
-                    if (child.child("cardName").value.toString().lowercase(Locale.getDefault())
-                            .contains(alcoholName.lowercase(Locale.getDefault()))
+                    if (child.child("cardName").value.toString().toLowerCase(Locale.getDefault())
+                            .contains(alcoholName.toLowerCase(Locale.getDefault()))
                     ) {
                         list.add(
                             CardModel(

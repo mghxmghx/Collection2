@@ -21,4 +21,5 @@
 
     <color name="ic_bg">#FF6E40</color>
     <color name="tab_bg">#5B5A60</color>
+    <color name="bottomselect">#6d392b</color>
 </resources>

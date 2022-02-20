@@ -69,8 +69,8 @@ class BeerFragmentViewModel @Inject constructor(
         db2.get().addOnSuccessListener {
             for (child in it.children) {
                 if (child.child("cardCategory").value.toString().equals(category)) {
-                    if (child.child("cardName").value.toString().lowercase()
-                            .contains(alcoholName.lowercase())
+                    if (child.child("cardName").value.toString().toLowerCase()
+                            .contains(alcoholName.toLowerCase())
                     ) {
                         list.add(
                             CardModel(
