@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.databinding.PersonalInfoFragmentBinding
 import com.sezer.kirpitci.collection.di.MyApp
 import com.sezer.kirpitci.collection.ui.features.MainActivity
@@ -73,7 +74,7 @@ class PersonalInfo : Fragment() {
     private fun changePassword(newPassword: String) {
         viewModel.changePassword(newPassword).observe(viewLifecycleOwner, Observer {
             if (it) {
-                Toast.makeText(context, "Pasword Changed!", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, getString(R.string.fragment_personal_info_password_changed), Toast.LENGTH_LONG).show()
             }
         })
     }
@@ -83,7 +84,7 @@ class PersonalInfo : Fragment() {
             if (it) {
                 viewModel.deleteAccountRTDB(binding.userID.text.toString()).observe(
                     viewLifecycleOwner, Observer {
-                        Toast.makeText(context, "Your account deleted!", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, getString(R.string.fragment_personal_info_delete_account), Toast.LENGTH_LONG).show()
                         val intent = Intent(activity, MainActivity::class.java)
                         startActivity(intent)
                         requireActivity().finish()

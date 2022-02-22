@@ -5,8 +5,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"

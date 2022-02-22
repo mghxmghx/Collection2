@@ -4,28 +4,28 @@
     <item
         android:id="@+id/home_lay"
         android:icon="@drawable/ic_home_line"
-        android:title="Home"
+        android:title="@string/title_home"
         app:cnb_backgroundColor="@color/bottomselect"
         app:cnb_iconColor="#d55f39"
         app:cnb_textColor="#d55f39" />
     <item
         android:id="@+id/drink_lay"
         android:icon="@drawable/ic_beer_outline"
-        android:title="Drink"
+        android:title="@string/title_drink"
         app:cnb_backgroundColor="@color/bottomselect"
         app:cnb_iconColor="#d55f39"
         app:cnb_textColor="#d55f39" />
     <item
         android:id="@+id/user_lay"
         android:icon="@drawable/ic_user_line"
-        android:title="Personal"
+        android:title="@string/title_personal"
         app:cnb_backgroundColor="@color/bottomselect"
         app:cnb_iconColor="#d55f39"
         app:cnb_textColor="#d55f39" />
     <item
         android:id="@+id/phone_lay"
         android:icon="@drawable/ic_statistics"
-        android:title="Stats."
+        android:title="@string/title_stats"
         app:cnb_backgroundColor="@color/bottomselect"
         app:cnb_iconColor="#d55f39"
         app:cnb_textColor="#d55f39" />

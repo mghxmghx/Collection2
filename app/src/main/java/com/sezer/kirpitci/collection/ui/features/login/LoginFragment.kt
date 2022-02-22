@@ -76,7 +76,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun onPreExecute() {
-        progressDialog.setMessage("Giriş yapılıyor..")
+        progressDialog.setMessage(getString(R.string.fragment_add_card_loading))
         progressDialog.show()
     }
 

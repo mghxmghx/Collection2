@@ -31,6 +31,9 @@ import com.sezer.kirpitci.collection.utis.adapters.ClickItemUser
 import com.sezer.kirpitci.collection.utis.adapters.RecyclerAdapter
 import com.sezer.kirpitci.collection.utis.others.ViewModelFactory
 import com.sezer.kirpitci.collection.utis.updateWithUrlWithStatus
+import kotlinx.android.synthetic.main.fragment_beer.view.*
+import kotlinx.android.synthetic.main.view_search.*
+import kotlinx.android.synthetic.main.view_search.view.*
 import javax.inject.Inject
 
 
@@ -54,29 +57,31 @@ class UserFragment : Fragment(), ClickItemUser {
         initialUI()
         initialVM()
         initialRecyler()
-        initialTablayout()
-        hideKeyboardx()
         getID("beer")
         initialSearch()
-        clickListener()
-        setUpTabLayout()
+        initialTablayout()
+        binding.layouttop.setBackgroundResource(R.drawable.bg_seach)
+        binding.searchBar.setBackgroundResource(R.drawable.bg_seach)
         categoryTemp = "beer"
         super.onViewCreated(view, savedInstanceState)
     }
 
-    private fun clickListener() {
-        binding.seachb.setOnClickListener {
-            setAnimation()
-        }
-    }
+    private fun initialSearch() {
+        binding.searchBar.search_input_text.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (s.toString().length >= 3) {
+                    searchData(alcoholName = s.toString())
+                } else if (s.toString().length == 0) {
+                    getID(categoryTemp)
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
-    private fun setAnimation() {
-        val animationFadeOut = AnimationUtils.loadAnimation(context, R.anim.slide_in)
-        binding.seachText.isVisible = true
-        binding.seachText.startAnimation(animationFadeOut)
-
-        // val animationSlideOut = AnimationUtils.loadAnimation(context, R.anim.slide_out_components)
-        //  val animationSlideIn = AnimationUtils.loadAnimation(context, R.anim.slide_in_components)
+            }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                Log.e("onTextChanged",search_input_text.text.toString())
+            }
+        })
     }
 
     private fun setStatus(totalCount: Int, totalTrueStatus: Int) {
@@ -132,14 +137,6 @@ class UserFragment : Fragment(), ClickItemUser {
 
     }
 
-    private fun setUpTabLayout() {
-        val tabLayout = binding.tablayout
-        tabLayout.addTab(tabLayout.newTab().setText("Beer"))
-        tabLayout.addTab(tabLayout.newTab().setText("Wine"))
-        tabLayout.addTab(tabLayout.newTab().setText("Cocktail"))
-        tabLayout.setTabTextColors(Color.parseColor("#000000"), Color.parseColor("#000000"))
-
-    }
 
     private lateinit var id: String
     private fun getID(category: String) {
@@ -148,15 +145,6 @@ class UserFragment : Fragment(), ClickItemUser {
             id = it
             getData(category, it)
         })
-    }
-
-    fun hideKeyboardx() {
-
-        binding.searchAlcoholText.onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
-            if (!hasFocus) {
-                hideSoftKeyboard(v)
-            }
-        }
     }
 
     fun hideSoftKeyboard(view: View) {
@@ -169,26 +157,6 @@ class UserFragment : Fragment(), ClickItemUser {
         VM.getCards(category, id).observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
             countAlcoholStatus(it, "default")
-        })
-    }
-
-    private fun initialSearch() {
-        binding.searchAlcoholText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0.toString().length >= 3) {
-                    searchData(alcoholName = p0.toString())
-                } else if (p0.toString().length == 0) {
-                    getID(categoryTemp)
-                }
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-            }
-
         })
     }
 
@@ -333,7 +301,6 @@ class UserFragment : Fragment(), ClickItemUser {
         val oldVote = model.userStarRate
         val newVote = i.toString()
         model.userStarRate = i.toString()
-        Log.d("TAG", "starControl: " + model.userStarRate)
         if (model.userVoted.equals("null") || model.userVoted.equals("false")) {
             model.voteCount = (model.voteCount?.toInt()?.plus(1)).toString()
             model.userVoted = true.toString()
@@ -368,8 +335,6 @@ class UserFragment : Fragment(), ClickItemUser {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_options, menu)
-        Log.d("TAG", "onQueryTextChange: ")
-
         val searchItem = menu.findItem(R.id.action_search)
         val searchView = searchItem.actionView as SearchView
 
@@ -382,32 +347,36 @@ class UserFragment : Fragment(), ClickItemUser {
             }
 
             override fun onQueryTextChange(p0: String?): Boolean {
-                Log.d("TAG", "onQueryTextChange: " + p0)
                 return true
             }
         })
     }
-
     private fun initialTablayout() {
-        binding.tablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                if (tab.position == 0) {
-                    binding.searchAlcoholText.text?.clear()
-                    categoryTemp = "beer"
-                    getID("beer")
-                } else if (tab.position == 1) {
-                    binding.searchAlcoholText.text?.clear()
-                    categoryTemp = "wine"
-                    getID("wine")
-                } else if (tab.position == 2) {
-                    binding.searchAlcoholText.text?.clear()
-                    categoryTemp = "cocktail"
-                    getID("cocktail")
-                }
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {}
-            override fun onTabReselected(tab: TabLayout.Tab?) {}
-        })
+        binding.ltbeer.isSelected = true
+        categoryTemp = "beer"
+        binding.ltbeer.setOnClickListener {
+            binding.ltcocktail.isSelected = false
+            binding.ltwine.isSelected = false
+            binding.ltbeer.isSelected = true
+            binding.searchBar.search_input_text.text?.clear()
+            categoryTemp = "beer"
+            getID("beer")
+        }
+        binding.ltwine.setOnClickListener {
+            binding.ltcocktail.isSelected = false
+            binding.ltwine.isSelected = true
+            binding.ltbeer.isSelected = false
+            binding.searchBar.search_input_text.text?.clear()
+            categoryTemp = "wine"
+            getID("wine")
+        }
+        binding.ltcocktail.setOnClickListener {
+            binding.ltcocktail.isSelected = true
+            binding.ltwine.isSelected = false
+            binding.ltbeer.isSelected = false
+            binding.searchBar.search_input_text.text?.clear()
+            categoryTemp = "cocktail"
+            getID("cocktail")
+        }
     }
 }

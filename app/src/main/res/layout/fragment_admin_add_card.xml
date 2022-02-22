@@ -51,7 +51,7 @@
             android:layout_height="50dp"
             android:textColor="@color/white"
 
-            android:hint="Add card name" />
+            android:hint="@string/dialog_content_update_add_card_name" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -74,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:textColor="@color/white"
-            android:hint="Card Info" />
+            android:hint="@string/dialog_content_info" />
     </com.google.android.material.textfield.TextInputLayout>
         <Spinner
             android:id="@+id/card_category"
@@ -138,7 +138,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:textColor="@color/white"
-                android:hint="ABV" />
+                android:hint="@string/dialog_content_update_add_card_ABV" />
         </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -161,14 +161,14 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:textColor="@color/white"
-            android:hint="Card Price" />
+            android:hint="@string/dialog_content_price" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Submit"
+        android:text="@string/dialog_content_update_add_card_submit"
         android:layout_marginTop="6dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -71,7 +71,6 @@ class BeerFragment : Fragment(), ClickItemUser {
     private fun initialSearch() {
         binding.searchBar.search_input_text.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                Log.e("afterTextChanged",search_input_text.text.toString())
                 if(s.toString().length>=3){
                     searchData(s.toString())
                 } else if(s.toString().length == 0) {
@@ -82,7 +81,6 @@ class BeerFragment : Fragment(), ClickItemUser {
 
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                Log.e("onTextChanged",search_input_text.text.toString())
             }
         })
     }
@@ -101,11 +99,9 @@ class BeerFragment : Fragment(), ClickItemUser {
         })
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun getData(category: String, s: String) {
         VM.getCards(category, s).observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
-            //  adapter.notifyDataSetChanged()
         })
     }
 
@@ -196,7 +192,6 @@ class BeerFragment : Fragment(), ClickItemUser {
                 (model.cardAverage.toString().toFloat().toInt() / model.voteCount.toString()
                     .toInt())
         }
-        Log.d("TAG", "setBackgrounds: " + averageRate)
         val list = ArrayList<ImageView>()
         list.add(view.findViewById(R.id.dialog_star_one))
         list.add(view.findViewById(R.id.dialog_star_two))

@@ -10,5 +10,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#4CAF50"
-        android:text="Button" />
+        android:text="@string/admin_panel_button" />
 </FrameLayout>

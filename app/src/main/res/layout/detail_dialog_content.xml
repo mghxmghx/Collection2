@@ -57,7 +57,7 @@
                 android:layout_marginTop="16dp"
                 android:foregroundGravity="center"
                 android:gravity="center"
-                android:text="Name"
+                android:text="@string/dialog_content_name"
                 android:textSize="20dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -132,7 +132,7 @@
                 android:layout_marginTop="8dp"
                 android:foregroundGravity="center"
                 android:gravity="center"
-                android:text="Country"
+                android:text="@string/dialog_content_country"
                 android:textSize="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/voteTotal" />
@@ -145,7 +145,7 @@
                 android:layout_marginTop="8dp"
                 android:foregroundGravity="center"
                 android:gravity="center"
-                android:text="City"
+                android:text="@string/dialog_content_city"
                 android:textSize="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/alcoholCountry" />
@@ -157,7 +157,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:gravity="left"
-                android:text="Info"
+                android:text="@string/dialog_content_info"
                 android:textSize="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/alcoholCity" />
@@ -169,7 +169,7 @@
                 android:layout_marginEnd="16dp"
                 android:foregroundGravity="center"
                 android:gravity="center"
-                android:text="Price"
+                android:text="@string/dialog_content_price"
                 android:textSize="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/voteTotal" />

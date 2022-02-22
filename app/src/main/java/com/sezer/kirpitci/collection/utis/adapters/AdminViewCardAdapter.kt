@@ -32,7 +32,6 @@ class AdminViewCardAdapter(private val listener: ClickListener) :
             holder.image.updateWithUrlWithStatus(this.cardPath, holder.image, true.toString())
             holder.cardName.text = this.cardName
             holder.cardCountry.text = this.cardCounty
-            Log.d("TAG", "onBindViewHolder: " + this.cardID)
         }
 
         //holder.image.updateWithUrl(currentCard.cardPath,holder.image)

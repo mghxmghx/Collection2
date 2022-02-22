@@ -50,10 +50,6 @@ class SplashScreenFragment : Fragment() {
     fun innitialShared() {
         sharedPreferencesClass = SharedPreferencesClass()
         context?.let { sharedPreferencesClass.instantPref(it) }
-        Log.d(
-            "TAG",
-            "innitialShared: " + sharedPreferencesClass.getEmail() + " " + sharedPreferencesClass.getPassword()
-        )
     }
 
     private fun initialUI() {
@@ -115,7 +111,6 @@ class SplashScreenFragment : Fragment() {
     fun hideAnimation() {
         Runnable {
             binding.animationView.isVisible = false
-
         }
 
     }

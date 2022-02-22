@@ -80,7 +80,6 @@ class AdminViewCardFragment : Fragment(), ClickListener {
     fun getData() {
         VM.getCards().observe(viewLifecycleOwner, Observer {
             adapterX.swap(it)
-            adapterX.notifyDataSetChanged()
         })
     }
 
@@ -112,7 +111,6 @@ class AdminViewCardFragment : Fragment(), ClickListener {
         }
 
         cardImage.updateWithUrl(model.cardPath, cardImage)
-        Log.d("TAG", "updateCard: " + model.cardPath)
         val closeButton = view1.findViewById<ImageView>(R.id.imageView)
         closeButton.setOnClickListener {
             if (dialog != null) {
@@ -157,7 +155,6 @@ class AdminViewCardFragment : Fragment(), ClickListener {
     }
 
     override fun itemDeleteClick(data: ViewCardModel) {
-        Log.d("TAG", "itemDeleteClick: -------------" + data.cardName)
         VM.deleteChildren(data)
         getData()
     }
@@ -167,7 +164,7 @@ class AdminViewCardFragment : Fragment(), ClickListener {
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
         startActivityForResult(intent, 1)
-        progressDialog.setMessage("Loading")
+        progressDialog.setMessage(getString(R.string.fragment_add_card_loading))
         progressDialog.show()
     }
 

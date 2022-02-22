@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
+import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.databinding.FragmentPersonalBinding
 
 
@@ -30,9 +31,9 @@ class PersonalFragment : Fragment() {
 
     private fun setUpTabLayout() {
         val tabLayout = binding.tablayout
-        tabLayout.addTab(tabLayout.newTab().setText("Profile Settings"))
-        tabLayout.addTab(tabLayout.newTab().setText("Analystics"))
-        tabLayout.addTab(tabLayout.newTab().setText("Write Us"))
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.fragment_personal_profile_settings)))
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.fragment_personal_profile_analystics)))
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.fragment_personal_profile_write_us)))
         tabLayout.setTabTextColors(Color.parseColor("#000000"), Color.parseColor("#000000"))
 
     }

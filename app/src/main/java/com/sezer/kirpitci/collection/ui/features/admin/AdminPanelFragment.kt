@@ -43,7 +43,6 @@ class AdminPanelFragment : Fragment() {
         binding.tablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 binding.viewPager.currentItem = tab.position
-                Log.d("TAG", "onTabSelected: -----------------" + tab.position)
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {

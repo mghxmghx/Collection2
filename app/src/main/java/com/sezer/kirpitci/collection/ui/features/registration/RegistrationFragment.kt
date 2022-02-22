@@ -71,7 +71,6 @@ class RegistrationFragment : Fragment() {
 
     private fun getMaxID() {
         VM.getMaxId().observe(viewLifecycleOwner, Observer {
-            Log.d("TAG", "getMaxID: " + it)
             createUser(it)
         })
     }

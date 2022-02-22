@@ -29,8 +29,6 @@ fun ImageView.updateWithUrlWithStatus(url: String, imageViewAvatar: ImageView, s
 fun ImageView.updateWithUrl(url: String, imageViewAvatar: ImageView) {
 
     if (!url.equals("default")) {
-
-        Log.d("TAG", "updateWithUrl: --------------" + url)
         Picasso.get()
             .load(url).fit().centerInside()
             .into(imageViewAvatar)

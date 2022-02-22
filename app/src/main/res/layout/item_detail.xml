@@ -24,7 +24,7 @@
         android:layout_weight="1"
         android:layout_marginTop="4dp"
         android:layout_marginStart="4dp"
-        android:text="TextView"
+        android:text="@string/common_textview"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -36,7 +36,7 @@
         android:textColor="@color/white"
         android:layout_marginTop="20dp"
         android:visibility="gone"
-        android:text="TextView"
+        android:text="@string/common_textview"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/detailAlcoholName" />
 

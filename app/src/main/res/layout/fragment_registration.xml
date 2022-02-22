@@ -77,7 +77,7 @@
                         android:layout_height="wrap_content"
 
                         android:textColor="@color/white"
-                        android:hint="Name" />
+                        android:hint="@string/dialog_content_update_add_card_name" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout

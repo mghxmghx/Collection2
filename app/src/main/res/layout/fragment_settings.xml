@@ -41,7 +41,7 @@
                 android:layout_height="50dp"
                 android:textColor="@color/white"
 
-                android:hint="Add card name" />
+                android:hint="@string/dialog_content_update_add_card_name" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -64,7 +64,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:textColor="@color/white"
-                android:hint="Card Info" />
+                android:hint="@string/dialog_content_info" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -89,7 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:textColor="@color/white"
-                android:hint="Card Category" />
+                android:hint="@string/dialog_content_update_add_card_category" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -112,7 +112,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:textColor="@color/white"
-                android:hint="City" />
+                android:hint="@string/dialog_content_city" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -136,7 +136,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:textColor="@color/white"
-                android:hint="Country" />
+                android:hint="@string/dialog_content_country" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -159,7 +159,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:textColor="@color/white"
-                android:hint="Card Price" />
+                android:hint="@string/dialog_content_price" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
@@ -167,7 +167,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Submit"
+            android:text="@string/dialog_content_update_add_card_submit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/card_price_settings" />
