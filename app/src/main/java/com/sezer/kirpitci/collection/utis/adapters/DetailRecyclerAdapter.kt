@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.ui.features.registration.CardModel
 import com.sezer.kirpitci.collection.utis.updateWithUrlWithStatus
+import org.w3c.dom.Text
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -50,6 +51,9 @@ class DetailRecyclerAdapter(val listener: ClickItemUser) :
                 true.toString()
             )
             holder.nameText.text = this.cardName
+            holder.detailAlcoholRate.text = this.cardABV
+            holder.alcoholType.text = this.cardCompany
+
             val index = listName.indexOf(this.cardCounty.lowercase(Locale.getDefault()))
             if (index != -1) {
                 holder.cardFlag.setImageResource(listPath.get(index))
@@ -60,6 +64,9 @@ class DetailRecyclerAdapter(val listener: ClickItemUser) :
     inner class WorkerHolder(iv: View) : RecyclerView.ViewHolder(iv) {
         val cardImage: ImageView = itemView.findViewById(R.id.user_card_view_image)
         val nameText: TextView = itemView.findViewById(R.id.detailAlcoholName)
+        val detailAlcoholRate: TextView = itemView.findViewById(R.id.detailAlcoholRate)
+        val alcoholType: TextView = itemView.findViewById(R.id.alcoholType)
+        val alcoholML: TextView = itemView.findViewById(R.id.alcoholML)
         val cardFlag: ImageView = itemView.findViewById(R.id.user_card_view_flag)
         init {
             iv.setOnClickListener {

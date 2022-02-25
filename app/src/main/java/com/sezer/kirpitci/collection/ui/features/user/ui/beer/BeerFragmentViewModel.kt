@@ -34,20 +34,23 @@ class BeerFragmentViewModel @Inject constructor(
                 if (child.child("cardCategory").value.toString().equals(category)) {
                     list.add(
                         CardModel(
-                            child.child("cardID").value.toString(),
-                            child.child("cardName").value.toString(),
-                            child.child("cardInfo").value.toString(),
-                            child.child("cardCategory").value.toString(),
-                            child.child("cardCounty").value.toString(),
-                            child.child("cardCity").value.toString(),
-                            child.child("cardPrice").value.toString(),
-                            child.child("cardPath").value.toString(),
+                            cardID = child.child("cardID").value.toString(),
+                            cardName = child.child("cardName").value.toString(),
+                            cardInfo = child.child("cardInfo").value.toString(),
+                            cardCategory = child.child("cardCategory").value.toString(),
+                            cardCounty = child.child("cardCounty").value.toString(),
+                            cardCity = child.child("cardCity").value.toString(),
+                            cardPrice = child.child("cardPrice").value.toString(),
+                            cardPath = child.child("cardPath").value.toString(),
                             cardAverage = child.child("cardAverage").value.toString(),
                             child.child("users").child(userID).child("userCardStatus").value
                                 .toString(),
                             child.child("users").child(userID).child("userStarRate").value
                                 .toString(),
                             voteCount = child.child("voteCount").value.toString(),
+                            cardCompany = child.child("cardCompany").value.toString(),
+                            cardABV = child.child("cardABV").value.toString(),
+
                         )
                     )
                 }
@@ -74,19 +77,21 @@ class BeerFragmentViewModel @Inject constructor(
                     ) {
                         list.add(
                             CardModel(
-                                child.child("cardID").value.toString(),
-                                child.child("cardName").value.toString(),
-                                child.child("cardInfo").value.toString(),
-                                child.child("cardCategory").value.toString(),
-                                child.child("cardCounty").value.toString(),
-                                child.child("cardCity").value.toString(),
-                                child.child("cardPrice").value.toString(),
-                                child.child("cardPath").value.toString(),
+                                cardID = child.child("cardID").value.toString(),
+                                cardName = child.child("cardName").value.toString(),
+                                cardInfo = child.child("cardInfo").value.toString(),
+                                cardCategory = child.child("cardCategory").value.toString(),
+                                cardCounty = child.child("cardCounty").value.toString(),
+                                cardCity = child.child("cardCity").value.toString(),
+                                cardPrice = child.child("cardPrice").value.toString(),
+                                cardPath = child.child("cardPath").value.toString(),
                                 child.child("cardStarAverage").value.toString(),
                                 child.child("users").child(userID).child("userCardStatus")
                                     .value.toString(),
                                 child.child("users").child(userID).child("userStarRate").value
-                                    .toString()
+                                    .toString(),
+                                cardCompany = child.child("cardCompany").value.toString(),
+                                cardABV = child.child("cardABV").value.toString()
                             )
                         )
                     }

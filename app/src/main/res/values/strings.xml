@@ -66,4 +66,7 @@
     <string name="fragment_settings_please_enter_alcohol_name">Please enter alcohol name</string>
     <string name="fragment_settings_request_added">Request Added</string>
     <string name="fragment_settings_somethings_went_wrong">Somethings went wrong!</string>
+    <string name="add_card_russia">Russia</string>
+    <string name="add_card_european_union">European Union</string>
+    <string name="add_card_america">USA</string>
 </resources>

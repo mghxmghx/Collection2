@@ -13,5 +13,7 @@ data class CardModel(
     var status: String,
     var userStarRate: String?,
     var voteCount: String? = null,
-    var userVoted: String? = null
+    var userVoted: String? = null,
+    var cardABV: String,
+    var cardCompany: String
 )

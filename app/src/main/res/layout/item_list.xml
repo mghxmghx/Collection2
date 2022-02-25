@@ -55,18 +55,19 @@
                 android:gravity="right"
                 android:textColor="@color/white"/>
             <TextView
+                android:id="@+id/alcoholML"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/common_textview"
+                android:textSize="14sp"
+                android:gravity="right"
+                android:textColor="#929293"
+                tools:ignore="RtlHardcoded" />
+
+            <TextView
                 android:id="@+id/detailAlcoholRate"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/common_textview"
-                android:textSize="14sp"
-                android:gravity="right"
-                android:textColor="#929293"
-                tools:ignore="RtlHardcoded" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:gravity="right"
                 android:text="@string/common_textview"
                 android:textColor="#929293"
@@ -74,6 +75,7 @@
                 tools:ignore="RtlHardcoded" />
 
             <TextView
+                android:id="@+id/alcoholType"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/common_textview"

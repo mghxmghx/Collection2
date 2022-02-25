@@ -13,5 +13,6 @@ data class AddCardModel(
     var cardType: String,
     var cardCompany: String,
     var cardAverage: String,
-    var voteCount: String
+    var voteCount: String,
+    var beerInCountry: String
 )

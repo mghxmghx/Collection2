@@ -176,7 +176,8 @@ class AdminAddCardFragment : Fragment() {
                             cardAverage = "0",
                             voteCount = "0",
                             cardCompany = cardCompany,
-                            cardType = cardCategory
+                            cardType = cardCategory,
+                            beerInCountry = checkboxCheck()
                         )
                     )
 
@@ -243,7 +244,22 @@ class AdminAddCardFragment : Fragment() {
         binding.cardCategory.setBackgroundColor(Color.WHITE)
         binding.cardCategory.adapter = adapter
     }
+    private fun checkboxCheck(): String{
+        var checkString = ""
+        if(binding.checkBoxRU.isChecked) {
+            checkString = checkString + ",RU"
+        }
+        if(binding.checkboxEU.isChecked) {
+            checkString = checkString + ",EU"
 
+        }
+        if(binding.checkboxUSA.isChecked) {
+            checkString = checkString + ",USA"
+
+        }
+        return checkString
+
+    }
     private fun initTypeSpinner(list: List<String>) {
         val listx = arrayListOf<String>()
         for (i in 0 until listx.size) {
