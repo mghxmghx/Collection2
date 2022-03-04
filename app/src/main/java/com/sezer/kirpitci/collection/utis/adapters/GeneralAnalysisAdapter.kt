@@ -48,6 +48,7 @@ class GeneralAnalysisAdapter(val type: Int) :
         val cardImage: ImageView = itemView.findViewById(R.id.user_card_view_image)
         val name: TextView = itemView.findViewById(R.id.detailAlcoholName)
         val rate: TextView = itemView.findViewById(R.id.detailAlcoholRate)
+
         init {
             itemView.setOnClickListener {
                 //listener.clicked(getItem(adapterPosition))

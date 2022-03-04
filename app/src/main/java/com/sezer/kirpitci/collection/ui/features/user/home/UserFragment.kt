@@ -6,7 +6,6 @@ import android.app.Activity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
@@ -25,12 +24,10 @@ import com.sezer.kirpitci.collection.utis.adapters.RecyclerAdapter
 import com.sezer.kirpitci.collection.utis.others.SharedPreferencesClass
 import com.sezer.kirpitci.collection.utis.others.ViewModelFactory
 import com.sezer.kirpitci.collection.utis.updateWithUrlWithStatus
-import kotlinx.android.synthetic.main.view_search.*
 import kotlinx.android.synthetic.main.view_search.view.*
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
-import android.widget.AdapterView
 
 
 class UserFragment : Fragment(), ClickItemUser {
@@ -42,6 +39,7 @@ class UserFragment : Fragment(), ClickItemUser {
     private var categoryTemp = ""
     private var language = ""
     private lateinit var sharedPreferencesClass: SharedPreferencesClass
+
     companion object {
         const val BEER_CATEGORY = "beer"
         const val WINE_CATEGORY = "wine"
@@ -59,6 +57,7 @@ class UserFragment : Fragment(), ClickItemUser {
 
         const val DEFAULT = "default"
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -86,34 +85,36 @@ class UserFragment : Fragment(), ClickItemUser {
 
     private fun initialFlagSpinner() {
         val list = arrayListOf<String>(RUS_COUNTRY, EU_COUNTRY, USA_COUNTRY)
-        val flagList = arrayListOf<Int>(R.drawable.russian_flag, R.drawable.eu_flag, R.drawable.american_flag )
+        val flagList =
+            arrayListOf<Int>(R.drawable.russian_flag, R.drawable.eu_flag, R.drawable.american_flag)
         val adapter = SpinnerAdapterr(requireContext(), list, flagList)
         binding.companyLanguageSpinner.adapter = adapter
-        if(sharedPreferencesClass.getCompanyLanguage().equals(USA_COUNTRY)){
+        if (sharedPreferencesClass.getCompanyLanguage().equals(USA_COUNTRY)) {
             binding.companyLanguageSpinner.setSelection(2)
-        } else if(sharedPreferencesClass.getCompanyLanguage().equals(EU_COUNTRY)){
+        } else if (sharedPreferencesClass.getCompanyLanguage().equals(EU_COUNTRY)) {
             binding.companyLanguageSpinner.setSelection(1)
 
         } else {
             binding.companyLanguageSpinner.setSelection(0)
 
         }
-        binding.companyLanguageSpinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+        binding.companyLanguageSpinner.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 adapterView: AdapterView<*>?,
                 view: View?,
                 i: Int,
                 l: Long
             ) {
-                if(i == 0 ){
+                if (i == 0) {
                     language = RUS_COUNTRY
                     setLanguage(RUS_COUNTRY)
                     getID(categoryTemp)
-                } else if(i == 1) {
+                } else if (i == 1) {
                     language = EU_COUNTRY
                     setLanguage(EU_COUNTRY)
                     getID(categoryTemp)
-                } else if(i == 2) {
+                } else if (i == 2) {
                     language = USA_COUNTRY
                     setLanguage(USA_COUNTRY)
                     getID(categoryTemp)
@@ -123,7 +124,7 @@ class UserFragment : Fragment(), ClickItemUser {
             override fun onNothingSelected(adapterView: AdapterView<*>?) {
                 return
             }
-        })
+        }
     }
 
     private fun checkLanguage() {
@@ -149,8 +150,10 @@ class UserFragment : Fragment(), ClickItemUser {
                     getID(categoryTemp)
                 }
             }
+
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
+
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
         })
@@ -410,6 +413,7 @@ class UserFragment : Fragment(), ClickItemUser {
                 }
                 return true
             }
+
             override fun onQueryTextChange(p0: String?): Boolean {
                 return true
             }

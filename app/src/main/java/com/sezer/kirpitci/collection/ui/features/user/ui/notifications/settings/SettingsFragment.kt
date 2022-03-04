@@ -51,7 +51,11 @@ class SettingsFragment : Fragment() {
             if (!binding.addCardNameTextSettings.text.toString().isNullOrEmpty()) {
                 sendRequest()
             } else {
-                Toast.makeText(context, getString(R.string.fragment_settings_please_enter_alcohol_name), Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    context,
+                    getString(R.string.fragment_settings_please_enter_alcohol_name),
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
     }
@@ -76,7 +80,8 @@ class SettingsFragment : Fragment() {
         }
         VM.sendRequest(model).observe(viewLifecycleOwner, Observer {
             if (it) {
-                Toast.makeText(context, R.string.fragment_settings_request_added, Toast.LENGTH_LONG).show()
+                Toast.makeText(context, R.string.fragment_settings_request_added, Toast.LENGTH_LONG)
+                    .show()
                 binding.addCardNameTextSettings.text?.clear()
                 binding.cardCategoryTextSettings.text?.clear()
                 binding.cardCityTextSettings.text?.clear()
@@ -84,7 +89,11 @@ class SettingsFragment : Fragment() {
                 binding.cardInfoTextSettings.text?.clear()
                 binding.cardPriceTextSettings.text?.clear()
             } else {
-                Toast.makeText(context, getString(R.string.fragment_settings_somethings_went_wrong), Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    context,
+                    getString(R.string.fragment_settings_somethings_went_wrong),
+                    Toast.LENGTH_LONG
+                ).show()
             }
             setClickable(true)
         })

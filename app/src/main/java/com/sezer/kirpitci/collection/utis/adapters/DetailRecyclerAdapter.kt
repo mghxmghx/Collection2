@@ -11,9 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.ui.features.registration.CardModel
 import com.sezer.kirpitci.collection.utis.updateWithUrlWithStatus
-import org.w3c.dom.Text
 import java.util.*
-import kotlin.collections.ArrayList
 
 class DetailRecyclerAdapter(val listener: ClickItemUser) :
     ListAdapter<CardModel, DetailRecyclerAdapter.WorkerHolder>(
@@ -68,6 +66,7 @@ class DetailRecyclerAdapter(val listener: ClickItemUser) :
         val alcoholType: TextView = itemView.findViewById(R.id.alcoholType)
         val alcoholML: TextView = itemView.findViewById(R.id.alcoholML)
         val cardFlag: ImageView = itemView.findViewById(R.id.user_card_view_flag)
+
         init {
             iv.setOnClickListener {
                 listener.clicked(getItem(adapterPosition))

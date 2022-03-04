@@ -73,6 +73,7 @@ class AdminAddCardFragment : Fragment() {
     private fun initialUI() {
         MyApp.appComponent.inject(this)
     }
+
     private fun requestPermissions(): Boolean {
         val listPermissionsNeeded: MutableList<String> = ArrayList()
         listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -166,7 +167,7 @@ class AdminAddCardFragment : Fragment() {
                             cardID = cardID,
                             cardName = cardName,
                             cardInfo = cardInfo,
-                            cardCategory = cardType.toLowerCase(Locale.getDefault()),
+                            cardCategory = cardType.lowercase(Locale.getDefault()),
                             cardCounty = cardCountry,
                             cardCity = "",
                             cardPrice = cardPrice,
@@ -236,15 +237,16 @@ class AdminAddCardFragment : Fragment() {
         binding.cardCategory.setBackgroundColor(Color.WHITE)
         binding.cardCategory.adapter = adapter
     }
-    private fun checkboxCheck(): String{
+
+    private fun checkboxCheck(): String {
         var checkString = ""
-        if(binding.checkBoxRU.isChecked) {
+        if (binding.checkBoxRU.isChecked) {
             checkString = "$checkString,RU"
         }
-        if(binding.checkboxEU.isChecked) {
+        if (binding.checkboxEU.isChecked) {
             checkString = "$checkString,EU"
         }
-        if(binding.checkboxUSA.isChecked) {
+        if (binding.checkboxUSA.isChecked) {
             checkString = "$checkString,USA"
         }
         return checkString

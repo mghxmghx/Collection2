@@ -15,6 +15,7 @@ class LoginViewModel @Inject constructor(
         const val EMAIL = "email"
         const val STATUS = "status"
     }
+
     fun auth(id: String, password: String): MutableLiveData<Boolean> {
         val isSuccess = MutableLiveData<Boolean>()
         if (!id.isEmpty() && !password.isEmpty()) {

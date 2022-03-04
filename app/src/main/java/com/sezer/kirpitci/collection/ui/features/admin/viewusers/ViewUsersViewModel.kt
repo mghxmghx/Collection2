@@ -13,6 +13,7 @@ class ViewUsersViewModel @Inject constructor(val firebaseDatabase: FirebaseDatab
         const val USER_NAME = "userName"
         const val USERS = "users"
     }
+
     fun getUsers(): MutableLiveData<List<TrainingModelReal>> {
         val list = MutableLiveData<List<TrainingModelReal>>()
         val cardList = ArrayList<TrainingModelReal>()

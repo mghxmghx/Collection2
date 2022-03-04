@@ -26,7 +26,6 @@ import com.sezer.kirpitci.collection.utis.adapters.DetailRecyclerAdapter
 import com.sezer.kirpitci.collection.utis.others.SharedPreferencesClass
 import com.sezer.kirpitci.collection.utis.others.ViewModelFactory
 import com.sezer.kirpitci.collection.utis.updateWithUrlWithStatus
-import kotlinx.android.synthetic.main.view_search.*
 import kotlinx.android.synthetic.main.view_search.view.*
 import java.util.*
 import javax.inject.Inject
@@ -73,14 +72,17 @@ class BeerFragment : Fragment(), ClickItemUser {
     private fun initialVM() {
         VM = ViewModelProvider(this, viewModelFactory)[BeerFragmentViewModel::class.java]
     }
+
     private fun initialShared() {
         sharedPreferencesClass = SharedPreferencesClass()
         context?.let { sharedPreferencesClass.instantPref(it) }
 
     }
+
     private fun initialFlagSpinner() {
         val list = arrayListOf<String>("RUS", "EU", "USA")
-        val flagList = arrayListOf<Int>(R.drawable.russian_flag, R.drawable.eu_flag, R.drawable.american_flag)
+        val flagList =
+            arrayListOf<Int>(R.drawable.russian_flag, R.drawable.eu_flag, R.drawable.american_flag)
 
         val adapter = SpinnerAdapterr(requireContext(), list, flagList)
         binding.companyLanguageSpinner.adapter = adapter
@@ -94,7 +96,7 @@ class BeerFragment : Fragment(), ClickItemUser {
             binding.companyLanguageSpinner.setSelection(0)
 
         }
-        binding.companyLanguageSpinner.setOnItemSelectedListener(object :
+        binding.companyLanguageSpinner.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 adapterView: AdapterView<*>?,
@@ -121,7 +123,7 @@ class BeerFragment : Fragment(), ClickItemUser {
             override fun onNothingSelected(adapterView: AdapterView<*>?) {
                 return
             }
-        })
+        }
     }
 
     private fun checkLanguage() {

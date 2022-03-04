@@ -39,11 +39,13 @@ class SharedPreferencesClass {
         var sharedValue = sharedPreferences.getString(USER_PASSWORD, "")
         return sharedValue
     }
+
     fun setCompanyLanguage(language: String) {
         editor.putString(LANGUAGE, language)
             .apply()
         editor.commit()
     }
+
     fun getCompanyLanguage(): String? {
         var sharedValue = sharedPreferences.getString(LANGUAGE, "")
         return sharedValue

@@ -26,10 +26,12 @@ class LoginFragment : Fragment() {
     private lateinit var VM: LoginViewModel
     private lateinit var sharedPreferencesClass: SharedPreferencesClass
     private lateinit var progressDialog: ProgressDialog
+
     companion object {
         const val ADMIN_SEC = "admin"
         const val USER_SEC = "user"
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

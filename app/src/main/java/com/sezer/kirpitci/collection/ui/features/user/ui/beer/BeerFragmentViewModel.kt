@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.sezer.kirpitci.collection.ui.features.registration.CardModel
+import java.util.*
 import javax.inject.Inject
 
 class BeerFragmentViewModel @Inject constructor(
@@ -34,6 +35,7 @@ class BeerFragmentViewModel @Inject constructor(
         const val EMAIL = "email"
         const val CARD_STAR_AVERAGE = "cardStarAverage"
     }
+
     fun getUserID(): MutableLiveData<String> {
         val userID = MutableLiveData<String>()
         firebaseDatabase.getReference(USERS).get().addOnSuccessListener {
@@ -48,13 +50,20 @@ class BeerFragmentViewModel @Inject constructor(
         return userID
     }
 
-    fun getCards(category: String, userID: String, language: String): MutableLiveData<List<CardModel>> {
+    fun getCards(
+        category: String,
+        userID: String,
+        language: String
+    ): MutableLiveData<List<CardModel>> {
         val cardList = MutableLiveData<List<CardModel>>()
         val list = arrayListOf<CardModel>()
         var db2 = firebaseDatabase.getReference(CARDS)
         db2.get().addOnSuccessListener {
             for (child in it.children) {
-                if (child.child(CARD_CATEGORY).value.toString().equals(category) && child.child("beerInCountry").value.toString().contains(language)) {
+                if (child.child(CARD_CATEGORY).value.toString()
+                        .equals(category) && child.child("beerInCountry").value.toString()
+                        .contains(language)
+                ) {
                     list.add(
                         CardModel(
                             child.child(CARD_ID).value.toString(),
@@ -97,8 +106,8 @@ class BeerFragmentViewModel @Inject constructor(
         db2.get().addOnSuccessListener {
             for (child in it.children) {
                 if (child.child(CARD_CATEGORY).value.toString().equals(category)) {
-                    if (child.child(CARD_NAME).value.toString().toLowerCase()
-                            .contains(alcoholName.toLowerCase())
+                    if (child.child(CARD_NAME).value.toString().lowercase(Locale.getDefault())
+                            .contains(alcoholName.lowercase(Locale.getDefault()))
                     ) {
                         list.add(
                             CardModel(

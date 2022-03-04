@@ -20,7 +20,7 @@ class AdminAddCardViewModel @Inject constructor(
     val firebaseStorage: FirebaseStorage,
     val firebaseFirestore: FirebaseFirestore
 ) : ViewModel() {
-    companion object{
+    companion object {
         const val CARDS = "cards"
         const val CARDSV2 = "Cards"
         const val CARD_ID = "cardID"
@@ -31,6 +31,7 @@ class AdminAddCardViewModel @Inject constructor(
         const val USERS = "users"
         const val EMAIL = "email"
     }
+
     fun getMaxId(): MutableLiveData<Int> {
         val db = firebaseDatabase.getReference(CARDS)
         val lastInt = MutableLiveData<Int>()

@@ -1,7 +1,6 @@
 package com.sezer.kirpitci.collection.ui.features.admin
 
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View

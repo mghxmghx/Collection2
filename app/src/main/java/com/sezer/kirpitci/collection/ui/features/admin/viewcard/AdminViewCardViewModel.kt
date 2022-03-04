@@ -1,7 +1,6 @@
 package com.sezer.kirpitci.collection.ui.features.admin.viewcard
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.tasks.Continuation
@@ -30,6 +29,7 @@ class AdminViewCardViewModel @Inject constructor(val firebaseDatabase: FirebaseD
         const val DEFAULT = "default"
         const val CARDSV2 = "Cards"
     }
+
     var quote: MutableLiveData<List<ViewCardModel>>? = getCards()
     fun getCards(): MutableLiveData<List<ViewCardModel>> {
         val list = MutableLiveData<List<ViewCardModel>>()

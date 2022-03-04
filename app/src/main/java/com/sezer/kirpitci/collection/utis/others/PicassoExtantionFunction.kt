@@ -2,7 +2,6 @@ package com.sezer.kirpitci.collection.utis
 
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
-import android.util.Log
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.sezer.kirpitci.collection.R

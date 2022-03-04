@@ -1,6 +1,5 @@
 package com.sezer.kirpitci.collection.utis.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,9 +39,11 @@ class AdminViewCardAdapter(private val listener: ClickListener) :
         val cardName: TextView = iv.findViewById(R.id.card_name)
         val cardCountry: TextView = iv.findViewById(R.id.card_country)
         val deleteButton: ImageView = iv.findViewById(R.id.delete)
+
         init {
             itemView.findViewById<ImageView>(R.id.delete).setOnClickListener(this)
         }
+
         override fun onClick(p0: View?) {
             if (p0 == deleteButton) {
                 if (adapterPosition != RecyclerView.NO_POSITION) {

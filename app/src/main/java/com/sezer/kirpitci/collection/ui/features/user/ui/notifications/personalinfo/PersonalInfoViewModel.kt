@@ -17,6 +17,7 @@ class PersonalInfoViewModel @Inject constructor(
         const val USER_ID = "userID"
         const val USER_NAME = "userName"
     }
+
     fun getDetails(id: String): MutableLiveData<PersonalInfoModel> {
         val model = MutableLiveData<PersonalInfoModel>()
         firebaseDatabase.getReference(USERS).child(id).get().addOnSuccessListener {

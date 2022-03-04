@@ -5,14 +5,13 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.sezer.kirpitci.collection.ui.features.registration.CardModel
-import com.sezer.kirpitci.collection.utis.others.SharedPreferencesClass
 import java.util.*
 import javax.inject.Inject
 
 class UserViewModel @Inject constructor(
     val firebaseDatabase: FirebaseDatabase,
     val auth: FirebaseAuth
-    ) : ViewModel() {
+) : ViewModel() {
     companion object {
         const val CARD_ID = "cardID"
         const val CARD_NAME = "cardName"
@@ -35,6 +34,7 @@ class UserViewModel @Inject constructor(
         const val USERS = "users"
         const val EMAIL = "email"
     }
+
     fun getUserID(): MutableLiveData<String> {
         val userID = MutableLiveData<String>()
         firebaseDatabase.getReference(USERS).get().addOnSuccessListener {
@@ -125,13 +125,20 @@ class UserViewModel @Inject constructor(
         return model
     }
 
-    fun getCards(category: String, userID: String, language: String): MutableLiveData<List<CardModel>> {
+    fun getCards(
+        category: String,
+        userID: String,
+        language: String
+    ): MutableLiveData<List<CardModel>> {
         val cardList = MutableLiveData<List<CardModel>>()
         val list = arrayListOf<CardModel>()
         var db2 = firebaseDatabase.getReference(CARDS)
         db2.get().addOnSuccessListener {
             for (child in it.children) {
-                if (child.child(CARD_CATEGORY).value.toString().equals(category) && child.child("beerInCountry").value.toString().contains(language)) {
+                if (child.child(CARD_CATEGORY).value.toString()
+                        .equals(category) && child.child("beerInCountry").value.toString()
+                        .contains(language)
+                ) {
                     list.add(
                         CardModel(
                             child.child(CARD_ID).value.toString(),
@@ -162,6 +169,7 @@ class UserViewModel @Inject constructor(
         }
         return cardList
     }
+
     fun searchCards(
         alcoholName: String,
         category: String,
@@ -173,8 +181,8 @@ class UserViewModel @Inject constructor(
         db2.get().addOnSuccessListener {
             for (child in it.children) {
                 if (child.child(CARD_CATEGORY).value.toString().equals(category)) {
-                    if (child.child(CARD_NAME).value.toString().toLowerCase(Locale.getDefault())
-                            .contains(alcoholName.toLowerCase(Locale.getDefault()))
+                    if (child.child(CARD_NAME).value.toString().lowercase(Locale.getDefault())
+                            .contains(alcoholName.lowercase(Locale.getDefault()))
                     ) {
                         list.add(
                             CardModel(

@@ -17,6 +17,7 @@ class RegistrationViewModel @Inject constructor(
         const val FALSE = "false"
         const val CARDS = "cards"
     }
+
     fun getMaxId(): MutableLiveData<Int> {
         val db = firebaseDatabase.getReference(USERS)
         val lastInt = MutableLiveData<Int>()

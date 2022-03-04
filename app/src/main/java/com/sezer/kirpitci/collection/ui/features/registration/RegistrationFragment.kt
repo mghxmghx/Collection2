@@ -1,7 +1,6 @@
 package com.sezer.kirpitci.collection.ui.features.registration
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import com.google.firebase.database.DatabaseReference
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.databinding.FragmentRegistrationBinding
 import com.sezer.kirpitci.collection.di.MyApp
@@ -23,9 +21,11 @@ class RegistrationFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelFactory
     private lateinit var binding: FragmentRegistrationBinding
     private lateinit var VM: RegistrationViewModel
+
     companion object {
         const val USER_SEC = "user"
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

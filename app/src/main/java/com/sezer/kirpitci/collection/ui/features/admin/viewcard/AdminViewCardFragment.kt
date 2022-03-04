@@ -4,7 +4,6 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,7 +38,8 @@ class AdminViewCardFragment : Fragment(), ClickListener {
     private lateinit var progressDialog: ProgressDialog
     private lateinit var view1: View
     private var uri: String = ""
-    companion object{
+
+    companion object {
         const val DEFAULT = "default"
     }
 

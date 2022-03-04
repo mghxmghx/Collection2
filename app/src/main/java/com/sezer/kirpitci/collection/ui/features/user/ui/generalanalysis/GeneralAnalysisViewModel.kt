@@ -15,6 +15,7 @@ class GeneralAnalysisViewModel @Inject constructor(val firebaseDatabase: Firebas
         const val CARD_PRICE = "cardPrice"
         const val CARD_PATH = "cardPath"
     }
+
     fun getBeers(): MutableLiveData<List<GeneralAnalysisModel>> {
         val returnList = MutableLiveData<List<GeneralAnalysisModel>>()
         val list = arrayListOf<GeneralAnalysisModel>()

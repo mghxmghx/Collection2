@@ -1,5 +1,4 @@
 import android.content.Context
-import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,7 +6,11 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 import com.sezer.kirpitci.collection.R
 
-class SpinnerAdapterr(val context: Context, var listItemsTxt: ArrayList<String>, var listItemsImages: ArrayList<Int>) : BaseAdapter() {
+class SpinnerAdapterr(
+    val context: Context,
+    var listItemsTxt: ArrayList<String>,
+    var listItemsImages: ArrayList<Int>
+) : BaseAdapter() {
     val mInflater: LayoutInflater = LayoutInflater.from(context)
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view: View

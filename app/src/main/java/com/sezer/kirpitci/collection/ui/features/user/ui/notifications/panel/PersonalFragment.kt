@@ -31,9 +31,15 @@ class PersonalFragment : Fragment() {
 
     private fun setUpTabLayout() {
         val tabLayout = binding.tablayout
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.fragment_personal_profile_settings)))
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.fragment_personal_profile_analystics)))
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.fragment_personal_profile_write_us)))
+        tabLayout.addTab(
+            tabLayout.newTab().setText(getString(R.string.fragment_personal_profile_settings))
+        )
+        tabLayout.addTab(
+            tabLayout.newTab().setText(getString(R.string.fragment_personal_profile_analystics))
+        )
+        tabLayout.addTab(
+            tabLayout.newTab().setText(getString(R.string.fragment_personal_profile_write_us))
+        )
         tabLayout.setTabTextColors(Color.parseColor("#000000"), Color.parseColor("#000000"))
     }
 

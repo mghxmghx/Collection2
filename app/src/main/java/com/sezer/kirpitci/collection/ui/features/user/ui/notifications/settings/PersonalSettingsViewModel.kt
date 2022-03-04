@@ -13,6 +13,7 @@ class PersonalSettingsViewModel @Inject constructor(
     companion object {
         const val ALCOHOL_REQUEST = "alcoholRequest"
     }
+
     fun sendRequest(model: SendRequestModel): MutableLiveData<Boolean> {
         val isSuccess = MutableLiveData<Boolean>()
         firebaseDatabase.getReference(ALCOHOL_REQUEST).child(model.cardName).setValue(model)
