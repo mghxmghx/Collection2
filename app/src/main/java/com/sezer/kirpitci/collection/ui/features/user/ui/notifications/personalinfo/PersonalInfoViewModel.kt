@@ -10,15 +10,21 @@ class PersonalInfoViewModel @Inject constructor(
     val firebaseDatabase: FirebaseDatabase,
     val auth: FirebaseAuth
 ) : ViewModel() {
-
+    companion object {
+        const val EMAIL = "email"
+        const val USERS = "users"
+        const val STATUS = "status"
+        const val USER_ID = "userID"
+        const val USER_NAME = "userName"
+    }
     fun getDetails(id: String): MutableLiveData<PersonalInfoModel> {
         val model = MutableLiveData<PersonalInfoModel>()
-        firebaseDatabase.getReference("users").child(id).get().addOnSuccessListener {
+        firebaseDatabase.getReference(USERS).child(id).get().addOnSuccessListener {
             model.value = PersonalInfoModel(
-                it.child("email").value.toString(),
-                it.child("status").value.toString(),
-                it.child("userID").value.toString(),
-                it.child("userName").value.toString()
+                it.child(EMAIL).value.toString(),
+                it.child(STATUS).value.toString(),
+                it.child(USER_ID).value.toString(),
+                it.child(USER_NAME).value.toString()
             )
         }
         return model
@@ -26,9 +32,9 @@ class PersonalInfoViewModel @Inject constructor(
 
     fun getUserID(): MutableLiveData<String> {
         val userID = MutableLiveData<String>()
-        firebaseDatabase.getReference("users").get().addOnSuccessListener {
+        firebaseDatabase.getReference(USERS).get().addOnSuccessListener {
             for (i in it.children) {
-                if (i.child("email").value.toString()
+                if (i.child(EMAIL).value.toString()
                         .equals(auth.currentUser?.email.toString())
                 ) {
                     userID.value = i.key.toString()
@@ -47,9 +53,8 @@ class PersonalInfoViewModel @Inject constructor(
     }
 
     fun deleteAccountRTDB(id: String): MutableLiveData<Boolean> {
-        val user = FirebaseAuth.getInstance().currentUser?.email
         val isSuccess = MutableLiveData<Boolean>()
-        val db = FirebaseDatabase.getInstance().getReference("users")
+        val db = FirebaseDatabase.getInstance().getReference(USERS)
         db.child(id).removeValue().addOnCompleteListener {
             isSuccess.value = it.isSuccessful
         }
@@ -59,7 +64,6 @@ class PersonalInfoViewModel @Inject constructor(
     fun changePassword(password: String): MutableLiveData<Boolean> {
         val isSuccess = MutableLiveData<Boolean>()
         val user = FirebaseAuth.getInstance().currentUser
-
         user!!.updatePassword(password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 isSuccess.value = task.isSuccessful

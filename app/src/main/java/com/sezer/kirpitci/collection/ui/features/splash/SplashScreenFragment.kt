@@ -27,6 +27,10 @@ class SplashScreenFragment : Fragment() {
     private lateinit var VM: SplashViewModel
     private lateinit var sharedPreferencesClass: SharedPreferencesClass
 
+    companion object {
+        const val USER_SEC = "user"
+        const val ADMIN_SEC = "admin"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -71,13 +75,13 @@ class SplashScreenFragment : Fragment() {
                 Observer {
                     if (it) {
                         VM.getStatus().observe(viewLifecycleOwner, Observer {
-                            if (it.equals("user")) {
+                            if (it.equals(USER_SEC)) {
                                 hideAnimation()
                                 val intent = Intent(activity, UserAct::class.java)
                                 startActivity(intent)
                                 requireActivity().finish()
                                 // Navigation.findNavController(binding.root).navigate(R.id.action_splashScreenFragment2_to_homePageFragment)
-                            } else if (it.equals("admin")) {
+                            } else if (it.equals(ADMIN_SEC)) {
                                 hideAnimation()
                                 Navigation.findNavController(binding.root)
                                     .navigate(R.id.action_splashScreenFragment2_to_adminPanelFragment)
@@ -103,15 +107,12 @@ class SplashScreenFragment : Fragment() {
     fun startAnimation() {
         Runnable {
             binding.animationView.isVisible = true
-
         }
-
     }
 
     fun hideAnimation() {
         Runnable {
             binding.animationView.isVisible = false
         }
-
     }
 }

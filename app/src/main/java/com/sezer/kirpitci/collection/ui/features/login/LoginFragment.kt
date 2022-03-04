@@ -26,8 +26,10 @@ class LoginFragment : Fragment() {
     private lateinit var VM: LoginViewModel
     private lateinit var sharedPreferencesClass: SharedPreferencesClass
     private lateinit var progressDialog: ProgressDialog
-
-
+    companion object {
+        const val ADMIN_SEC = "admin"
+        const val USER_SEC = "user"
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -54,7 +56,6 @@ class LoginFragment : Fragment() {
     private fun initialShared() {
         sharedPreferencesClass = SharedPreferencesClass()
         context?.let { sharedPreferencesClass.instantPref(it) }
-
     }
 
     private fun goToRegister() {
@@ -95,10 +96,10 @@ class LoginFragment : Fragment() {
                         }
                         VM.getStatus().observe(viewLifecycleOwner, Observer {
                             onPostExecute()
-                            if (it.equals("admin")) {
+                            if (it.equals(ADMIN_SEC)) {
                                 Navigation.findNavController(binding.root)
                                     .navigate(R.id.action_loginFragment_to_adminPanelFragment)
-                            } else if (it.equals("user")) {
+                            } else if (it.equals(USER_SEC)) {
                                 val intent = Intent(activity, UserAct::class.java)
                                 startActivity(intent)
                                 requireActivity().finish()

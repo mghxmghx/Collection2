@@ -39,6 +39,10 @@ class AdminViewCardFragment : Fragment(), ClickListener {
     private lateinit var progressDialog: ProgressDialog
     private lateinit var view1: View
     private var uri: String = ""
+    companion object{
+        const val DEFAULT = "default"
+    }
+
     var adapterX = AdapterX(ArrayList<ViewCardModel>(), this)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,7 +67,6 @@ class AdminViewCardFragment : Fragment(), ClickListener {
     }
 
     fun initialRecyler() {
-        //adapter = AdminViewCardAdapter(this)
         binding.cardRecycler.layoutManager = LinearLayoutManager(context)
         binding.cardRecycler.adapter = adapterX
     }
@@ -74,7 +77,6 @@ class AdminViewCardFragment : Fragment(), ClickListener {
 
     private fun initialVM() {
         VM = ViewModelProvider(this, viewModelFactory)[AdminViewCardViewModel::class.java]
-
     }
 
     fun getData() {
@@ -171,9 +173,9 @@ class AdminViewCardFragment : Fragment(), ClickListener {
     private fun updateImage(model: ViewCardModel) {
         if (!model.cardName.isEmpty() && !model.cardCategory.isEmpty() && !model.cardCounty.isEmpty()) {
             if (uri.equals("")) {
-                uri = "default"
+                uri = DEFAULT
             }
-            if (!uri.equals("default")) {
+            if (!uri.equals(DEFAULT)) {
                 VM.setChildImage(uri.toUri(), Timestamp(System.currentTimeMillis()).toString())
                     .observe(viewLifecycleOwner, Observer {
                         model.cardPath = it

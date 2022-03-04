@@ -7,18 +7,26 @@ import javax.inject.Inject
 
 class GeneralAnalysisViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase) :
     ViewModel() {
+    companion object {
+        const val CARDS = "cards"
+        const val CARD_NAME = "cardName"
+        const val CARD_VOTE_COUNT = "voteCount"
+        const val CARD_AVERAGE = "cardAverage"
+        const val CARD_PRICE = "cardPrice"
+        const val CARD_PATH = "cardPath"
+    }
     fun getBeers(): MutableLiveData<List<GeneralAnalysisModel>> {
         val returnList = MutableLiveData<List<GeneralAnalysisModel>>()
         val list = arrayListOf<GeneralAnalysisModel>()
-        firebaseDatabase.getReference("cards").get().addOnSuccessListener {
+        firebaseDatabase.getReference(CARDS).get().addOnSuccessListener {
             for (child in it.children) {
                 list.add(
                     GeneralAnalysisModel(
-                        cardName = child.child("cardName").value.toString(),
-                        voteCount = child.child("voteCount").value.toString(),
-                        average = child.child("cardAverage").value.toString(),
-                        price = child.child("cardPrice").value.toString(),
-                        cardPath = child.child("cardPath").value.toString()
+                        cardName = child.child(CARD_NAME).value.toString(),
+                        voteCount = child.child(CARD_VOTE_COUNT).value.toString(),
+                        average = child.child(CARD_AVERAGE).value.toString(),
+                        price = child.child(CARD_PRICE).value.toString(),
+                        cardPath = child.child(CARD_PATH).value.toString()
                     )
                 )
             }
@@ -26,5 +34,4 @@ class GeneralAnalysisViewModel @Inject constructor(val firebaseDatabase: Firebas
         }
         return returnList
     }
-
 }

@@ -15,9 +15,7 @@ import com.sezer.kirpitci.collection.utis.updateWithUrl
 
 class AdapterX(initCList: List<ViewCardModel>, val listener: ClickListener) :
     RecyclerView.Adapter<AdapterX.ViewHolder>() {
-
     private val modelList = mutableListOf<ViewCardModel>()
-
     init {
         modelList.addAll(initCList)
     }
@@ -61,7 +59,6 @@ class AdapterX(initCList: List<ViewCardModel>, val listener: ClickListener) :
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
         private val code: TextView = itemView.findViewById(R.id.card_name)
         private val name: TextView = itemView.findViewById(R.id.card_country)
         private val delete: ImageView = itemView.findViewById(R.id.delete)

@@ -23,9 +23,9 @@ class RegistrationFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelFactory
     private lateinit var binding: FragmentRegistrationBinding
     private lateinit var VM: RegistrationViewModel
-
-    private lateinit var databaseReference: DatabaseReference
-
+    companion object {
+        const val USER_SEC = "user"
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,7 +48,6 @@ class RegistrationFragment : Fragment() {
 
     private fun initialVM() {
         VM = ViewModelProvider(this, viewModelFactory)[RegistrationViewModel::class.java]
-
     }
 
     private fun clickListeners() {
@@ -84,7 +83,7 @@ class RegistrationFragment : Fragment() {
                         AddUserModel(
                             binding.mail.text.toString(),
                             binding.name.text.toString(),
-                            "user",
+                            USER_SEC,
                             (i + 1).toString()
                         )
                     )
@@ -104,8 +103,6 @@ class RegistrationFragment : Fragment() {
                 Toast.makeText(context, getString(R.string.Create_Fail), Toast.LENGTH_SHORT)
                     .show()
             }
-
         })
     }
-
 }

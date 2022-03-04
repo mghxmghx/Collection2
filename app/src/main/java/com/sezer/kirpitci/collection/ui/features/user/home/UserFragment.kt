@@ -1,40 +1,36 @@
 package com.sezer.kirpitci.collection.ui.features.user.home
 
+import SpinnerAdapterr
 import android.animation.ObjectAnimator
 import android.app.Activity
-import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.*
-import android.view.View.OnFocusChangeListener
-import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
-import android.widget.CompoundButton
-import android.widget.ImageView
-import android.widget.SearchView
-import android.widget.Switch
-import android.widget.TextView
+import android.widget.*
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.tabs.TabLayout
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.databinding.FragmentUserBinding
 import com.sezer.kirpitci.collection.di.MyApp
 import com.sezer.kirpitci.collection.ui.features.registration.CardModel
 import com.sezer.kirpitci.collection.utis.adapters.ClickItemUser
 import com.sezer.kirpitci.collection.utis.adapters.RecyclerAdapter
+import com.sezer.kirpitci.collection.utis.others.SharedPreferencesClass
 import com.sezer.kirpitci.collection.utis.others.ViewModelFactory
 import com.sezer.kirpitci.collection.utis.updateWithUrlWithStatus
-import kotlinx.android.synthetic.main.fragment_beer.view.*
 import kotlinx.android.synthetic.main.view_search.*
 import kotlinx.android.synthetic.main.view_search.view.*
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
+import android.widget.AdapterView
 
 
 class UserFragment : Fragment(), ClickItemUser {
@@ -44,6 +40,25 @@ class UserFragment : Fragment(), ClickItemUser {
     private lateinit var adapter: RecyclerAdapter
     private lateinit var VM: UserViewModel
     private var categoryTemp = ""
+    private var language = ""
+    private lateinit var sharedPreferencesClass: SharedPreferencesClass
+    companion object {
+        const val BEER_CATEGORY = "beer"
+        const val WINE_CATEGORY = "wine"
+        const val COCKTAIL_CATEGORY = "cocktail"
+
+        const val RUS_COUNTRY = "RUS"
+        const val EU_COUNTRY = "EU"
+        const val USA_COUNTRY = "USA"
+
+        const val CALC_MINUS = "minus"
+        const val CALC_PLUS = "plus"
+
+        const val FALSE = "false"
+        const val TRUE = "true"
+
+        const val DEFAULT = "default"
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -56,14 +71,73 @@ class UserFragment : Fragment(), ClickItemUser {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initialUI()
         initialVM()
+        initialShared()
+        checkLanguage()
+        initialFlagSpinner()
         initialRecyler()
-        getID("beer")
+        getID(BEER_CATEGORY)
         initialSearch()
         initialTablayout()
         binding.layouttop.setBackgroundResource(R.drawable.bg_seach)
         binding.searchBar.setBackgroundResource(R.drawable.bg_seach)
-        categoryTemp = "beer"
+        categoryTemp = BEER_CATEGORY
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun initialFlagSpinner() {
+        val list = arrayListOf<String>(RUS_COUNTRY, EU_COUNTRY, USA_COUNTRY)
+        val flagList = arrayListOf<Int>(R.drawable.russian_flag, R.drawable.eu_flag, R.drawable.american_flag )
+        val adapter = SpinnerAdapterr(requireContext(), list, flagList)
+        binding.companyLanguageSpinner.adapter = adapter
+        if(sharedPreferencesClass.getCompanyLanguage().equals(USA_COUNTRY)){
+            binding.companyLanguageSpinner.setSelection(2)
+        } else if(sharedPreferencesClass.getCompanyLanguage().equals(EU_COUNTRY)){
+            binding.companyLanguageSpinner.setSelection(1)
+
+        } else {
+            binding.companyLanguageSpinner.setSelection(0)
+
+        }
+        binding.companyLanguageSpinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                adapterView: AdapterView<*>?,
+                view: View?,
+                i: Int,
+                l: Long
+            ) {
+                if(i == 0 ){
+                    language = RUS_COUNTRY
+                    setLanguage(RUS_COUNTRY)
+                    getID(categoryTemp)
+                } else if(i == 1) {
+                    language = EU_COUNTRY
+                    setLanguage(EU_COUNTRY)
+                    getID(categoryTemp)
+                } else if(i == 2) {
+                    language = USA_COUNTRY
+                    setLanguage(USA_COUNTRY)
+                    getID(categoryTemp)
+                }
+            }
+
+            override fun onNothingSelected(adapterView: AdapterView<*>?) {
+                return
+            }
+        })
+    }
+
+    private fun checkLanguage() {
+        if (sharedPreferencesClass.getCompanyLanguage().isNullOrEmpty()) {
+            val currentLanguage = Locale.getDefault().isO3Country
+            setLanguage(currentLanguage)
+            language = currentLanguage
+        } else {
+            language = sharedPreferencesClass.getCompanyLanguage().toString()
+        }
+    }
+
+    private fun setLanguage(language: String) {
+        sharedPreferencesClass.setCompanyLanguage(language)
     }
 
     private fun initialSearch() {
@@ -76,23 +150,16 @@ class UserFragment : Fragment(), ClickItemUser {
                 }
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                Log.e("onTextChanged",search_input_text.text.toString())
             }
         })
     }
 
     private fun setStatus(totalCount: Int, totalTrueStatus: Int) {
-        //   binding.customProgress1.max = 10
         binding.customProgress2.max = totalCount
-        //    val currentProgress = 6
         val currentProgress2 = totalTrueStatus
         binding.progress2NumberText.text = "$totalTrueStatus/$totalCount"
-        /*   ObjectAnimator.ofInt(binding.customProgress1, "progress", currentProgress)
-               .setDuration(1000)
-               .start() */
         ObjectAnimator.ofInt(binding.customProgress2, "progress", currentProgress2)
             .setDuration(1000)
             .start()
@@ -101,11 +168,11 @@ class UserFragment : Fragment(), ClickItemUser {
     private fun countAlcoholStatus(list: List<CardModel>?, isCheckted: String) {
         var totalCount = 0
         var totalTrueStatus = 0
-        if (isCheckted.equals("plus")) {
+        if (isCheckted.equals(CALC_PLUS)) {
             val text = binding.progress2NumberText.text.split("/")
             totalCount = text.get(1).toInt()
             totalTrueStatus = text.get(0).toInt() + 1
-        } else if (isCheckted.equals("minus")) {
+        } else if (isCheckted.equals(CALC_MINUS)) {
             val text = binding.progress2NumberText.text.split("/")
             totalCount = text.get(1).toInt()
             totalTrueStatus = text.get(0).toInt() - 1
@@ -113,7 +180,7 @@ class UserFragment : Fragment(), ClickItemUser {
             if (list != null) {
                 for (i in 0 until list.size) {
                     totalCount++
-                    if (list.get(i).status.equals("true")) {
+                    if (list.get(i).status.equals(TRUE)) {
                         totalTrueStatus++
                     }
                 }
@@ -134,13 +201,10 @@ class UserFragment : Fragment(), ClickItemUser {
 
     private fun initialVM() {
         VM = ViewModelProvider(this, viewModelFactory)[UserViewModel::class.java]
-
     }
-
 
     private lateinit var id: String
     private fun getID(category: String) {
-
         VM.getUserID().observe(viewLifecycleOwner, Observer {
             id = it
             getData(category, it)
@@ -154,9 +218,9 @@ class UserFragment : Fragment(), ClickItemUser {
     }
 
     private fun getData(category: String, id: String) {
-        VM.getCards(category, id).observe(viewLifecycleOwner, Observer {
+        VM.getCards(category, id, language).observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
-            countAlcoholStatus(it, "default")
+            countAlcoholStatus(it, DEFAULT)
         })
     }
 
@@ -164,6 +228,12 @@ class UserFragment : Fragment(), ClickItemUser {
         VM.searchCards(alcoholName, categoryTemp, id).observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
         })
+    }
+
+    private fun initialShared() {
+        sharedPreferencesClass = SharedPreferencesClass()
+        context?.let { sharedPreferencesClass.instantPref(it) }
+
     }
 
     private fun isCheckVM(checked: Boolean, model: CardModel) {
@@ -179,14 +249,12 @@ class UserFragment : Fragment(), ClickItemUser {
 
     private fun checkClickedLayout(model: CardModel) {
         val view = layoutInflater.inflate(R.layout.detail_dialog_content, null)
-
         val dialog = context?.let { it1 ->
             BottomSheetDialog(
                 it1,
                 R.style.BottomSheetDialogTheme
             )
         }
-
         val closeButton = view.findViewById<ImageView>(R.id.dialogContentClose)
         val startOne = view.findViewById<ImageView>(R.id.dialog_star_one)
         val startTwo = view.findViewById<ImageView>(R.id.dialog_star_two)
@@ -266,14 +334,13 @@ class UserFragment : Fragment(), ClickItemUser {
         isCheck.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
             if (isCheck.isChecked) {
                 isCheckVM(true, model)
-                countAlcoholStatus(null, "plus")
+                countAlcoholStatus(null, CALC_PLUS)
             } else {
                 isCheckVM(false, model)
-                countAlcoholStatus(null, "minus")
+                countAlcoholStatus(null, CALC_MINUS)
 
             }
         })
-
         image.updateWithUrlWithStatus(model.cardPath, image, true.toString())
         closeButton.setOnClickListener {
             if (dialog != null) {
@@ -281,7 +348,6 @@ class UserFragment : Fragment(), ClickItemUser {
                 (view.parent as ViewGroup).removeView(view)
             }
         }
-
         if (dialog != null) {
             dialog.setContentView(view)
         }
@@ -301,7 +367,7 @@ class UserFragment : Fragment(), ClickItemUser {
         val oldVote = model.userStarRate
         val newVote = i.toString()
         model.userStarRate = i.toString()
-        if (model.userVoted.equals("null") || model.userVoted.equals("false")) {
+        if (model.userVoted.equals("null") || model.userVoted.equals(FALSE)) {
             model.voteCount = (model.voteCount?.toInt()?.plus(1)).toString()
             model.userVoted = true.toString()
         }
@@ -320,7 +386,6 @@ class UserFragment : Fragment(), ClickItemUser {
         list.add(view.findViewById(R.id.dialog_star_eight))
         list.add(view.findViewById(R.id.dialog_star_nine))
         list.add(view.findViewById(R.id.dialog_star_ten))
-
         for (i in 0 until clickedNumber) {
             list.get(i).setImageResource(R.drawable.ic_dialog_rate_star_check)
         }
@@ -345,38 +410,38 @@ class UserFragment : Fragment(), ClickItemUser {
                 }
                 return true
             }
-
             override fun onQueryTextChange(p0: String?): Boolean {
                 return true
             }
         })
     }
+
     private fun initialTablayout() {
         binding.ltbeer.isSelected = true
-        categoryTemp = "beer"
+        categoryTemp = BEER_CATEGORY
         binding.ltbeer.setOnClickListener {
             binding.ltcocktail.isSelected = false
             binding.ltwine.isSelected = false
             binding.ltbeer.isSelected = true
             binding.searchBar.search_input_text.text?.clear()
-            categoryTemp = "beer"
-            getID("beer")
+            categoryTemp = BEER_CATEGORY
+            getID(BEER_CATEGORY)
         }
         binding.ltwine.setOnClickListener {
             binding.ltcocktail.isSelected = false
             binding.ltwine.isSelected = true
             binding.ltbeer.isSelected = false
             binding.searchBar.search_input_text.text?.clear()
-            categoryTemp = "wine"
-            getID("wine")
+            categoryTemp = WINE_CATEGORY
+            getID(WINE_CATEGORY)
         }
         binding.ltcocktail.setOnClickListener {
             binding.ltcocktail.isSelected = true
             binding.ltwine.isSelected = false
             binding.ltbeer.isSelected = false
             binding.searchBar.search_input_text.text?.clear()
-            categoryTemp = "cocktail"
-            getID("cocktail")
+            categoryTemp = COCKTAIL_CATEGORY
+            getID(COCKTAIL_CATEGORY)
         }
     }
 }

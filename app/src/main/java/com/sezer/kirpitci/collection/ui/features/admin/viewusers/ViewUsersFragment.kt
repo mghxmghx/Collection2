@@ -55,6 +55,5 @@ class ViewUsersFragment : Fragment() {
             adapter.swap(it)
 
         })
-
     }
 }

@@ -1,6 +1,6 @@
 package com.sezer.kirpitci.collection.ui.features.user.ui.beer
 
-import android.annotation.SuppressLint
+import SpinnerAdapterr
 import android.app.Activity
 import android.os.Bundle
 import android.text.Editable
@@ -8,7 +8,6 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
@@ -18,18 +17,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.tabs.TabLayout
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.databinding.FragmentBeerBinding
 import com.sezer.kirpitci.collection.di.MyApp
 import com.sezer.kirpitci.collection.ui.features.registration.CardModel
 import com.sezer.kirpitci.collection.utis.adapters.ClickItemUser
 import com.sezer.kirpitci.collection.utis.adapters.DetailRecyclerAdapter
+import com.sezer.kirpitci.collection.utis.others.SharedPreferencesClass
 import com.sezer.kirpitci.collection.utis.others.ViewModelFactory
 import com.sezer.kirpitci.collection.utis.updateWithUrlWithStatus
-import javax.inject.Inject
 import kotlinx.android.synthetic.main.view_search.*
 import kotlinx.android.synthetic.main.view_search.view.*
+import java.util.*
+import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 
 class BeerFragment : Fragment(), ClickItemUser {
@@ -39,6 +40,8 @@ class BeerFragment : Fragment(), ClickItemUser {
     private lateinit var VM: BeerFragmentViewModel
     private lateinit var adapter: DetailRecyclerAdapter
     private var categoryTemp: String = ""
+    private var language = ""
+    private lateinit var sharedPreferencesClass: SharedPreferencesClass
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,6 +55,9 @@ class BeerFragment : Fragment(), ClickItemUser {
         initialVM()
         initialTablayout()
         initialRecyler()
+        initialShared()
+        checkLanguage()
+        initialFlagSpinner()
         focusListener()
         getID("beer")
         categoryTemp = "beer"
@@ -67,19 +73,85 @@ class BeerFragment : Fragment(), ClickItemUser {
     private fun initialVM() {
         VM = ViewModelProvider(this, viewModelFactory)[BeerFragmentViewModel::class.java]
     }
+    private fun initialShared() {
+        sharedPreferencesClass = SharedPreferencesClass()
+        context?.let { sharedPreferencesClass.instantPref(it) }
+
+    }
+    private fun initialFlagSpinner() {
+        val list = arrayListOf<String>("RUS", "EU", "USA")
+        val flagList = arrayListOf<Int>(R.drawable.russian_flag, R.drawable.eu_flag, R.drawable.american_flag)
+
+        val adapter = SpinnerAdapterr(requireContext(), list, flagList)
+        binding.companyLanguageSpinner.adapter = adapter
+        Log.d("TAG", "initialFlagSpinner: " + sharedPreferencesClass.getCompanyLanguage())
+        if (sharedPreferencesClass.getCompanyLanguage().equals("USA")) {
+            binding.companyLanguageSpinner.setSelection(2)
+        } else if (sharedPreferencesClass.getCompanyLanguage().equals("EU")) {
+            binding.companyLanguageSpinner.setSelection(1)
+
+        } else {
+            binding.companyLanguageSpinner.setSelection(0)
+
+        }
+        binding.companyLanguageSpinner.setOnItemSelectedListener(object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                adapterView: AdapterView<*>?,
+                view: View?,
+                i: Int,
+                l: Long
+            ) {
+                if (i == 0) {
+                    language = "RUS"
+                    setLanguage("RUS")
+                    getID(categoryTemp)
+                } else if (i == 1) {
+                    language = "EU"
+                    setLanguage("EU")
+                    getID(categoryTemp)
+                } else if (i == 2) {
+                    language = "USA"
+                    setLanguage("USA")
+                    getID(categoryTemp)
+                }
+
+            }
+
+            override fun onNothingSelected(adapterView: AdapterView<*>?) {
+                return
+            }
+        })
+    }
+
+    private fun checkLanguage() {
+        if (sharedPreferencesClass.getCompanyLanguage().isNullOrEmpty()) {
+            val currentLanguage = Locale.getDefault().isO3Country
+            setLanguage(currentLanguage)
+            language = currentLanguage
+        } else {
+            language = sharedPreferencesClass.getCompanyLanguage().toString()
+        }
+    }
+
+    private fun setLanguage(language: String) {
+        sharedPreferencesClass.setCompanyLanguage(language)
+    }
 
     private fun initialSearch() {
         binding.searchBar.search_input_text.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                if(s.toString().length>=3){
+                if (s.toString().length >= 3) {
                     searchData(s.toString())
-                } else if(s.toString().length == 0) {
+                } else if (s.toString().length == 0) {
                     getData(categoryTemp, s.toString())
                 }
             }
+
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
             }
+
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
         })
@@ -100,7 +172,7 @@ class BeerFragment : Fragment(), ClickItemUser {
     }
 
     private fun getData(category: String, s: String) {
-        VM.getCards(category, s).observe(viewLifecycleOwner, Observer {
+        VM.getCards(category, s, language).observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
         })
     }
@@ -131,11 +203,11 @@ class BeerFragment : Fragment(), ClickItemUser {
     }
 
     private fun focusListener() {
-      /*  binding.searchAlcoholText.onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
-            if (!hasFocus) {
-                hideKeyboard(v)
-            }
-        }*/
+        /*  binding.searchAlcoholText.onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
+              if (!hasFocus) {
+                  hideKeyboard(v)
+              }
+          }*/
     }
 
     private fun checkClickedLayout(model: CardModel) {

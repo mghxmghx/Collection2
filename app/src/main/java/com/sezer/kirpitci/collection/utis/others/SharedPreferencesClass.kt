@@ -10,6 +10,7 @@ class SharedPreferencesClass {
     private lateinit var editor: SharedPreferences.Editor
     private var USER_EMAIL = "Email"
     private var USER_PASSWORD = "Password"
+    private var LANGUAGE = "Language"
 
     fun instantPref(context: Context) {
         this.context = context
@@ -38,5 +39,13 @@ class SharedPreferencesClass {
         var sharedValue = sharedPreferences.getString(USER_PASSWORD, "")
         return sharedValue
     }
-
+    fun setCompanyLanguage(language: String) {
+        editor.putString(LANGUAGE, language)
+            .apply()
+        editor.commit()
+    }
+    fun getCompanyLanguage(): String? {
+        var sharedValue = sharedPreferences.getString(LANGUAGE, "")
+        return sharedValue
+    }
 }

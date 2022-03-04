@@ -10,6 +10,11 @@ class LoginViewModel @Inject constructor(
     val firebaseDatabase: FirebaseDatabase,
     val auth: FirebaseAuth
 ) : ViewModel() {
+    companion object {
+        const val USERS = "users"
+        const val EMAIL = "email"
+        const val STATUS = "status"
+    }
     fun auth(id: String, password: String): MutableLiveData<Boolean> {
         val isSuccess = MutableLiveData<Boolean>()
         if (!id.isEmpty() && !password.isEmpty()) {
@@ -24,18 +29,17 @@ class LoginViewModel @Inject constructor(
 
     fun getStatus(): MutableLiveData<String> {
         val personStatues = MutableLiveData<String>()
-        val db2 = firebaseDatabase.getReference("users")
+        val db2 = firebaseDatabase.getReference(USERS)
         db2.get()
             .addOnSuccessListener {
                 for (child in it.children) {
-                    if (child.child("email").value.toString()
+                    if (child.child(EMAIL).value.toString()
                             .equals(auth.currentUser?.email)
                     ) {
-                        personStatues.value = child.child("status").value.toString()
+                        personStatues.value = child.child(STATUS).value.toString()
                     }
                 }
             }
         return personStatues
     }
-
 }

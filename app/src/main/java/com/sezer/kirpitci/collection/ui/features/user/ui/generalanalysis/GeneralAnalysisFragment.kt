@@ -93,7 +93,6 @@ class GeneralAnalysisFragment : Fragment(), ClickItemUser {
         teriedAdapter.submitList(voteCountList)
         expensiveAdapter.submitList(expensiveList)
         cheapAdapter.submitList(cheapList.toMutableList())
-
     }
 
     private fun initialCheapRecycler() {
@@ -121,6 +120,5 @@ class GeneralAnalysisFragment : Fragment(), ClickItemUser {
     }
 
     override fun clicked(model: CardModel) {
-        TODO("Not yet implemented")
     }
 }

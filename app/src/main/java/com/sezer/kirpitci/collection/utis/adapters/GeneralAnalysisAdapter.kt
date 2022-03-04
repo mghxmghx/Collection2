@@ -13,7 +13,6 @@ import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.ui.features.user.ui.generalanalysis.GeneralAnalysisModel
 import com.sezer.kirpitci.collection.utis.updateWithUrlWithStatus
 
-
 class GeneralAnalysisAdapter(val type: Int) :
     ListAdapter<GeneralAnalysisModel, GeneralAnalysisAdapter.WorkerHolder>(
         diffCallback
@@ -49,7 +48,6 @@ class GeneralAnalysisAdapter(val type: Int) :
         val cardImage: ImageView = itemView.findViewById(R.id.user_card_view_image)
         val name: TextView = itemView.findViewById(R.id.detailAlcoholName)
         val rate: TextView = itemView.findViewById(R.id.detailAlcoholRate)
-
         init {
             itemView.setOnClickListener {
                 //listener.clicked(getItem(adapterPosition))

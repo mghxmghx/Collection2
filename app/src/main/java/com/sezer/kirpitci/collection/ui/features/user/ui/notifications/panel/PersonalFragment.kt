@@ -35,7 +35,6 @@ class PersonalFragment : Fragment() {
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.fragment_personal_profile_analystics)))
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.fragment_personal_profile_write_us)))
         tabLayout.setTabTextColors(Color.parseColor("#000000"), Color.parseColor("#000000"))
-
     }
 
     private fun initialTablayout() {
@@ -55,7 +54,6 @@ class PersonalFragment : Fragment() {
                     binding.fragmentContainerView3.isVisible = true
                     binding.fragmentContainerView4.isVisible = false
                     binding.fragmentContainerView5.isVisible = false
-
                 }
             }
 
@@ -67,5 +65,4 @@ class PersonalFragment : Fragment() {
             }
         })
     }
-
 }

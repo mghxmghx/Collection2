@@ -20,15 +20,26 @@ class AdminAddCardViewModel @Inject constructor(
     val firebaseStorage: FirebaseStorage,
     val firebaseFirestore: FirebaseFirestore
 ) : ViewModel() {
+    companion object{
+        const val CARDS = "cards"
+        const val CARDSV2 = "Cards"
+        const val CARD_ID = "cardID"
+        const val DEFAULT = "default"
+        const val UPLOADS = "uploads/"
+        const val COMPANIES = "companies"
+        const val CATEGORIES = "categories"
+        const val USERS = "users"
+        const val EMAIL = "email"
+    }
     fun getMaxId(): MutableLiveData<Int> {
-        val db = firebaseDatabase.getReference("cards")
+        val db = firebaseDatabase.getReference(CARDS)
         val lastInt = MutableLiveData<Int>()
 
         db.get().addOnSuccessListener {
             var lastIndex = 0
 
             for (child in it.children) {
-                lastIndex = child.child("cardID").value.toString().toInt()
+                lastIndex = child.child(CARD_ID).value.toString().toInt()
             }
             lastInt.value = lastIndex
         }
@@ -37,7 +48,7 @@ class AdminAddCardViewModel @Inject constructor(
 
     fun addCard(model: AddCardModel): MutableLiveData<Boolean> {
         val isSuccess = MutableLiveData<Boolean>()
-        val db = firebaseDatabase.getReference("cards")
+        val db = firebaseDatabase.getReference(CARDS)
         db.child(model.cardID.toString()).setValue(model).addOnCompleteListener {
             isSuccess.value = it.isSuccessful
             getMaxId()
@@ -47,9 +58,9 @@ class AdminAddCardViewModel @Inject constructor(
 
     fun setChildImage(filePath: Uri, imageID: String): MutableLiveData<String> {
         val isSuccess = MutableLiveData<String>()
-        if (!filePath.toString().equals("default")) {
-            val storageReference = firebaseStorage.getReference("Cards")
-            val ref = storageReference.child("uploads/" + UUID.randomUUID().toString())
+        if (!filePath.toString().equals(DEFAULT)) {
+            val storageReference = firebaseStorage.getReference(CARDSV2)
+            val ref = storageReference.child(UPLOADS + UUID.randomUUID().toString())
             val db = firebaseFirestore
             val uploadTask = ref.putFile(filePath)
             val urlTask = uploadTask.continueWithTask(
@@ -74,14 +85,14 @@ class AdminAddCardViewModel @Inject constructor(
                             isSuccess.value = task.result.toString()
                         }
                         .addOnFailureListener {
-                            isSuccess.value = "default"
+                            isSuccess.value = DEFAULT
                         }
                 } else {
-                    isSuccess.value = "default"
+                    isSuccess.value = DEFAULT
                 }
             }
         } else {
-            isSuccess.value = "default"
+            isSuccess.value = DEFAULT
         }
         return isSuccess
     }
@@ -89,7 +100,7 @@ class AdminAddCardViewModel @Inject constructor(
     fun getCompanyList(): MutableLiveData<List<String>> {
         val list = arrayListOf<String>()
         val returnList = MutableLiveData<List<String>>()
-        firebaseDatabase.getReference("companies").get().addOnSuccessListener {
+        firebaseDatabase.getReference(COMPANIES).get().addOnSuccessListener {
             for (child in it.children) {
                 list.add(child.value.toString())
             }
@@ -101,7 +112,7 @@ class AdminAddCardViewModel @Inject constructor(
     fun getCountryList(): MutableLiveData<List<String>> {
         val list = arrayListOf<String>()
         val returnList = MutableLiveData<List<String>>()
-        firebaseDatabase.getReference("countries").get().addOnSuccessListener {
+        firebaseDatabase.getReference(CATEGORIES).get().addOnSuccessListener {
             for (child in it.children) {
                 list.add(child.value.toString())
             }
@@ -113,7 +124,7 @@ class AdminAddCardViewModel @Inject constructor(
     fun getCategoryList(): MutableLiveData<List<String>> {
         val list = arrayListOf<String>()
         val returnList = MutableLiveData<List<String>>()
-        firebaseDatabase.getReference("categories").get().addOnSuccessListener {
+        firebaseDatabase.getReference(CATEGORIES).get().addOnSuccessListener {
             for (child in it.children) {
                 list.add(child.value.toString())
             }
@@ -125,12 +136,12 @@ class AdminAddCardViewModel @Inject constructor(
     fun checkUserList(): MutableLiveData<List<AddCardUserModel>> {
         val list = MutableLiveData<List<AddCardUserModel>>()
         val tempList = ArrayList<AddCardUserModel>()
-        firebaseDatabase.getReference("users").get().addOnSuccessListener {
+        firebaseDatabase.getReference(USERS).get().addOnSuccessListener {
             for (child in it.children) {
                 tempList.add(
                     AddCardUserModel(
                         child.key.toString(),
-                        child.child("email").value.toString(),
+                        child.child(EMAIL).value.toString(),
                         false.toString()
                     )
                 )
@@ -142,7 +153,7 @@ class AdminAddCardViewModel @Inject constructor(
 
     fun addUserUnderCard(list: List<AddCardUserModel>, cardID: String): MutableLiveData<Boolean> {
         val isSucces = MutableLiveData<Boolean>()
-        firebaseDatabase.getReference("cards").child(cardID).child("users").setValue(list)
+        firebaseDatabase.getReference(CARDS).child(cardID).child(USERS).setValue(list)
             .addOnCompleteListener {
                 isSucces.value = it.isSuccessful
             }

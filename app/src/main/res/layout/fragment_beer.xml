@@ -18,6 +18,10 @@
             android:layout_width="match_parent"
             android:background="@drawable/bg_seach"
             android:layout_height="wrap_content" />
+        <Spinner
+            android:id="@+id/companyLanguageSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </RelativeLayout>
 
     <androidx.cardview.widget.CardView

@@ -37,6 +37,17 @@ class AdminAddCardFragment : Fragment() {
     private lateinit var VM: AdminAddCardViewModel
     private val IMAGE_REQUEST: Int = 1
     private val REQUEST_ID_MULTIPLE_PERMISSIONS = 7
+    private var companyList = listOf<String>()
+    private var categoryList = listOf<String>()
+    private var countryList = listOf<String>()
+    private var typeList = listOf<String>()
+
+    companion object {
+        const val LOADING = "Loading"
+        const val CATEGORY_WINE = "Wine"
+        const val CATEGORY_BEER = "Beer"
+        const val CATEGORY_COCKTAIL = "Cocktail"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,13 +73,10 @@ class AdminAddCardFragment : Fragment() {
     private fun initialUI() {
         MyApp.appComponent.inject(this)
     }
-
-
     private fun requestPermissions(): Boolean {
         val listPermissionsNeeded: MutableList<String> = ArrayList()
         listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         listPermissionsNeeded.add(Manifest.permission.CAMERA)
-
         listPermissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE)
         if (!listPermissionsNeeded.isEmpty()) {
             ActivityCompat.requestPermissions(
@@ -102,7 +110,7 @@ class AdminAddCardFragment : Fragment() {
     }
 
     private fun checkAndRequestPermissions(): Boolean {
-        val wtite = ContextCompat.checkSelfPermission(
+        val write = ContextCompat.checkSelfPermission(
             requireActivity(),
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
@@ -111,7 +119,7 @@ class AdminAddCardFragment : Fragment() {
                 requireActivity(),
                 Manifest.permission.READ_EXTERNAL_STORAGE
             )
-        if (wtite != PackageManager.PERMISSION_GRANTED) {
+        if (write != PackageManager.PERMISSION_GRANTED) {
             return false
         }
         if (read != PackageManager.PERMISSION_GRANTED) {
@@ -126,22 +134,13 @@ class AdminAddCardFragment : Fragment() {
         intent.type = intentType
         intent.action = Intent.ACTION_GET_CONTENT
         startActivityForResult(intent, 1)
-        progressDialog.setMessage("Loading")
+        progressDialog.setMessage(LOADING)
         progressDialog.show()
     }
 
     private fun initialVM() {
         VM = ViewModelProvider(this, viewModelFactory)[AdminAddCardViewModel::class.java]
-
     }
-
-    private var companyList = listOf<String>()
-
-    private var categoryList = listOf<String>()
-
-    private var countryList = listOf<String>()
-
-    private var typeList = listOf<String>()
 
     private fun clickListener() {
         binding.button2.setOnClickListener {
@@ -183,9 +182,7 @@ class AdminAddCardFragment : Fragment() {
 
                 }
             })
-
         }
-
     }
 
     private fun getUserList(cardID: String) {
@@ -197,12 +194,7 @@ class AdminAddCardFragment : Fragment() {
     private fun addUsersUnderCard(list: List<AddCardUserModel>, cardID: String) {
         VM.addUserUnderCard(list, cardID).observe(viewLifecycleOwner, Observer {
             binding.addCardNameText.setText("")
-            //   binding.cardCategoryText.setText("")
-            ///     binding.cardCityText.setText("")
-            //    binding.cardCompanyText.setText("")
-            //   binding.cardTypeText.setText("")
             binding.cardAbvText.setText("")
-            //  binding.cardCountryText.setText("")
             binding.cardPriceText.setText("")
             binding.cardInfoText.setText("")
             binding.imageView2.resetImage(binding.imageView2)
@@ -233,7 +225,7 @@ class AdminAddCardFragment : Fragment() {
     }
 
     private fun initCategorySpinner() {
-        val listx = arrayListOf("Beer", "Wine", "Cocktail")
+        val listx = arrayListOf(CATEGORY_BEER, CATEGORY_WINE, CATEGORY_COCKTAIL)
         typeList = listx
         val adapter = context?.let {
             ArrayAdapter(
@@ -247,19 +239,18 @@ class AdminAddCardFragment : Fragment() {
     private fun checkboxCheck(): String{
         var checkString = ""
         if(binding.checkBoxRU.isChecked) {
-            checkString = checkString + ",RU"
+            checkString = "$checkString,RU"
         }
         if(binding.checkboxEU.isChecked) {
-            checkString = checkString + ",EU"
-
+            checkString = "$checkString,EU"
         }
         if(binding.checkboxUSA.isChecked) {
-            checkString = checkString + ",USA"
-
+            checkString = "$checkString,USA"
         }
         return checkString
 
     }
+
     private fun initTypeSpinner(list: List<String>) {
         val listx = arrayListOf<String>()
         for (i in 0 until listx.size) {
@@ -279,7 +270,7 @@ class AdminAddCardFragment : Fragment() {
     private fun initCompanySpinner(list: List<String>) {
         val listx = arrayListOf<String>()
         for (i in 0 until listx.size) {
-            listx.add(list.get(i))
+            listx.add(list[i])
         }
         list.toTypedArray()
         val adapter = context?.let {
@@ -315,7 +306,9 @@ class AdminAddCardFragment : Fragment() {
                 model.cardPath = it
                 VM.addCard(model).observe(viewLifecycleOwner, Observer {
                     getUserList(model.cardID)
-                })
-            })
+                }
+                )
+            }
+            )
     }
 }

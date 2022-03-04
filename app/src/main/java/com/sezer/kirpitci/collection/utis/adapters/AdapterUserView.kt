@@ -28,26 +28,21 @@ class AdapterUserView(initCList: List<TrainingModelReal>) :
     override fun getItemCount() = modelList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
         holder.bind(model = modelList[position])
-
     }
 
     fun swap(modelList: List<TrainingModelReal>) {
         val diffCallback = DiffUtilUserViewRecycler(this.modelList, modelList)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
-
         this.modelList.clear()
         this.modelList.addAll(modelList)
         diffResult.dispatchUpdatesTo(this)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
         private val name: TextView = itemView.findViewById(R.id.rcy_name)
         private val email: TextView = itemView.findViewById(R.id.rcy_email)
         private val status: TextView = itemView.findViewById(R.id.rcy_status)
-
         fun bind(model: TrainingModelReal) {
             name.text = model.userName
             email.text = model.email

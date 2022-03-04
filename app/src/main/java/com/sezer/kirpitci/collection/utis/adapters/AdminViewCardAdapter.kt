@@ -33,9 +33,6 @@ class AdminViewCardAdapter(private val listener: ClickListener) :
             holder.cardName.text = this.cardName
             holder.cardCountry.text = this.cardCounty
         }
-
-        //holder.image.updateWithUrl(currentCard.cardPath,holder.image)
-
     }
 
     inner class UserHolder(iv: View) : RecyclerView.ViewHolder(iv), View.OnClickListener {
@@ -43,11 +40,9 @@ class AdminViewCardAdapter(private val listener: ClickListener) :
         val cardName: TextView = iv.findViewById(R.id.card_name)
         val cardCountry: TextView = iv.findViewById(R.id.card_country)
         val deleteButton: ImageView = iv.findViewById(R.id.delete)
-
         init {
             itemView.findViewById<ImageView>(R.id.delete).setOnClickListener(this)
         }
-
         override fun onClick(p0: View?) {
             if (p0 == deleteButton) {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
@@ -58,7 +53,6 @@ class AdminViewCardAdapter(private val listener: ClickListener) :
             }
         }
     }
-
 }
 
 private val diffCallback = object : DiffUtil.ItemCallback<ViewCardModel>() {

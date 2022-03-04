@@ -5,18 +5,41 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.sezer.kirpitci.collection.ui.features.registration.CardModel
+import com.sezer.kirpitci.collection.utis.others.SharedPreferencesClass
 import java.util.*
 import javax.inject.Inject
 
 class UserViewModel @Inject constructor(
     val firebaseDatabase: FirebaseDatabase,
     val auth: FirebaseAuth
-) : ViewModel() {
+    ) : ViewModel() {
+    companion object {
+        const val CARD_ID = "cardID"
+        const val CARD_NAME = "cardName"
+        const val CARD_INFO = "cardInfo"
+        const val CARD_CATEGORY = "cardCategory"
+        const val CARD_COUNTRY = "cardCounty"
+        const val CARD_CITY = "cardCity"
+        const val CARD_PRICE = "cardPrice"
+        const val CARD_PATH = "cardPath"
+        const val CARD_VOTE_COUNT = "voteCount"
+        const val CARD_USER_RATE = "userStarRate"
+        const val CARD_USER_VOTED = "userVoted"
+        const val CARD_AVERAGE = "cardAverage"
+        const val CARD_USER_STATUS = "userCardStatus"
+        const val CARD_COMPANY = "cardCompany"
+        const val CARD_ABV = "cardABV"
+        const val CARDS = "cards"
+        const val DEFAULT = "default"
+        const val CARDSV2 = "Cards"
+        const val USERS = "users"
+        const val EMAIL = "email"
+    }
     fun getUserID(): MutableLiveData<String> {
         val userID = MutableLiveData<String>()
-        firebaseDatabase.getReference("users").get().addOnSuccessListener {
+        firebaseDatabase.getReference(USERS).get().addOnSuccessListener {
             for (i in it.children) {
-                if (i.child("email").value.toString()
+                if (i.child(EMAIL).value.toString()
                         .equals(auth.currentUser?.email.toString())
                 ) {
                     userID.value = i.key.toString()
@@ -28,25 +51,25 @@ class UserViewModel @Inject constructor(
 
     fun setStarInFB(model: CardModel, userID: String, oldVote: String?, newVote: String) {
         setAverage(model, oldVote, newVote)
-        firebaseDatabase.getReference("cards").child(model.cardID).child("voteCount")
+        firebaseDatabase.getReference(CARDS).child(model.cardID).child(CARD_VOTE_COUNT)
             .setValue(model.voteCount).addOnSuccessListener {
-                firebaseDatabase.getReference("cards").get().addOnSuccessListener {
+                firebaseDatabase.getReference(CARDS).get().addOnSuccessListener {
                     for (child in it.children) {
-                        if (child.child("cardID").value.toString().equals(model.cardID)) {
-                            firebaseDatabase.getReference("cards").child(child.key.toString())
-                                .child("users").get().addOnSuccessListener {
+                        if (child.child(CARD_ID).value.toString().equals(model.cardID)) {
+                            firebaseDatabase.getReference(CARDS).child(child.key.toString())
+                                .child(USERS).get().addOnSuccessListener {
                                     for (i in it.children) {
 
                                         if (i.key.toString().equals(userID)) {
-                                            firebaseDatabase.getReference("cards").child(
+                                            firebaseDatabase.getReference(CARDS).child(
                                                 child
                                                     .key.toString()
-                                            ).child("users").child(userID).child("userStarRate")
+                                            ).child(USERS).child(userID).child(CARD_USER_RATE)
                                                 .setValue(model.userStarRate)
-                                            firebaseDatabase.getReference("cards").child(
+                                            firebaseDatabase.getReference(CARDS).child(
                                                 child
                                                     .key.toString()
-                                            ).child("users").child(userID).child("userVoted")
+                                            ).child(USERS).child(userID).child(CARD_USER_VOTED)
                                                 .setValue(model.userVoted)
                                         }
                                     }
@@ -69,66 +92,66 @@ class UserViewModel @Inject constructor(
 
     private fun setAverage(model: CardModel, oldVote: String?, newVote: String) {
         val diff = compareOldNew(oldVote, newVote)
-        firebaseDatabase.getReference("cards").child(model.cardID).get().addOnSuccessListener {
-            val cardAverage = it.child("cardAverage").value.toString().toFloat() //6
+        firebaseDatabase.getReference(CARDS).child(model.cardID).get().addOnSuccessListener {
+            val cardAverage = it.child(CARD_AVERAGE).value.toString().toFloat() //6
             val newRate = cardAverage + diff
-            firebaseDatabase.getReference("cards").child(model.cardID).child("cardAverage")
+            firebaseDatabase.getReference(CARDS).child(model.cardID).child(CARD_AVERAGE)
                 .setValue(newRate.toString())
         }
     }
 
     fun getCardDetails(id: String, userID: String): MutableLiveData<CardModel> {
         val model = MutableLiveData<CardModel>()
-        firebaseDatabase.getReference("cards").child(id).get().addOnSuccessListener {
+        firebaseDatabase.getReference(CARDS).child(id).get().addOnSuccessListener {
             model.value = CardModel(
-                it.child("cardID").value.toString(),
-                it.child("cardName").value.toString(),
-                it.child("cardInfo").value.toString(),
-                it.child("cardCategory").value.toString(),
-                it.child("cardCounty").value.toString(),
-                it.child("cardCity").value.toString(),
-                it.child("cardPrice").value.toString(),
-                it.child("cardPath").value.toString(),
-                cardAverage = it.child("cardAverage").value.toString(),
-                it.child("users").child(userID).child("userCardStatus").value
+                it.child(CARD_ID).value.toString(),
+                it.child(CARD_NAME).value.toString(),
+                it.child(CARD_INFO).value.toString(),
+                it.child(CARD_CATEGORY).value.toString(),
+                it.child(CARD_COUNTRY).value.toString(),
+                it.child(CARD_CITY).value.toString(),
+                it.child(CARD_PRICE).value.toString(),
+                it.child(CARD_PATH).value.toString(),
+                cardAverage = it.child(CARD_AVERAGE).value.toString(),
+                it.child(USERS).child(userID).child(CARD_USER_STATUS).value
                     .toString(),
-                it.child("users").child(userID).child("userStarRate").value
+                it.child(USERS).child(userID).child(CARD_USER_RATE).value
                     .toString(),
-                voteCount = it.child("voteCount").value.toString(),
-                cardCompany = it.child("cardCompany").value.toString(),
-                cardABV = it.child("cardABV").value.toString()
+                voteCount = it.child(CARD_VOTE_COUNT).value.toString(),
+                cardCompany = it.child(CARD_COMPANY).value.toString(),
+                cardABV = it.child(CARD_ABV).value.toString()
             )
         }
         return model
     }
 
-    fun getCards(category: String, userID: String): MutableLiveData<List<CardModel>> {
+    fun getCards(category: String, userID: String, language: String): MutableLiveData<List<CardModel>> {
         val cardList = MutableLiveData<List<CardModel>>()
         val list = arrayListOf<CardModel>()
-        var db2 = firebaseDatabase.getReference("cards")
+        var db2 = firebaseDatabase.getReference(CARDS)
         db2.get().addOnSuccessListener {
             for (child in it.children) {
-                if (child.child("cardCategory").value.toString().equals(category)) {
+                if (child.child(CARD_CATEGORY).value.toString().equals(category) && child.child("beerInCountry").value.toString().contains(language)) {
                     list.add(
                         CardModel(
-                            child.child("cardID").value.toString(),
-                            child.child("cardName").value.toString(),
-                            child.child("cardInfo").value.toString(),
-                            child.child("cardCategory").value.toString(),
-                            child.child("cardCounty").value.toString(),
-                            child.child("cardCity").value.toString(),
-                            child.child("cardPrice").value.toString(),
-                            child.child("cardPath").value.toString(),
-                            child.child("cardAverage").value.toString(),
-                            child.child("users").child(userID).child("userCardStatus").value
+                            child.child(CARD_ID).value.toString(),
+                            child.child(CARD_NAME).value.toString(),
+                            child.child(CARD_INFO).value.toString(),
+                            child.child(CARD_CATEGORY).value.toString(),
+                            child.child(CARD_COUNTRY).value.toString(),
+                            child.child(CARD_CITY).value.toString(),
+                            child.child(CARD_PRICE).value.toString(),
+                            child.child(CARD_PATH).value.toString(),
+                            child.child(CARD_AVERAGE).value.toString(),
+                            child.child(USERS).child(userID).child(CARD_USER_STATUS).value
                                 .toString(),
-                            child.child("users").child(userID).child("userStarRate").value
+                            child.child(USERS).child(userID).child(CARD_USER_RATE).value
                                 .toString(),
-                            voteCount = child.child("voteCount").value.toString(),
-                            userVoted = child.child("users").child(userID).child("userVoted")
+                            voteCount = child.child(CARD_VOTE_COUNT).value.toString(),
+                            userVoted = child.child(USERS).child(userID).child(CARD_USER_VOTED)
                                 .value.toString(),
-                            cardCompany = child.child("cardCompany").value.toString(),
-                            cardABV = child.child("cardABV").value.toString()
+                            cardCompany = child.child(CARD_COMPANY).value.toString(),
+                            cardABV = child.child(CARD_ABV).value.toString()
 
                         )
                     )
@@ -139,7 +162,6 @@ class UserViewModel @Inject constructor(
         }
         return cardList
     }
-
     fun searchCards(
         alcoholName: String,
         category: String,
@@ -147,36 +169,34 @@ class UserViewModel @Inject constructor(
     ): MutableLiveData<List<CardModel>> {
         val cardList = MutableLiveData<List<CardModel>>()
         val list = arrayListOf<CardModel>()
-        var db2 = firebaseDatabase.getReference("cards")
+        var db2 = firebaseDatabase.getReference(CARDS)
         db2.get().addOnSuccessListener {
             for (child in it.children) {
-                if (child.child("cardCategory").value.toString().equals(category)) {
-                    if (child.child("cardName").value.toString().toLowerCase(Locale.getDefault())
+                if (child.child(CARD_CATEGORY).value.toString().equals(category)) {
+                    if (child.child(CARD_NAME).value.toString().toLowerCase(Locale.getDefault())
                             .contains(alcoholName.toLowerCase(Locale.getDefault()))
                     ) {
                         list.add(
                             CardModel(
-                                child.child("cardID").value.toString(),
-                                child.child("cardName").value.toString(),
-                                child.child("cardInfo").value.toString(),
-                                child.child("cardCategory").value.toString(),
-                                child.child("cardCounty").value.toString(),
-                                child.child("cardCity").value.toString(),
-                                child.child("cardPrice").value.toString(),
-                                child.child("cardPath").value.toString(),
-                                child.child("cardStarAverage").value.toString(),
-                                child.child("users").child(userID).child("userCardStatus")
+                                child.child(CARD_ID).value.toString(),
+                                child.child(CARD_NAME).value.toString(),
+                                child.child(CARD_INFO).value.toString(),
+                                child.child(CARD_CATEGORY).value.toString(),
+                                child.child(CARD_COUNTRY).value.toString(),
+                                child.child(CARD_CITY).value.toString(),
+                                child.child(CARD_PRICE).value.toString(),
+                                child.child(CARD_PATH).value.toString(),
+                                child.child(CARD_AVERAGE).value.toString(),
+                                child.child(USERS).child(userID).child(CARD_USER_STATUS)
                                     .value.toString(),
-                                child.child("users").child(userID).child("userStarRate").value
+                                child.child(USERS).child(userID).child(CARD_USER_RATE).value
                                     .toString(),
-                                cardCompany = it.child("cardCompany").value.toString(),
-                                cardABV = it.child("cardABV").value.toString()
+                                cardCompany = it.child(CARD_COMPANY).value.toString(),
+                                cardABV = it.child(CARD_ABV).value.toString()
                             )
                         )
                     }
-
                 }
-
             }
             cardList.value = list
         }
@@ -185,17 +205,17 @@ class UserViewModel @Inject constructor(
 
     fun setCheck(checked: Boolean, model: CardModel, userID: String): MutableLiveData<Boolean> {
         val isSuccess = MutableLiveData<Boolean>()
-        firebaseDatabase.getReference("cards").get().addOnSuccessListener {
+        firebaseDatabase.getReference(CARDS).get().addOnSuccessListener {
             for (child in it.children) {
-                if (child.child("cardID").value.toString().equals(model.cardID)) {
-                    firebaseDatabase.getReference("cards").child(child.key.toString())
-                        .child("users").get().addOnSuccessListener {
+                if (child.child(CARD_ID).value.toString().equals(model.cardID)) {
+                    firebaseDatabase.getReference(CARDS).child(child.key.toString())
+                        .child(USERS).get().addOnSuccessListener {
                             for (i in it.children) {
                                 if (i.key.toString().equals(userID)) {
-                                    firebaseDatabase.getReference("cards").child(
+                                    firebaseDatabase.getReference(CARDS).child(
                                         child
                                             .key.toString()
-                                    ).child("users").child(userID).child("userCardStatus")
+                                    ).child(USERS).child(userID).child(CARD_USER_STATUS)
                                         .setValue(checked.toString()).addOnSuccessListener {
                                             isSuccess.value = true
                                         }

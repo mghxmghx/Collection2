@@ -22,7 +22,6 @@ class PersonalAnalytics : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(PersonalAnalyticsViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
 }
