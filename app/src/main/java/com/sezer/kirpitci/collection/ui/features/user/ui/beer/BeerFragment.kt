@@ -16,12 +16,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.databinding.FragmentBeerBinding
 import com.sezer.kirpitci.collection.di.MyApp
 import com.sezer.kirpitci.collection.ui.features.registration.CardModel
 import com.sezer.kirpitci.collection.utis.adapters.ClickItemUser
+import com.sezer.kirpitci.collection.utis.adapters.CommentRecyclerAdapter
 import com.sezer.kirpitci.collection.utis.adapters.DetailRecyclerAdapter
 import com.sezer.kirpitci.collection.utis.others.SharedPreferencesClass
 import com.sezer.kirpitci.collection.utis.others.ViewModelFactory
@@ -38,6 +41,7 @@ class BeerFragment : Fragment(), ClickItemUser {
     private lateinit var binding: FragmentBeerBinding
     private lateinit var VM: BeerFragmentViewModel
     private lateinit var adapter: DetailRecyclerAdapter
+    private lateinit var commentAdapter: CommentRecyclerAdapter
     private var categoryTemp: String = ""
     private var language = ""
     private lateinit var sharedPreferencesClass: SharedPreferencesClass
@@ -186,6 +190,7 @@ class BeerFragment : Fragment(), ClickItemUser {
     }
 
     override fun clicked(model: CardModel) {
+        Log.d("TAG", "clicked: " + model.voteCount)
         checkClickedLayout(model)
     }
 
@@ -220,6 +225,13 @@ class BeerFragment : Fragment(), ClickItemUser {
                 R.style.BottomSheetDialogTheme
             )
         }
+        val recycler = view.findViewById<RecyclerView>(R.id.comments)
+        commentAdapter = CommentRecyclerAdapter()
+        recycler.layoutManager = LinearLayoutManager(context)
+        recycler.adapter = commentAdapter
+        VM.getCardComments(model.cardID).observe(viewLifecycleOwner, Observer {
+            commentAdapter.submitList(it)
+        })
         val closeButton = view.findViewById<ImageView>(R.id.dialogContentClose)
         val image = view.findViewById<ImageView>(R.id.dialogImagView)
         val name = view.findViewById<TextView>(R.id.alcoholName)
@@ -277,10 +289,10 @@ class BeerFragment : Fragment(), ClickItemUser {
         list.add(view.findViewById(R.id.dialog_star_eight))
         list.add(view.findViewById(R.id.dialog_star_nine))
         list.add(view.findViewById(R.id.dialog_star_ten))
-        for (i in 0 until averageRate) {
+        for (i in 0..averageRate-1) {
             list.get(i).setImageResource(R.drawable.ic_dialog_rate_star_check)
         }
-        for (t in averageRate..9) {
+        for (t in averageRate..list.size-1) {
             list.get(t).setImageResource(R.drawable.ic_dialog_noncheck_star)
         }
     }

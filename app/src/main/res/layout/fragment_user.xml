@@ -17,15 +17,17 @@
             android:id="@+id/search_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_seach" >
+            android:layout_marginStart="100dp"
+            android:background="@drawable/bg_seach">
 
-            <Spinner
-                android:id="@+id/companyLanguageSpinner"
-                android:layout_width="100dp"
-                android:layout_height="56dp"
-                android:background="@null"
-                tools:listitem="@layout/item_flag_spinner"/>
         </com.sezer.kirpitci.collection.SearchView>
+
+        <Spinner
+            android:id="@+id/companyLanguageSpinner"
+            android:layout_width="100dp"
+            android:layout_height="56dp"
+            android:background="@null"
+            tools:listitem="@layout/item_flag_spinner" />
     </RelativeLayout>
 
     <androidx.cardview.widget.CardView

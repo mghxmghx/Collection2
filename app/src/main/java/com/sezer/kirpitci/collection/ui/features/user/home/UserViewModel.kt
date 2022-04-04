@@ -1,10 +1,12 @@
 package com.sezer.kirpitci.collection.ui.features.user.home
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.sezer.kirpitci.collection.ui.features.registration.CardModel
+import com.sezer.kirpitci.collection.ui.features.user.ui.beer.CommentModel
 import java.util.*
 import javax.inject.Inject
 
@@ -48,7 +50,6 @@ class UserViewModel @Inject constructor(
         }
         return userID
     }
-
     fun setStarInFB(model: CardModel, userID: String, oldVote: String?, newVote: String) {
         setAverage(model, oldVote, newVote)
         firebaseDatabase.getReference(CARDS).child(model.cardID).child(CARD_VOTE_COUNT)
@@ -119,12 +120,24 @@ class UserViewModel @Inject constructor(
                     .toString(),
                 voteCount = it.child(CARD_VOTE_COUNT).value.toString(),
                 cardCompany = it.child(CARD_COMPANY).value.toString(),
-                cardABV = it.child(CARD_ABV).value.toString()
+                cardABV = it.child(CARD_ABV).value.toString(),
+                userVoted = it.child(USERS).child(userID).child(CARD_USER_VOTED)
+                    .value.toString(),
             )
         }
         return model
     }
-
+    fun getCardComments(id: String): MutableLiveData<List<CommentModel>> {
+        val returnList = MutableLiveData<List<CommentModel>>()
+        val list = arrayListOf<CommentModel>()
+        firebaseDatabase.getReference(CARDS).child(id).child("comments").get().addOnSuccessListener {
+            for (child in it.children){
+                list.add(CommentModel(child.value.toString()))
+            }
+            returnList.value = list
+        }
+        return returnList
+    }
     fun getCards(
         category: String,
         userID: String,
@@ -163,7 +176,8 @@ class UserViewModel @Inject constructor(
                         )
                     )
                 }
-
+                Log.d("TAG", "getCards: " + child.child(USERS).child(userID).child(CARD_USER_VOTED)
+                    .value.toString())
             }
             cardList.value = list
         }

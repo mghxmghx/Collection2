@@ -1,10 +1,12 @@
 package com.sezer.kirpitci.collection.ui.features.user.ui.beer
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.sezer.kirpitci.collection.ui.features.registration.CardModel
+import org.w3c.dom.Comment
 import java.util.*
 import javax.inject.Inject
 
@@ -49,7 +51,17 @@ class BeerFragmentViewModel @Inject constructor(
         }
         return userID
     }
-
+    fun getCardComments(id: String): MutableLiveData<List<CommentModel>> {
+        val returnList = MutableLiveData<List<CommentModel>>()
+        val list = arrayListOf<CommentModel>()
+        firebaseDatabase.getReference(CARDS).child(id).child("comments").get().addOnSuccessListener {
+            for (child in it.children){
+                list.add(CommentModel(child.value.toString()))
+            }
+            returnList.value = list
+        }
+        return returnList
+    }
     fun getCards(
         category: String,
         userID: String,
@@ -80,13 +92,15 @@ class BeerFragmentViewModel @Inject constructor(
                             child.child(USERS).child(userID).child(CARD_USER_RATE).value
                                 .toString(),
                             voteCount = child.child(CARD_VOTE_COUNT).value.toString(),
-                            userVoted = child.child(USERS).child(userID).child(CARD_USER_VOTED)
+                            userVoted = child.child(USERS).child(userID).child("userVoted")
                                 .value.toString(),
                             cardCompany = child.child(CARD_COMPANY).value.toString(),
                             cardABV = child.child(CARD_ABV).value.toString()
 
                         )
                     )
+                    Log.d("TAG", "getCards: " + child.child(USERS).child(userID).child("userVoted")
+                        .value.toString() )
                 }
 
             }
