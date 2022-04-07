@@ -3,6 +3,7 @@ package com.sezer.kirpitci.collection.ui.features.user.home
 import SpinnerAdapterr
 import android.animation.ObjectAnimator
 import android.app.Activity
+import android.media.Image
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -253,6 +254,25 @@ class UserFragment : Fragment(), ClickItemUser {
     override fun clicked(model: CardModel) {
         getCardDetailsForBottomSheet(model.cardID)
     }
+    private fun sendComment(cardId: String, comment: String, view: EditText){
+        val model = SendMessageModel(cardId = cardId, comment = comment, commentTime = System.currentTimeMillis().toString())
+        VM.sendComment(model).observe(viewLifecycleOwner, Observer {
+            if(it) {
+                val inputMethodManager =
+                    activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+                view.text.clear()
+                VM.getCardComments(cardId).observe(viewLifecycleOwner, Observer {
+                    val list = it.sortedByDescending {
+                       it.commentTime
+                    }
+                    commentAdapter.submitList(list)
+                })
+            } else {
+
+            }
+        })
+    }
 
     private fun checkClickedLayout(model: CardModel) {
         val view = layoutInflater.inflate(R.layout.detail_dialog_content, null)
@@ -267,7 +287,10 @@ class UserFragment : Fragment(), ClickItemUser {
         recycler.layoutManager = LinearLayoutManager(context)
         recycler.adapter = commentAdapter
         VM.getCardComments(model.cardID).observe(viewLifecycleOwner, Observer {
-            commentAdapter.submitList(it)
+            val list = it.sortedByDescending {
+                it.commentTime
+            }
+            commentAdapter.submitList(list)
         })
         val closeButton = view.findViewById<ImageView>(R.id.dialogContentClose)
         val startOne = view.findViewById<ImageView>(R.id.dialog_star_one)
@@ -329,6 +352,15 @@ class UserFragment : Fragment(), ClickItemUser {
         val cityTw = view.findViewById<TextView>(R.id.alcoholCity)
         val infoTw = view.findViewById<TextView>(R.id.alcoholInfo)
         val voteCount = view.findViewById<TextView>(R.id.voteTotal)
+        val commentButton = view.findViewById<ImageView>(R.id.sendCommentButton)
+        val comment = view.findViewById<EditText>(R.id.sendComment)
+        commentButton.setOnClickListener {
+            if(comment.text.toString().isNullOrEmpty().not()){
+                sendComment(cardId = model.cardID, comment = comment.text.toString(), comment)
+            } else {
+                //hata mesajı
+            }
+        }
         voteCount.isVisible = false
         nameTw.text = model.cardName
         countryTw.text = model.cardCounty

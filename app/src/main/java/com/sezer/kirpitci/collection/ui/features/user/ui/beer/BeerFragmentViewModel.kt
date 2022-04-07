@@ -55,8 +55,14 @@ class BeerFragmentViewModel @Inject constructor(
         val returnList = MutableLiveData<List<CommentModel>>()
         val list = arrayListOf<CommentModel>()
         firebaseDatabase.getReference(CARDS).child(id).child("comments").get().addOnSuccessListener {
-            for (child in it.children){
-                list.add(CommentModel(child.value.toString()))
+            for (child in it.children) {
+                list.add(
+                    CommentModel(
+                        comment = child.child("comment").value.toString(),
+                        commentUser = child.child("commentUser").value.toString(),
+                        commentTime = child.child("commentTime").value.toString()
+                    )
+                )
             }
             returnList.value = list
         }

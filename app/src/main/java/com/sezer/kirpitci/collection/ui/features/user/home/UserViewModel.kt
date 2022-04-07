@@ -7,6 +7,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.sezer.kirpitci.collection.ui.features.registration.CardModel
 import com.sezer.kirpitci.collection.ui.features.user.ui.beer.CommentModel
+import java.sql.Timestamp
 import java.util.*
 import javax.inject.Inject
 
@@ -132,7 +133,10 @@ class UserViewModel @Inject constructor(
         val list = arrayListOf<CommentModel>()
         firebaseDatabase.getReference(CARDS).child(id).child("comments").get().addOnSuccessListener {
             for (child in it.children){
-                list.add(CommentModel(child.value.toString()))
+                list.add(CommentModel(comment = child.child("comment").value.toString(),
+                    commentUser = child.child("commentUser").value.toString(),
+                    commentTime = child.child("commentTime").value.toString()))
+               // list.add(CommentModel(child.value.toString()))
             }
             returnList.value = list
         }
@@ -246,6 +250,15 @@ class UserViewModel @Inject constructor(
                         }
                 }
             }
+        }
+        return isSuccess
+    }
+
+    fun sendComment(model:SendMessageModel): MutableLiveData<Boolean> {
+        val isSuccess = MutableLiveData<Boolean>()
+        model.commentUser = auth.currentUser?.email?.split("@")?.get(0)
+        firebaseDatabase.getReference(CARDS).child(model.cardId).child("comments").child(model.commentTime).setValue(model).addOnCompleteListener {
+           isSuccess.value = it.isSuccessful
         }
         return isSuccess
     }

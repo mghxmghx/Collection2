@@ -2,6 +2,7 @@ package com.sezer.kirpitci.collection.ui.features.user.ui.beer
 
 import SpinnerAdapterr
 import android.app.Activity
+import android.media.Image
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -230,7 +231,10 @@ class BeerFragment : Fragment(), ClickItemUser {
         recycler.layoutManager = LinearLayoutManager(context)
         recycler.adapter = commentAdapter
         VM.getCardComments(model.cardID).observe(viewLifecycleOwner, Observer {
-            commentAdapter.submitList(it)
+            val list = it.sortedByDescending {
+                it.commentTime
+            }
+            commentAdapter.submitList(list)
         })
         val closeButton = view.findViewById<ImageView>(R.id.dialogContentClose)
         val image = view.findViewById<ImageView>(R.id.dialogImagView)
@@ -240,6 +244,10 @@ class BeerFragment : Fragment(), ClickItemUser {
         val info = view.findViewById<TextView>(R.id.alcoholInfo)
         val price = view.findViewById<TextView>(R.id.alcoholPrice)
         val voteTotal = view.findViewById<TextView>(R.id.voteTotal)
+        val comment = view.findViewById<EditText>(R.id.sendComment)
+        comment.visibility = View.GONE
+        val commentButton = view.findViewById<ImageView>(R.id.sendCommentButton)
+        commentButton.visibility = View.GONE
         name.text = model.cardName
         country.text = model.cardCounty
         city.text = model.cardCity
