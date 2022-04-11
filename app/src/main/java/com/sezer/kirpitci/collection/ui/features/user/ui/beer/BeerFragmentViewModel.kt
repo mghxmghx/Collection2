@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.sezer.kirpitci.collection.ui.features.admin.addcard.AdminAddCardViewModel.Companion.CATEGORIES
 import com.sezer.kirpitci.collection.ui.features.registration.CardModel
-import org.w3c.dom.Comment
 import java.util.*
 import javax.inject.Inject
 
@@ -51,18 +51,31 @@ class BeerFragmentViewModel @Inject constructor(
         }
         return userID
     }
+
     fun getCardComments(id: String): MutableLiveData<List<CommentModel>> {
         val returnList = MutableLiveData<List<CommentModel>>()
         val list = arrayListOf<CommentModel>()
-        firebaseDatabase.getReference(CARDS).child(id).child("comments").get().addOnSuccessListener {
-            for (child in it.children) {
-                list.add(
-                    CommentModel(
-                        comment = child.child("comment").value.toString(),
-                        commentUser = child.child("commentUser").value.toString(),
-                        commentTime = child.child("commentTime").value.toString()
+        firebaseDatabase.getReference(CARDS).child(id).child("comments").get()
+            .addOnSuccessListener {
+                for (child in it.children) {
+                    list.add(
+                        CommentModel(
+                            comment = child.child("comment").value.toString(),
+                            commentUser = child.child("commentUser").value.toString(),
+                            commentTime = child.child("commentTime").value.toString()
+                        )
                     )
-                )
+                }
+                returnList.value = list
+            }
+        return returnList
+    }
+    fun getCategoryList(): MutableLiveData<List<String>> {
+        val list = arrayListOf<String>()
+        val returnList = MutableLiveData<List<String>>()
+        firebaseDatabase.getReference(CATEGORIES).get().addOnSuccessListener {
+            for (child in it.children) {
+                list.add(child.value.toString())
             }
             returnList.value = list
         }
@@ -105,8 +118,10 @@ class BeerFragmentViewModel @Inject constructor(
 
                         )
                     )
-                    Log.d("TAG", "getCards: " + child.child(USERS).child(userID).child("userVoted")
-                        .value.toString() )
+                    Log.d(
+                        "TAG", "getCards: " + child.child(USERS).child(userID).child("userVoted")
+                            .value.toString()
+                    )
                 }
 
             }
@@ -181,5 +196,68 @@ class BeerFragmentViewModel @Inject constructor(
             }
         }
         return isSuccess
+    }
+
+    fun getCountryList(): MutableLiveData<List<String>> {
+        val list = arrayListOf<String>()
+        val returnList = MutableLiveData<List<String>>()
+        firebaseDatabase.getReference("countries").get().addOnSuccessListener {
+            for (child in it.children) {
+                list.add(child.value.toString())
+            }
+            returnList.value = list
+        }
+        return returnList
+    }
+
+    fun getTopSheetSearchList(country: String, minStar: String, maxStar: String, userID: String,
+                              beerType: String, userCardStatus: String,
+    minPrice: Float, maxPrice: Float): MutableLiveData<List<CardModel>> {
+        val list = arrayListOf<CardModel>()
+        val returnList = MutableLiveData<List<CardModel>>()
+        firebaseDatabase.getReference(CARDS).get().addOnSuccessListener {
+            for (child in it.children) {
+                var average: Float = 0F
+                val vote = child.child(CARD_VOTE_COUNT).value.toString().toFloat()
+                val cardAverage = child.child(CARD_AVERAGE).value.toString().toFloat()
+                if(vote > 0 ){
+                    average = cardAverage/vote
+                } else {
+                    average = 0F
+                }
+                if (child.child("cardCounty").value.toString().equals(country) && average >= minStar.toFloat() &&
+                            average<= maxStar.toFloat() && child.child("cardCompany").value.toString().equals(beerType) &&
+                            child.child(USERS).child(userID).child(CARD_USER_STATUS).value.toString().equals(userCardStatus)&&
+                            child.child(CARD_PRICE).value.toString().toFloat()>=minPrice && child.child(
+                        CARD_PRICE).value.toString().toFloat()<=maxPrice
+                ) {
+                    list.add(
+                        CardModel(
+                            child.child(CARD_ID).value.toString(),
+                            child.child(CARD_NAME).value.toString(),
+                            child.child(CARD_INFO).value.toString(),
+                            child.child(CARD_CATEGORY).value.toString(),
+                            child.child(CARD_COUNTRY).value.toString(),
+                            child.child(CARD_CITY).value.toString(),
+                            child.child(CARD_PRICE).value.toString(),
+                            child.child(CARD_PATH).value.toString(),
+                            child.child(CARD_AVERAGE).value.toString(),
+                            child.child(USERS).child(userID).child(CARD_USER_STATUS).value
+                                .toString(),
+                            child.child(USERS).child(userID).child(CARD_USER_RATE).value
+                                .toString(),
+                            voteCount = child.child(CARD_VOTE_COUNT).value.toString(),
+                            userVoted = child.child(USERS).child(userID).child("userVoted")
+                                .value.toString(),
+                            cardCompany = child.child(CARD_COMPANY).value.toString(),
+                            cardABV = child.child(CARD_ABV).value.toString()
+
+                        )
+                    )
+                }
+            }
+            returnList.value = list
+        }
+        return returnList
     }
 }

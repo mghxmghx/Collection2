@@ -26,7 +26,9 @@
             android:id="@+id/companyLanguageSpinner"
             android:layout_width="100dp"
             android:layout_height="56dp"
-            android:background="@null"
+
+            android:popupBackground="@android:color/transparent"
+            android:background="@android:color/transparent"
             tools:listitem="@layout/item_flag_spinner" />
     </RelativeLayout>
 

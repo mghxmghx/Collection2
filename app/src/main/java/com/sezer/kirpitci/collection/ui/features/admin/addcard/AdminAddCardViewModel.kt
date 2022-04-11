@@ -113,7 +113,7 @@ class AdminAddCardViewModel @Inject constructor(
     fun getCountryList(): MutableLiveData<List<String>> {
         val list = arrayListOf<String>()
         val returnList = MutableLiveData<List<String>>()
-        firebaseDatabase.getReference(CATEGORIES).get().addOnSuccessListener {
+        firebaseDatabase.getReference("countries").get().addOnSuccessListener {
             for (child in it.children) {
                 list.add(child.value.toString())
             }

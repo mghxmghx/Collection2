@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/countryTw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Country"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/starTw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Star"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/beerTypeSpinner" />
+
+    <Spinner
+        android:id="@+id/countrySpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/countryTw" />
+
+    <TextView
+        android:id="@+id/beerTypeTw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Beer Type"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/countrySpinner" />
+
+    <Spinner
+        android:id="@+id/beerTypeSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/beerTypeTw" />
+
+    <Button
+        android:id="@+id/searchButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Search"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardStatusSwitch" />
+
+    <Button
+        android:id="@+id/closeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Close"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toEndOf="@+id/searchButton"
+        app:layout_constraintTop_toBottomOf="@id/cardStatusSwitch" />
+
+    <EditText
+        android:id="@+id/minStarEditText"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:hint="Min Star"
+        android:layout_marginStart="10dp"
+        tools:layout_editor_absoluteX="30dp"
+        tools:layout_editor_absoluteY="38dp"
+        app:layout_constraintTop_toTopOf="@id/starTw"
+        app:layout_constraintBottom_toBottomOf="@id/starTw"
+        app:layout_constraintStart_toEndOf="@id/starTw"/>
+
+    <EditText
+        android:id="@+id/maxStarEditText"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:hint="Max Star"
+        android:layout_marginStart="10dp"
+        app:layout_constraintTop_toTopOf="@id/starTw"
+        app:layout_constraintBottom_toBottomOf="@id/starTw"
+        app:layout_constraintStart_toEndOf="@id/minStarEditText"/>
+
+    <Switch
+        android:id="@+id/cardStatusSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Switch"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/maxPriceText"/>
+
+    <TextView
+        android:id="@+id/priceTw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Price"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/maxStarEditText"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <EditText
+        android:id="@+id/minPriceText"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_marginStart="10dp"
+        android:inputType="numberDecimal"
+        android:hint="Min Price"
+        app:layout_constraintStart_toEndOf="@id/priceTw"
+        app:layout_constraintTop_toTopOf="@id/priceTw"
+        app:layout_constraintBottom_toBottomOf="@id/priceTw"/>
+
+    <EditText
+        android:id="@+id/maxPriceText"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_marginStart="10dp"
+        android:inputType="numberDecimal"
+        android:hint="Max Price"
+        app:layout_constraintTop_toTopOf="@id/priceTw"
+        app:layout_constraintBottom_toBottomOf="@id/priceTw"
+        app:layout_constraintStart_toEndOf="@id/minPriceText"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

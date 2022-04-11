@@ -2,6 +2,7 @@ package com.sezer.kirpitci.collection.ui.features.user.ui.beer
 
 import SpinnerAdapterr
 import android.app.Activity
+import android.graphics.Color
 import android.media.Image
 import android.os.Bundle
 import android.text.Editable
@@ -72,6 +73,68 @@ class BeerFragment : Fragment(), ClickItemUser {
 
     private fun initialUI() {
         MyApp.appComponent.inject(this)
+        binding.searchBeerButton.setOnClickListener {
+            showTopSheet()
+        }
+    }
+    private fun showTopSheet(){
+        val view = layoutInflater.inflate(R.layout.dialog_top_sheet, null)
+        val dialog = context?.let { it1 ->
+            BottomSheetDialog(
+                it1,
+                R.style.BottomSheetDialogTheme
+            )
+        }
+        val countrySpinner = view.findViewById<Spinner>(R.id.countrySpinner)
+        val minStar = view.findViewById<EditText>(R.id.minStarEditText)
+        val maxStar = view.findViewById<EditText>(R.id.maxStarEditText)
+        val beerTypeSpinner = view.findViewById<Spinner>(R.id.beerTypeSpinner)
+        val searchButton = view.findViewById<Button>(R.id.searchButton)
+        val cardStatus = view.findViewById<Switch>(R.id.cardStatusSwitch)
+        val minPriceTw = view.findViewById<EditText>(R.id.minPriceText)
+        val maxPrice = view.findViewById<EditText>(R.id.maxPriceText)
+        getCountryList(countrySpinner)
+        getBeerTypeSpinner(beerTypeSpinner)
+        searchButton.setOnClickListener {
+            Log.d("TAG", "showTopSheet: " + countrySpinner.selectedItem)
+            var minStarTemp = minStar.text.toString()
+            var maxStarTemp = maxStar.text.toString()
+            if(minStarTemp.isNullOrEmpty()){
+                minStarTemp = "0"
+            }
+            if(maxStarTemp.isNullOrEmpty()){
+                maxStarTemp = "10"
+            }
+            var minPriceTemp = minStar.text.toString()
+            var maxPriceTemp = maxStar.text.toString()
+            if(minPriceTemp.isNullOrEmpty()){
+                minPriceTemp = "0"
+            }
+            if(maxPriceTemp.isNullOrEmpty()){
+                maxPriceTemp = "1000"
+            }
+            VM.getTopSheetSearchList(country = countrySpinner.selectedItem.toString(),
+                minStar = minStarTemp, maxStar = maxStarTemp, userID = id,
+            beerType = beerTypeSpinner.selectedItem.toString(), userCardStatus = cardStatus.isChecked.toString(),
+            minPrice = minPriceTemp.toFloat(), maxPrice = maxPriceTemp.toFloat()).observe(viewLifecycleOwner, Observer {
+                initialRecyler()
+                Log.d("TAG", "showTopSheet: " + it.size)
+                adapter.submitList(it)
+            })
+        }
+        val closeButton = view.findViewById<Button>(R.id.closeButton)
+        closeButton.setOnClickListener {
+            if (dialog != null) {
+                dialog.cancel()
+                (view.parent as ViewGroup).removeView(view)
+            }
+        }
+        if (dialog != null) {
+            dialog.setContentView(view)
+        }
+        if (dialog != null) {
+            dialog.show()
+        }
     }
 
     private fun initialVM() {
@@ -83,7 +146,46 @@ class BeerFragment : Fragment(), ClickItemUser {
         context?.let { sharedPreferencesClass.instantPref(it) }
 
     }
-
+    private fun getCountryList(spinner: Spinner) {
+        VM.getCountryList().observe(viewLifecycleOwner, Observer {
+            initCountrySpinner(it, spinner)
+        })
+    }
+    private fun getBeerTypeSpinner(spinner: Spinner) {
+        VM.getCategoryList().observe(viewLifecycleOwner, Observer {
+            initialBeerTypeSpinner(it, spinner)
+        })
+    }
+    private fun initCountrySpinner(list: List<String>, spinner:Spinner) {
+        val listx = arrayListOf<String>()
+        for (i in 0 until listx.size) {
+            listx.add(list.get(i))
+        }
+        list.toTypedArray()
+        val adapter = context?.let {
+            ArrayAdapter(
+                it,
+                R.layout.support_simple_spinner_dropdown_item, list
+            )
+        }
+        spinner.setBackgroundColor(Color.WHITE)
+        spinner.adapter = adapter
+    }
+    private fun initialBeerTypeSpinner(list: List<String>, spinner:Spinner) {
+        val listx = arrayListOf<String>()
+        for (i in 0 until listx.size) {
+            listx.add(list.get(i))
+        }
+        list.toTypedArray()
+        val adapter = context?.let {
+            ArrayAdapter(
+                it,
+                R.layout.support_simple_spinner_dropdown_item, list
+            )
+        }
+        spinner.setBackgroundColor(Color.WHITE)
+        spinner.adapter = adapter
+    }
     private fun initialFlagSpinner() {
         val list = arrayListOf<String>("RUS", "EU", "USA")
         val flagList =

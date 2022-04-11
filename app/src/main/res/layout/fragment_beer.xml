@@ -6,29 +6,36 @@
     android:layout_height="match_parent"
     android:background="@color/black">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/layouttop"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="@drawable/bg_seach"
         android:orientation="horizontal">
 
-        <com.sezer.kirpitci.collection.SearchView
-            android:id="@+id/search_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:background="@drawable/bg_seach">
-
-        </com.sezer.kirpitci.collection.SearchView>
-
         <Spinner
             android:id="@+id/companyLanguageSpinner"
             android:layout_width="100dp"
             android:layout_height="56dp"
-            android:background="@null"
+            android:popupBackground="@android:color/transparent"
+            android:background="@android:color/transparent"
+
             tools:listitem="@layout/item_flag_spinner" />
-    </RelativeLayout>
+
+        <com.sezer.kirpitci.collection.SearchView
+            android:id="@+id/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_seach"
+            android:layout_weight="1"
+            >
+        </com.sezer.kirpitci.collection.SearchView>
+        <ImageView
+            android:id="@+id/search_beer_button"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:src="@drawable/ic_beer_filter" />
+    </LinearLayout>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewmain"
