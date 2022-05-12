@@ -19,7 +19,9 @@ fun ImageView.updateWithUrlWithStatus(url: String, imageViewAvatar: ImageView, s
             imageViewAvatar.colorFilter = filter
             Glide.with(context).load(url).into(imageViewAvatar)
         }
-    } else {
+    } else if(status.equals("true") && url.equals("default")){
+        Glide.with(context).load(R.drawable.no_image_drunk).into(imageViewAvatar)
+    } else if(status.equals("false") && url.equals("default")) {
         Glide.with(context).load(R.drawable.no_image).into(imageViewAvatar)
     }
 }

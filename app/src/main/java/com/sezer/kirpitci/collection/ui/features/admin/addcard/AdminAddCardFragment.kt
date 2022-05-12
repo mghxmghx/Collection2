@@ -241,7 +241,7 @@ class AdminAddCardFragment : Fragment() {
     private fun checkboxCheck(): String {
         var checkString = ""
         if (binding.checkBoxRU.isChecked) {
-            checkString = "$checkString,RU"
+            checkString = "$checkString,RUS"
         }
         if (binding.checkboxEU.isChecked) {
             checkString = "$checkString,EU"

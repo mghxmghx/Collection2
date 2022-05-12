@@ -41,18 +41,6 @@
         app:layout_constraintTop_toBottomOf="@id/imageView3">
 
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:layout_marginTop="16dp"
-            android:background="@color/gray"
-            app:layout_constraintBottom_toBottomOf="@+id/background"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/loginRegisterTextview" />
-
         <TextView
             android:id="@+id/loginRegisterTextview"
             android:layout_width="wrap_content"
@@ -62,51 +50,22 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/russian"
-            android:text="@string/registration"
-            android:textColor="@color/light_gray"
-            android:textSize="18sp"
-
-            android:textStyle="bold"
-
             android:shadowColor="@color/black"
             android:shadowDx="1"
             android:shadowDy="1"
+
             android:shadowRadius="4"
-            app:layout_constraintBottom_toTopOf="@id/imageView2"
+
+            android:text="@string/registration"
+            android:textColor="@color/light_gray"
+            android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/loginButton"
 
 
             />
-
-        <TextView
-            android:id="@+id/denemebuton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:fontFamily="@font/russian"
-            android:shadowColor="@color/black"
-            android:shadowDx="1"
-            android:shadowDy="1"
-
-            android:shadowRadius="4"
-
-            android:text="deneme"
-            android:textColor="@color/light_gray"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/imageView2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.853"
-            app:layout_constraintStart_toStartOf="parent"
-
-
-            app:layout_constraintTop_toBottomOf="@id/loginButton"
-            app:layout_constraintVertical_bias="0.0" />
 
         <Button
             android:id="@+id/loginButton"
@@ -128,7 +87,6 @@
             android:textColor="@color/light_gray"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/imageView2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Collection</string>
+    <string name="login">Giriş yap</string>
+</resources>

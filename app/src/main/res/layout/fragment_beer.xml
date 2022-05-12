@@ -19,7 +19,6 @@
             android:layout_height="56dp"
             android:popupBackground="@android:color/transparent"
             android:background="@android:color/transparent"
-
             tools:listitem="@layout/item_flag_spinner" />
 
         <com.sezer.kirpitci.collection.SearchView
@@ -32,8 +31,10 @@
         </com.sezer.kirpitci.collection.SearchView>
         <ImageView
             android:id="@+id/search_beer_button"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:layout_marginEnd="10dp"
             android:src="@drawable/ic_beer_filter" />
     </LinearLayout>
 

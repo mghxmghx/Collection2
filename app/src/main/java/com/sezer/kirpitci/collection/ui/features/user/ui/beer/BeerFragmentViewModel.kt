@@ -5,14 +5,21 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.gson.JsonObject
 import com.sezer.kirpitci.collection.ui.features.admin.addcard.AdminAddCardViewModel.Companion.CATEGORIES
 import com.sezer.kirpitci.collection.ui.features.registration.CardModel
+import com.sezer.kirpitci.collection.utis.RetrofitService
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
 import java.util.*
 import javax.inject.Inject
 
 class BeerFragmentViewModel @Inject constructor(
     val firebaseDatabase: FirebaseDatabase,
-    val auth: FirebaseAuth
+    val auth: FirebaseAuth,
+    val service: RetrofitService
 ) : ViewModel() {
     companion object {
         const val CARD_ID = "cardID"
@@ -70,6 +77,29 @@ class BeerFragmentViewModel @Inject constructor(
             }
         return returnList
     }
+    fun getConvertedValue(from: String, to: String): MutableLiveData<String> {
+        var newFrom = from
+        var newTo = to
+        if(from == "RUB") {
+            newFrom = to
+            newTo = from
+        }
+        Log.d("TAG", "getConvertedValue:newfrom " + newFrom)
+        Log.d("TAG", "getConvertedValue:from " + from)
+        Log.d("TAG", "getConvertedValue:newto " + newTo)
+        Log.d("TAG", "getConvertedValue:to " + to)
+        val value = MutableLiveData<String>()
+        service.getExchangeCurrency(newFrom, newTo, "1")?.enqueue(object : Callback<String?>  {
+            override fun onResponse(call: Call<String?>, response: Response<String?>) {
+                val res = response.body()
+                value.value = res
+            }
+
+            override fun onFailure(call: Call<String?>, t: Throwable) {
+            }
+        })
+        return value
+    }
     fun getCategoryList(): MutableLiveData<List<String>> {
         val list = arrayListOf<String>()
         val returnList = MutableLiveData<List<String>>()
@@ -79,6 +109,8 @@ class BeerFragmentViewModel @Inject constructor(
             }
             returnList.value = list
         }
+
+
         return returnList
     }
     fun getCards(
@@ -213,6 +245,10 @@ class BeerFragmentViewModel @Inject constructor(
     fun getTopSheetSearchList(country: String, minStar: String, maxStar: String, userID: String,
                               beerType: String, userCardStatus: String,
     minPrice: Float, maxPrice: Float): MutableLiveData<List<CardModel>> {
+   //     Log.d("TAG", "getTopSheetSearchList: " + minStar)
+   //     Log.d("TAG", "getTopSheetSearchList: " + minStar)
+        Log.d("TAG", "getTopSheetSearchList: " + minPrice)
+        Log.d("TAG", "getTopSheetSearchList: " + maxPrice)
         val list = arrayListOf<CardModel>()
         val returnList = MutableLiveData<List<CardModel>>()
         firebaseDatabase.getReference(CARDS).get().addOnSuccessListener {
@@ -220,41 +256,144 @@ class BeerFragmentViewModel @Inject constructor(
                 var average: Float = 0F
                 val vote = child.child(CARD_VOTE_COUNT).value.toString().toFloat()
                 val cardAverage = child.child(CARD_AVERAGE).value.toString().toFloat()
-                if(vote > 0 ){
+                val cardPrice = child.child(CARD_PRICE).value.toString().toFloat()
+                if (vote > 0) {
                     average = cardAverage/vote
                 } else {
                     average = 0F
                 }
-                if (child.child("cardCounty").value.toString().equals(country) && average >= minStar.toFloat() &&
+                if(country != "All") {
+                    if(beerType != "All") {
+                        if (child.child("cardCounty").value.toString().equals(country) && average >= minStar.toFloat() &&
+                            average<= maxStar.toFloat() && child.child("cardCompany").value.toString().equals(beerType) &&
+                            child.child(USERS).child(userID).child(CARD_USER_STATUS).value.toString().equals(userCardStatus)&&
+                            cardPrice>=minPrice && cardPrice<=maxPrice
+                        ) {
+                            list.add(
+                                CardModel(
+                                    child.child(CARD_ID).value.toString(),
+                                    child.child(CARD_NAME).value.toString(),
+                                    child.child(CARD_INFO).value.toString(),
+                                    child.child(CARD_CATEGORY).value.toString(),
+                                    child.child(CARD_COUNTRY).value.toString(),
+                                    child.child(CARD_CITY).value.toString(),
+                                    child.child(CARD_PRICE).value.toString(),
+                                    child.child(CARD_PATH).value.toString(),
+                                    child.child(CARD_AVERAGE).value.toString(),
+                                    child.child(USERS).child(userID).child(CARD_USER_STATUS).value
+                                        .toString(),
+                                    child.child(USERS).child(userID).child(CARD_USER_RATE).value
+                                        .toString(),
+                                    voteCount = child.child(CARD_VOTE_COUNT).value.toString(),
+                                    userVoted = child.child(USERS).child(userID).child("userVoted")
+                                        .value.toString(),
+                                    cardCompany = child.child(CARD_COMPANY).value.toString(),
+                                    cardABV = child.child(CARD_ABV).value.toString()
+
+                                )
+                            )
+                        }
+                    } else {
+                        if (child.child("cardCounty").value.toString().equals(country) && average >= minStar.toFloat() &&
+                            average<= maxStar.toFloat() &&
+                            child.child(USERS).child(userID).child(CARD_USER_STATUS).value.toString().equals(userCardStatus)&&
+                            child.child(CARD_PRICE).value.toString().toFloat()>=minPrice && child.child(
+                                CARD_PRICE).value.toString().toFloat()<=maxPrice
+                        ) {
+                            list.add(
+                                CardModel(
+                                    child.child(CARD_ID).value.toString(),
+                                    child.child(CARD_NAME).value.toString(),
+                                    child.child(CARD_INFO).value.toString(),
+                                    child.child(CARD_CATEGORY).value.toString(),
+                                    child.child(CARD_COUNTRY).value.toString(),
+                                    child.child(CARD_CITY).value.toString(),
+                                    child.child(CARD_PRICE).value.toString(),
+                                    child.child(CARD_PATH).value.toString(),
+                                    child.child(CARD_AVERAGE).value.toString(),
+                                    child.child(USERS).child(userID).child(CARD_USER_STATUS).value
+                                        .toString(),
+                                    child.child(USERS).child(userID).child(CARD_USER_RATE).value
+                                        .toString(),
+                                    voteCount = child.child(CARD_VOTE_COUNT).value.toString(),
+                                    userVoted = child.child(USERS).child(userID).child("userVoted")
+                                        .value.toString(),
+                                    cardCompany = child.child(CARD_COMPANY).value.toString(),
+                                    cardABV = child.child(CARD_ABV).value.toString()
+
+                                )
+                            )
+                        }
+
+                    }
+
+                } else {
+                    if(beerType != "All") {
+                        if (average >= minStar.toFloat() &&
                             average<= maxStar.toFloat() && child.child("cardCompany").value.toString().equals(beerType) &&
                             child.child(USERS).child(userID).child(CARD_USER_STATUS).value.toString().equals(userCardStatus)&&
                             child.child(CARD_PRICE).value.toString().toFloat()>=minPrice && child.child(
-                        CARD_PRICE).value.toString().toFloat()<=maxPrice
-                ) {
-                    list.add(
-                        CardModel(
-                            child.child(CARD_ID).value.toString(),
-                            child.child(CARD_NAME).value.toString(),
-                            child.child(CARD_INFO).value.toString(),
-                            child.child(CARD_CATEGORY).value.toString(),
-                            child.child(CARD_COUNTRY).value.toString(),
-                            child.child(CARD_CITY).value.toString(),
-                            child.child(CARD_PRICE).value.toString(),
-                            child.child(CARD_PATH).value.toString(),
-                            child.child(CARD_AVERAGE).value.toString(),
-                            child.child(USERS).child(userID).child(CARD_USER_STATUS).value
-                                .toString(),
-                            child.child(USERS).child(userID).child(CARD_USER_RATE).value
-                                .toString(),
-                            voteCount = child.child(CARD_VOTE_COUNT).value.toString(),
-                            userVoted = child.child(USERS).child(userID).child("userVoted")
-                                .value.toString(),
-                            cardCompany = child.child(CARD_COMPANY).value.toString(),
-                            cardABV = child.child(CARD_ABV).value.toString()
+                                CARD_PRICE).value.toString().toFloat()<=maxPrice
+                        ) {
+                            list.add(
+                                CardModel(
+                                    child.child(CARD_ID).value.toString(),
+                                    child.child(CARD_NAME).value.toString(),
+                                    child.child(CARD_INFO).value.toString(),
+                                    child.child(CARD_CATEGORY).value.toString(),
+                                    child.child(CARD_COUNTRY).value.toString(),
+                                    child.child(CARD_CITY).value.toString(),
+                                    child.child(CARD_PRICE).value.toString(),
+                                    child.child(CARD_PATH).value.toString(),
+                                    child.child(CARD_AVERAGE).value.toString(),
+                                    child.child(USERS).child(userID).child(CARD_USER_STATUS).value
+                                        .toString(),
+                                    child.child(USERS).child(userID).child(CARD_USER_RATE).value
+                                        .toString(),
+                                    voteCount = child.child(CARD_VOTE_COUNT).value.toString(),
+                                    userVoted = child.child(USERS).child(userID).child("userVoted")
+                                        .value.toString(),
+                                    cardCompany = child.child(CARD_COMPANY).value.toString(),
+                                    cardABV = child.child(CARD_ABV).value.toString()
 
-                        )
-                    )
+                                )
+                            )
+                        }
+                    } else {
+                        if (average >= minStar.toFloat() &&
+                            average<= maxStar.toFloat() &&
+                            child.child(USERS).child(userID).child(CARD_USER_STATUS).value.toString().equals(userCardStatus)&&
+                            child.child(CARD_PRICE).value.toString().toFloat()>=minPrice && child.child(
+                                CARD_PRICE).value.toString().toFloat()<=maxPrice
+                        ) {
+                            list.add(
+                                CardModel(
+                                    child.child(CARD_ID).value.toString(),
+                                    child.child(CARD_NAME).value.toString(),
+                                    child.child(CARD_INFO).value.toString(),
+                                    child.child(CARD_CATEGORY).value.toString(),
+                                    child.child(CARD_COUNTRY).value.toString(),
+                                    child.child(CARD_CITY).value.toString(),
+                                    child.child(CARD_PRICE).value.toString(),
+                                    child.child(CARD_PATH).value.toString(),
+                                    child.child(CARD_AVERAGE).value.toString(),
+                                    child.child(USERS).child(userID).child(CARD_USER_STATUS).value
+                                        .toString(),
+                                    child.child(USERS).child(userID).child(CARD_USER_RATE).value
+                                        .toString(),
+                                    voteCount = child.child(CARD_VOTE_COUNT).value.toString(),
+                                    userVoted = child.child(USERS).child(userID).child("userVoted")
+                                        .value.toString(),
+                                    cardCompany = child.child(CARD_COMPANY).value.toString(),
+                                    cardABV = child.child(CARD_ABV).value.toString()
+
+                                )
+                            )
+                        }
+                    }
+
                 }
+
             }
             returnList.value = list
         }

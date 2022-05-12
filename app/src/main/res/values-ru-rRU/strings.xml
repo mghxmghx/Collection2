@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Collection</string>
+    <string name="title_beer">Пива</string>
+
+    <string name="fragment_beer_WINE">ВИНО</string>
+    <string name="fragment_beer_BEER">ПИВА</string>
+    <string name="fragment_beer_COCKTAIL">КОКТЕЙЛЬ</string>
+
 </resources>

@@ -53,6 +53,7 @@
             android:hint="@string/search_view_search"
             android:layout_toStartOf="@id/execute_search_button"
             android:layout_toEndOf="@id/close_search_button" />
+
         <View
             android:id="@+id/execute_search_button"
             android:layout_width="24dp"

@@ -36,6 +36,7 @@ import javax.inject.Singleton
         AppModule::class,
         FactoryModule::class,
         FireBaseModule::class,
+        NetworkModule::class,
         AdminAddCardModule::class,
         AdminViewCardModule::class,
         AdminViewUsersModule::class,

@@ -3,7 +3,6 @@ package com.sezer.kirpitci.collection.ui.features.user.ui.beer
 import SpinnerAdapterr
 import android.app.Activity
 import android.graphics.Color
-import android.media.Image
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -46,6 +45,13 @@ class BeerFragment : Fragment(), ClickItemUser {
     private lateinit var commentAdapter: CommentRecyclerAdapter
     private var categoryTemp: String = ""
     private var language = ""
+    private var countryPosition = 0
+    private var beerTypePosition = 0
+    private var minPriceTempp = ""
+    private var maxPriceTempp = ""
+    private var minStarTempp = ""
+    private var maxStarTempp = ""
+    private var isFilterEnabled = false
     private lateinit var sharedPreferencesClass: SharedPreferencesClass
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -77,7 +83,8 @@ class BeerFragment : Fragment(), ClickItemUser {
             showTopSheet()
         }
     }
-    private fun showTopSheet(){
+
+    private fun showTopSheet() {
         val view = layoutInflater.inflate(R.layout.dialog_top_sheet, null)
         val dialog = context?.let { it1 ->
             BottomSheetDialog(
@@ -93,32 +100,70 @@ class BeerFragment : Fragment(), ClickItemUser {
         val cardStatus = view.findViewById<Switch>(R.id.cardStatusSwitch)
         val minPriceTw = view.findViewById<EditText>(R.id.minPriceText)
         val maxPrice = view.findViewById<EditText>(R.id.maxPriceText)
-        getCountryList(countrySpinner)
-        getBeerTypeSpinner(beerTypeSpinner)
+        val resetButton = view.findViewById<Button>(R.id.resetButton)
+
+        if (isFilterEnabled) {
+            minStar.text = Editable.Factory.getInstance().newEditable(minStarTempp)
+            maxStar.text = Editable.Factory.getInstance().newEditable(maxStarTempp)
+            minPriceTw.text = Editable.Factory.getInstance().newEditable(minPriceTempp)
+            maxPrice.text = Editable.Factory.getInstance().newEditable(maxPriceTempp)
+            countrySpinner.setSelection(countryPosition)
+            beerTypeSpinner.setSelection(beerTypePosition)
+            getCountryList(countrySpinner, countryPosition)
+            getBeerTypeSpinner(beerTypeSpinner, beerTypePosition)
+        } else {
+            getCountryList(countrySpinner, 0)
+            getBeerTypeSpinner(beerTypeSpinner, 0)
+        }
+        resetButton.setOnClickListener {
+            getData(categoryTemp, id)
+            countrySpinner.setSelection(0)
+            minStar.text.clear()
+            maxStar.text.clear()
+            minPriceTw.text.clear()
+            maxPrice.text.clear()
+            beerTypeSpinner.setSelection(0)
+            isFilterEnabled = false
+            binding.searchBeerButton.setImageResource(R.drawable.ic_beer_filter)
+        }
+
         searchButton.setOnClickListener {
-            Log.d("TAG", "showTopSheet: " + countrySpinner.selectedItem)
             var minStarTemp = minStar.text.toString()
             var maxStarTemp = maxStar.text.toString()
-            if(minStarTemp.isNullOrEmpty()){
+            if (minStarTemp.isNullOrEmpty()) {
                 minStarTemp = "0"
             }
-            if(maxStarTemp.isNullOrEmpty()){
+            if (maxStarTemp.isNullOrEmpty()) {
                 maxStarTemp = "10"
             }
-            var minPriceTemp = minStar.text.toString()
-            var maxPriceTemp = maxStar.text.toString()
-            if(minPriceTemp.isNullOrEmpty()){
+            var minPriceTemp = minPriceTw.text.toString()
+            var maxPriceTemp = maxPrice.text.toString()
+            if (minPriceTemp.isNullOrEmpty()) {
                 minPriceTemp = "0"
             }
-            if(maxPriceTemp.isNullOrEmpty()){
+            if (maxPriceTemp.isNullOrEmpty()) {
                 maxPriceTemp = "1000"
             }
-            VM.getTopSheetSearchList(country = countrySpinner.selectedItem.toString(),
-                minStar = minStarTemp, maxStar = maxStarTemp, userID = id,
-            beerType = beerTypeSpinner.selectedItem.toString(), userCardStatus = cardStatus.isChecked.toString(),
-            minPrice = minPriceTemp.toFloat(), maxPrice = maxPriceTemp.toFloat()).observe(viewLifecycleOwner, Observer {
+            countryPosition = countrySpinner.selectedItemPosition
+            minStarTempp = minStarTemp
+            maxStarTempp = maxStarTemp
+            beerTypePosition = beerTypeSpinner.selectedItemPosition
+
+            minPriceTempp = minPriceTemp
+            maxPriceTempp = maxPriceTemp
+            isFilterEnabled = true
+            binding.searchBeerButton.setImageResource(R.drawable.ic_beer_filter_filtered)
+            VM.getTopSheetSearchList(
+                country = countrySpinner.selectedItem.toString(),
+                minStar = minStarTemp,
+                maxStar = maxStarTemp,
+                userID = id,
+                beerType = beerTypeSpinner.selectedItem.toString(),
+                userCardStatus = cardStatus.isChecked.toString(),
+                minPrice = minPriceTemp.toFloat(),
+                maxPrice = maxPriceTemp.toFloat()
+            ).observe(viewLifecycleOwner, Observer {
                 initialRecyler()
-                Log.d("TAG", "showTopSheet: " + it.size)
                 adapter.submitList(it)
             })
         }
@@ -146,17 +191,92 @@ class BeerFragment : Fragment(), ClickItemUser {
         context?.let { sharedPreferencesClass.instantPref(it) }
 
     }
-    private fun getCountryList(spinner: Spinner) {
+
+    private fun getCountryList(spinner: Spinner, countryPosition: Int) {
         VM.getCountryList().observe(viewLifecycleOwner, Observer {
-            initCountrySpinner(it, spinner)
+            val list = arrayListOf<String>("All")
+            list.addAll(it)
+            initCountrySpinner(list, spinner, countryPosition)
         })
     }
-    private fun getBeerTypeSpinner(spinner: Spinner) {
+
+    private fun getBeerTypeSpinner(spinner: Spinner, beerTypePosition: Int) {
         VM.getCategoryList().observe(viewLifecycleOwner, Observer {
-            initialBeerTypeSpinner(it, spinner)
+            val list = arrayListOf("All")
+            list.addAll(it)
+            initialBeerTypeSpinner(list, spinner, beerTypePosition)
         })
     }
-    private fun initCountrySpinner(list: List<String>, spinner:Spinner) {
+
+    private fun getConvertedValue(price: String) {
+        val priceSplit = price.split(" ")
+        checkLanguage()
+        Log.d("TAG", "getConvertedValue: " + Locale.getDefault().isO3Country)
+        val cLanguage = Locale.getDefault().isO3Country
+        var newFrom = ""
+        var newTo = ""
+        val currencyType = priceSplit.get(1)
+        if (currencyType == "RUB") {
+            if (cLanguage == "USA") {
+                newFrom = "RUB"
+                newTo = "USA"
+            } else if (cLanguage == "RUS") {
+                newFrom = "RUB"
+                newTo = "RUB"
+            } else {
+                newFrom = "RUB"
+                newTo = "EUR"
+            }
+        } else if (currencyType == "USD") {
+            if (cLanguage == "RUS") {
+                newFrom = "USD"
+                newTo = "RUB"
+            } else if (cLanguage == "USA") {
+                newFrom = "USD"
+                newTo = "USD"
+            } else {
+                newFrom = "USD"
+                newTo = "EUR"
+            }
+        } else {
+            if (cLanguage == "USA") {
+                newFrom = "EUR"
+                newTo = "USD"
+            } else if (cLanguage == "RUS") {
+                newFrom = "EUR"
+                newTo = "RUB"
+            } else {
+                newFrom = "EUR"
+                newTo = "EUR"
+            }
+        }
+        var result = ""
+        if (newFrom != newTo) {
+            VM.getConvertedValue(newFrom, newTo).observe(viewLifecycleOwner, Observer {
+                if (cLanguage == "RUS") {
+                    result = (priceSplit.get(0).toString().toDouble() * it.toString()
+                        .toDouble()).toString()
+                } else if (cLanguage == "USA" && newTo == "USD" && newFrom == "EUR") {
+                    result = (priceSplit.get(0).toString().toDouble() * it.toString()
+                        .toDouble()).toString()
+                } else if (cLanguage != "USA" && cLanguage != "RUS" && newTo == "EUR" && newFrom == "USD") {
+                    result = (priceSplit.get(0).toString().toDouble() * it.toString()
+                        .toDouble()).toString()
+                } else if (cLanguage != "USA" && cLanguage != "RUS" && newTo == "EUR" && newFrom == "RUB") {
+                    result = (priceSplit.get(0).toString().toDouble() / it.toString()
+                        .toDouble()).toString()
+                }
+                Log.d("TAG", "getConvertedValue: " + it)
+                Log.d("TAG", "getConvertedValue: " + result)
+            })
+        } else {
+            result = priceSplit.get(0)
+            Log.d("TAG", "getConvertedValue: " + result)
+        }
+
+    }
+
+    private fun initCountrySpinner(list: List<String>, spinner: Spinner, countryPosition: Int) {
         val listx = arrayListOf<String>()
         for (i in 0 until listx.size) {
             listx.add(list.get(i))
@@ -170,8 +290,14 @@ class BeerFragment : Fragment(), ClickItemUser {
         }
         spinner.setBackgroundColor(Color.WHITE)
         spinner.adapter = adapter
+        spinner.setSelection(countryPosition)
     }
-    private fun initialBeerTypeSpinner(list: List<String>, spinner:Spinner) {
+
+    private fun initialBeerTypeSpinner(
+        list: List<String>,
+        spinner: Spinner,
+        beerTypePosition: Int
+    ) {
         val listx = arrayListOf<String>()
         for (i in 0 until listx.size) {
             listx.add(list.get(i))
@@ -185,7 +311,9 @@ class BeerFragment : Fragment(), ClickItemUser {
         }
         spinner.setBackgroundColor(Color.WHITE)
         spinner.adapter = adapter
+        spinner.setSelection(beerTypePosition)
     }
+
     private fun initialFlagSpinner() {
         val list = arrayListOf<String>("RUS", "EU", "USA")
         val flagList =
@@ -193,7 +321,7 @@ class BeerFragment : Fragment(), ClickItemUser {
 
         val adapter = SpinnerAdapterr(requireContext(), list, flagList)
         binding.companyLanguageSpinner.adapter = adapter
-        Log.d("TAG", "initialFlagSpinner: " + sharedPreferencesClass.getCompanyLanguage())
+        //     binding.companyLanguageSpinner.orien
         if (sharedPreferencesClass.getCompanyLanguage().equals("USA")) {
             binding.companyLanguageSpinner.setSelection(2)
         } else if (sharedPreferencesClass.getCompanyLanguage().equals("EU")) {
@@ -328,6 +456,7 @@ class BeerFragment : Fragment(), ClickItemUser {
                 R.style.BottomSheetDialogTheme
             )
         }
+
         val recycler = view.findViewById<RecyclerView>(R.id.comments)
         commentAdapter = CommentRecyclerAdapter()
         recycler.layoutManager = LinearLayoutManager(context)
@@ -338,6 +467,7 @@ class BeerFragment : Fragment(), ClickItemUser {
             }
             commentAdapter.submitList(list)
         })
+        getConvertedValue(model.cardPrice.toString())
         val closeButton = view.findViewById<ImageView>(R.id.dialogContentClose)
         val image = view.findViewById<ImageView>(R.id.dialogImagView)
         val name = view.findViewById<TextView>(R.id.alcoholName)
@@ -399,10 +529,10 @@ class BeerFragment : Fragment(), ClickItemUser {
         list.add(view.findViewById(R.id.dialog_star_eight))
         list.add(view.findViewById(R.id.dialog_star_nine))
         list.add(view.findViewById(R.id.dialog_star_ten))
-        for (i in 0..averageRate-1) {
+        for (i in 0..averageRate - 1) {
             list.get(i).setImageResource(R.drawable.ic_dialog_rate_star_check)
         }
-        for (t in averageRate..list.size-1) {
+        for (t in averageRate..list.size - 1) {
             list.get(t).setImageResource(R.drawable.ic_dialog_noncheck_star)
         }
     }
