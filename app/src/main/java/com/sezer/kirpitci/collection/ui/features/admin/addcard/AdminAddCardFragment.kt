@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -131,10 +132,14 @@ class AdminAddCardFragment : Fragment() {
     }
 
     private fun openImage() {
-        val intent = Intent()
-        intent.type = intentType
-        intent.action = Intent.ACTION_GET_CONTENT
+        val intent = Intent(
+            Intent.ACTION_PICK,
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        )
+        intent.type = "image/* video/*"
+        //intent.action = Intent.ACTION_GET_CONTENT
         startActivityForResult(intent, 1)
+     //   startActivityForResult(intent, 1)
         progressDialog.setMessage(LOADING)
         progressDialog.show()
     }

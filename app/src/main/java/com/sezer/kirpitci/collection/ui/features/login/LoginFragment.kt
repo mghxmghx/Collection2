@@ -61,7 +61,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun goToRegister() {
-        binding.loginRegisterTextview.setOnClickListener {
+        binding.registrationButton.setOnClickListener {
             Navigation.findNavController(it)
                 .navigate(R.id.action_loginFragment_to_registrationFragment)
         }

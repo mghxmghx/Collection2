@@ -14,6 +14,7 @@
     <color name="gray3">#5B5A60</color>
     <color name="gold">#d4af37</color>
     <color name="orange">#FF6E40</color>
+    <color name="dark_gold_yeni">#faa429</color>
     <color name="dark_gold">#897124</color>
     <color name="dark_red">#3c0e07</color>
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#897124</color>

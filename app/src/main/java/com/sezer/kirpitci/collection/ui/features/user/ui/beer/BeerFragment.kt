@@ -208,7 +208,7 @@ class BeerFragment : Fragment(), ClickItemUser {
         })
     }
 
-    private fun getConvertedValue(price: String) {
+    private fun getConvertedValue(price: String, price1: TextView) {
         val priceSplit = price.split(" ")
         checkLanguage()
         Log.d("TAG", "getConvertedValue: " + Locale.getDefault().isO3Country)
@@ -219,7 +219,7 @@ class BeerFragment : Fragment(), ClickItemUser {
         if (currencyType == "RUB") {
             if (cLanguage == "USA") {
                 newFrom = "RUB"
-                newTo = "USA"
+                newTo = "USD"
             } else if (cLanguage == "RUS") {
                 newFrom = "RUB"
                 newTo = "RUB"
@@ -254,25 +254,57 @@ class BeerFragment : Fragment(), ClickItemUser {
         if (newFrom != newTo) {
             VM.getConvertedValue(newFrom, newTo).observe(viewLifecycleOwner, Observer {
                 if (cLanguage == "RUS") {
+                    Log.d("TAG", "getConvertedValue:-->1 " + it)
                     result = (priceSplit.get(0).toString().toDouble() * it.toString()
                         .toDouble()).toString()
                 } else if (cLanguage == "USA" && newTo == "USD" && newFrom == "EUR") {
+                    Log.d("TAG", "getConvertedValue:-->2 " + it)
                     result = (priceSplit.get(0).toString().toDouble() * it.toString()
                         .toDouble()).toString()
                 } else if (cLanguage != "USA" && cLanguage != "RUS" && newTo == "EUR" && newFrom == "USD") {
+                    Log.d("TAG", "getConvertedValue:-->3 " + it)
                     result = (priceSplit.get(0).toString().toDouble() * it.toString()
                         .toDouble()).toString()
                 } else if (cLanguage != "USA" && cLanguage != "RUS" && newTo == "EUR" && newFrom == "RUB") {
+                    Log.d("TAG", "getConvertedValue:-->4 " + it)
+                    result = (priceSplit.get(0).toString().toDouble() / it.toString()
+                        .toDouble()).toString()
+                } else if(cLanguage == "USA" && newFrom == "RUB") {
                     result = (priceSplit.get(0).toString().toDouble() / it.toString()
                         .toDouble()).toString()
                 }
+                if(result.contains(".")) {
+                    val resultSplit = result.split(".")
+                    var newComma = ""
+                    if(resultSplit.get(1).length>2){
+                        newComma = resultSplit.get(1).substring(0,2)
+                    }
+                    result = resultSplit.get(0)+"."+ newComma
+                }
+                if(cLanguage == "USA") {
+                    result = "$result USD"
+                } else if(cLanguage == "RUS") {
+                    result = "$result RUB"
+                } else {
+                    result = "$result EUR"
+                }
                 Log.d("TAG", "getConvertedValue: " + it)
-                Log.d("TAG", "getConvertedValue: " + result)
+                Log.d("TAG", "getConvertedValue:result " + result)
+                price1.text = result
             })
         } else {
             result = priceSplit.get(0)
-            Log.d("TAG", "getConvertedValue: " + result)
+            if(cLanguage == "USA") {
+                result = "$result USD"
+            } else if(cLanguage == "RUS") {
+                result = "$result RUB"
+            } else {
+                result = "$result EUR"
+            }
+            Log.d("TAG", "getConvertedValue:result " + result)
+            price1.text = result
         }
+
 
     }
 
@@ -467,7 +499,6 @@ class BeerFragment : Fragment(), ClickItemUser {
             }
             commentAdapter.submitList(list)
         })
-        getConvertedValue(model.cardPrice.toString())
         val closeButton = view.findViewById<ImageView>(R.id.dialogContentClose)
         val image = view.findViewById<ImageView>(R.id.dialogImagView)
         val name = view.findViewById<TextView>(R.id.alcoholName)
@@ -475,6 +506,8 @@ class BeerFragment : Fragment(), ClickItemUser {
         val city = view.findViewById<TextView>(R.id.alcoholCity)
         val info = view.findViewById<TextView>(R.id.alcoholInfo)
         val price = view.findViewById<TextView>(R.id.alcoholPrice)
+        getConvertedValue(model.cardPrice.toString(), price)
+
         val voteTotal = view.findViewById<TextView>(R.id.voteTotal)
         val comment = view.findViewById<EditText>(R.id.sendComment)
         comment.visibility = View.GONE
@@ -484,7 +517,7 @@ class BeerFragment : Fragment(), ClickItemUser {
         country.text = model.cardCounty
         city.text = model.cardCity
         info.text = model.cardInfo
-        price.text = model.cardPrice
+        //price.text = model.cardPrice
         voteTotal.text = "(" + model.voteCount.toString() + ")"
         val isCheck = view.findViewById<Switch>(R.id.isCheckForAlcohol)
         setBackgrounds(model, view)

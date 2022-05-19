@@ -96,11 +96,11 @@ class UserFragment : Fragment(), ClickItemUser {
         binding.companyLanguageSpinner.adapter = adapter
         if (sharedPreferencesClass.getCompanyLanguage().equals(USA_COUNTRY)) {
             binding.companyLanguageSpinner.setSelection(2)
-        } else if (sharedPreferencesClass.getCompanyLanguage().equals(EU_COUNTRY)) {
-            binding.companyLanguageSpinner.setSelection(1)
+        } else if (sharedPreferencesClass.getCompanyLanguage().equals(RUS_COUNTRY)) {
+            binding.companyLanguageSpinner.setSelection(0)
 
         } else {
-            binding.companyLanguageSpinner.setSelection(0)
+            binding.companyLanguageSpinner.setSelection(1)
 
         }
         binding.companyLanguageSpinner.onItemSelectedListener = object :

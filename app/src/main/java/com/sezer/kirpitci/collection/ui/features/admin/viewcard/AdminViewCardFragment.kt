@@ -3,6 +3,7 @@ package com.sezer.kirpitci.collection.ui.features.admin.viewcard
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
@@ -162,9 +163,12 @@ class AdminViewCardFragment : Fragment(), ClickListener {
     }
 
     private fun openImage() {
-        val intent = Intent()
-        intent.type = "image/*"
-        intent.action = Intent.ACTION_GET_CONTENT
+        val intent = Intent(
+            Intent.ACTION_PICK,
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        )
+        intent.type = "image/* video/*"
+        //intent.action = Intent.ACTION_GET_CONTENT
         startActivityForResult(intent, 1)
         progressDialog.setMessage(getString(R.string.fragment_add_card_loading))
         progressDialog.show()

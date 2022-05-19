@@ -25,7 +25,7 @@
         android:id="@+id/imageView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/beer2"
+        android:src="@drawable/beer_log3"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/background"
         app:layout_constraintEnd_toEndOf="parent"
@@ -142,38 +142,23 @@
             android:id="@+id/button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/registration_button"
-            app:layout_constraintBottom_toTopOf="@id/imageView2"
-            app:layout_constraintEnd_toEndOf="parent"
-
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="16dp"
             android:layout_marginTop="10dp"
+
             android:layout_marginEnd="16dp"
             android:background="@drawable/btn_bg"
+            android:fontFamily="@font/russian"
+            android:text="@string/registration_button"
+            android:textAllCaps="false"
+            android:textColor="@color/gold"
 
             android:textSize="18sp"
-            android:textAllCaps="false"
-            android:fontFamily="@font/russian"
-            android:textColor="@color/gold"
             android:textStyle="bold"
-
-            app:layout_constraintTop_toBottomOf="@id/cardView" />
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:background="@color/gray"
-            app:layout_constraintTop_toBottomOf="@id/button"
-            app:layout_constraintBottom_toBottomOf="@id/background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
 
-            android:layout_marginTop="10dp"
-            />
+            app:layout_constraintTop_toBottomOf="@id/cardView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
