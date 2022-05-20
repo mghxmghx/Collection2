@@ -20,7 +20,7 @@
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#897124</color>
     <color name="black_gray">#1C1C1E</color>
 
-    <color name="ic_bg">#FF6E40</color>
+    <color name="ic_bg">#faa429</color>
     <color name="tab_bg">#5B5A60</color>
-    <color name="bottomselect">#6d392b</color>
+    <color name="bottomselect">#7a531c</color>
 </resources>

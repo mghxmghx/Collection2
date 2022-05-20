@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gray2"
     tools:context=".ui.features.user.ui.notifications.personalinfo.PersonalInfo">
 
 <androidx.cardview.widget.CardView
@@ -11,6 +12,7 @@
     android:layout_height="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:background="@color/gray2"
         android:layout_height="match_parent">
 
 
@@ -18,67 +20,122 @@
             android:id="@+id/userName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/dark_gold_yeni"
+            android:textSize="16sp"
+            android:textStyle="bold"
             android:text="@string/common_textview"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/imageView5"
+            app:layout_constraintTop_toTopOf="@+id/imageView5" />
 
         <TextView
             android:id="@+id/userStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/dark_gold_yeni"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
             android:text="@string/common_textview"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView5"
             app:layout_constraintTop_toBottomOf="@+id/userName" />
 
         <TextView
             android:id="@+id/userID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/dark_gold_yeni"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
             android:text="@string/common_textview"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView5"
             app:layout_constraintTop_toBottomOf="@+id/userStatus" />
 
         <TextView
             android:id="@+id/userMail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
+            android:textColor="@color/dark_gold_yeni"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
             android:text="@string/common_textview"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView5"
             app:layout_constraintTop_toBottomOf="@+id/userID" />
 
         <EditText
             android:id="@+id/newPassword"
-            android:layout_width="wrap_content"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName"
             android:hint="@string/fragment_personal_info_new_password"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/userMail" />
+            android:inputType="textPersonName"
+            android:textColorHint="@color/dark_gold_yeni"
+            app:layout_constraintBottom_toTopOf="@+id/changePassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/changePassword"
-            android:layout_width="wrap_content"
+            style="@style/Theme.Button"
+            android:layout_width="180dp"
+
             android:layout_height="wrap_content"
             android:text="@string/fragment_personal_info_change_password"
-            app:layout_constraintStart_toEndOf="@+id/newPassword"
-            app:layout_constraintTop_toTopOf="@+id/newPassword" />
+            android:textAllCaps="false"
+            android:textColor="@color/dark_gray"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/deleteUser"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/deleteUser"
-            android:layout_width="wrap_content"
+            style="@style/Theme.Button"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:text="@string/fragment_personal_info_delete_my_account"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/newPassword" />
+            android:textAllCaps="false"
+            android:textColor="@color/dark_gray"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/logout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/logout"
-            android:layout_width="wrap_content"
+            style="@style/Theme.Button"
+            android:layout_width="180dp"
+
             android:layout_height="wrap_content"
             android:text="@string/fragment_personal_info_logout"
+            android:layout_marginBottom="32dp"
+            android:textAllCaps="false"
+            android:textColor="@color/dark_gray"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="134dp"
+            android:layout_height="130dp"
+
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/ic_icons_profile"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/deleteUser" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

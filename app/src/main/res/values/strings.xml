@@ -4,10 +4,10 @@
     <string name="password">Password</string>
     <string name="remember_me">Remember Me</string>
     <string name="login_button">Login</string>
-    <string name="registration_button">Registration</string>
+    <string name="registration_button">Sign-in</string>
     <string name="registration">Registration</string>
     <string name="user_name">User Name</string>
-    <string name="mail">Mail</string>
+    <string name="mail">E-Mail</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="wrong_message">Wrong Message</string>
     <string name="Add_Item">Add Item</string>

@@ -124,6 +124,7 @@ class UserViewModel @Inject constructor(
                 cardABV = it.child(CARD_ABV).value.toString(),
                 userVoted = it.child(USERS).child(userID).child(CARD_USER_VOTED)
                     .value.toString(),
+                beerML = it.child("beerML").value.toString()
             )
         }
         return model
@@ -175,7 +176,8 @@ class UserViewModel @Inject constructor(
                             userVoted = child.child(USERS).child(userID).child(CARD_USER_VOTED)
                                 .value.toString(),
                             cardCompany = child.child(CARD_COMPANY).value.toString(),
-                            cardABV = child.child(CARD_ABV).value.toString()
+                            cardABV = child.child(CARD_ABV).value.toString(),
+                            beerML = child.child("beerML").value.toString()
 
                         )
                     )
@@ -218,7 +220,8 @@ class UserViewModel @Inject constructor(
                                 child.child(USERS).child(userID).child(CARD_USER_RATE).value
                                     .toString(),
                                 cardCompany = it.child(CARD_COMPANY).value.toString(),
-                                cardABV = it.child(CARD_ABV).value.toString()
+                                cardABV = it.child(CARD_ABV).value.toString(),
+                                beerML = child.child("beerML").value.toString()
                             )
                         )
                     }

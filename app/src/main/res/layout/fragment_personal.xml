@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
+    android:background="@color/gray2"
     tools:context=".ui.features.user.ui.notifications.panel.PersonalFragment">
 
     <com.google.android.material.tabs.TabLayout

@@ -15,5 +15,7 @@ data class CardModel(
     var voteCount: String? = null,
     var userVoted: String? = null,
     var cardABV: String,
-    var cardCompany: String
+    var cardCompany: String,
+    var beerML: String? = null,
+    var cardType: String? = null
 )

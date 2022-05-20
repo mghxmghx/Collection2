@@ -145,8 +145,30 @@
                 android:textColor="@color/white"
                 android:hint="@string/dialog_content_update_add_card_ABV" />
         </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/card_ML"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            style="@style/LoginTextInputLayoutStyle"
+            android:theme="@style/LoginTextInputLayoutStyle"
+            android:textColorHint="@color/dark_gold"
+            app:boxStrokeColor="@color/dark_gold"
+            android:background="@color/dark_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/card_abv">
 
-    <com.google.android.material.textfield.TextInputLayout
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/card_ML_text"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textColor="@color/white"
+                android:hint="Mililiters" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/card_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -159,7 +181,7 @@
         android:background="@color/dark_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_abv">
+        app:layout_constraintTop_toBottomOf="@+id/card_ML">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/card_price_text"
@@ -168,7 +190,33 @@
             android:textColor="@color/white"
             android:hint="@string/dialog_content_price" />
     </com.google.android.material.textfield.TextInputLayout>
+        <RadioGroup
+            android:id="@+id/currencyGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/card_price">
+            <RadioButton
+                android:id="@+id/rubcur"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="RUB"
+                android:textColor="@color/white"/>
+            <RadioButton
+                android:id="@+id/usdcur"
 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="USD"/>
+            <RadioButton
+                android:id="@+id/eurcur"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="EUR"
+                android:textColor="@color/white"/>
+        </RadioGroup>
     <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
@@ -186,7 +234,7 @@
         android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_price">
+        app:layout_constraintTop_toBottomOf="@id/currencyGroup">
         <CheckBox
             android:id="@+id/checkboxUSA"
             android:layout_width="wrap_content"

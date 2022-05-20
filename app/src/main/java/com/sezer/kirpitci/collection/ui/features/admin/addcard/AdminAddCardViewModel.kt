@@ -50,7 +50,7 @@ class AdminAddCardViewModel @Inject constructor(
     fun addCard(model: AddCardModel): MutableLiveData<Boolean> {
         val isSuccess = MutableLiveData<Boolean>()
         val db = firebaseDatabase.getReference(CARDS)
-        db.child(model.cardID.toString()).setValue(model).addOnCompleteListener {
+        db.child(model.cardID).setValue(model).addOnCompleteListener {
             isSuccess.value = it.isSuccessful
             getMaxId()
         }

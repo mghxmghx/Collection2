@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +23,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.sezer.kirpitci.collection.databinding.FragmentAdminAddCardBinding
 import com.sezer.kirpitci.collection.di.MyApp
 import com.sezer.kirpitci.collection.utis.default
-import com.sezer.kirpitci.collection.utis.intentType
 import com.sezer.kirpitci.collection.utis.others.ViewModelFactory
 import com.sezer.kirpitci.collection.utis.resetImage
 import java.util.*
@@ -139,7 +139,7 @@ class AdminAddCardFragment : Fragment() {
         intent.type = "image/* video/*"
         //intent.action = Intent.ACTION_GET_CONTENT
         startActivityForResult(intent, 1)
-     //   startActivityForResult(intent, 1)
+        //   startActivityForResult(intent, 1)
         progressDialog.setMessage(LOADING)
         progressDialog.show()
     }
@@ -159,11 +159,19 @@ class AdminAddCardFragment : Fragment() {
                 val cardType = typeList.get(binding.cardType.selectedItemPosition)
                 val cardCountry =
                     countryList.get(binding.cardCountry.selectedItemPosition).toString()
-                val cardPrice = binding.cardPriceText.text.toString()
+                var cardPrice = binding.cardPriceText.text.toString()
+                if (binding.rubcur.isChecked) {
+                    cardPrice = "$cardPrice RUB"
+                } else if (binding.eurcur.isChecked) {
+                    cardPrice = "$cardPrice EUR"
+                } else if (binding.usdcur.isChecked) {
+                    cardPrice = "$cardPrice USD"
+                }
+                Log.d("TAG", "clickListener: " + cardPrice)
                 val cardABV = binding.cardAbvText.text.toString()
                 val cardCompany =
                     companyList.get(binding.cardCompany.selectedItemPosition).toString()
-                if (!cardName.isEmpty() && !cardCategory.isEmpty() && !cardCountry.isEmpty()) {
+                if (!cardName.isEmpty() && !cardCategory.isEmpty() && !cardCountry.isEmpty() && (binding.eurcur.isChecked || binding.usdcur.isChecked || binding.rubcur.isChecked)) {
                     if (uri.equals("")) {
                         uri = default
                     }
@@ -182,7 +190,8 @@ class AdminAddCardFragment : Fragment() {
                             voteCount = "0",
                             cardCompany = cardCompany,
                             cardType = cardCategory,
-                            beerInCountry = checkboxCheck()
+                            beerInCountry = checkboxCheck(),
+                            beerML = binding.cardMLText.text.toString()
                         )
                     )
 

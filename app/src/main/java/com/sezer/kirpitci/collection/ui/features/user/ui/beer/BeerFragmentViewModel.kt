@@ -146,7 +146,9 @@ class BeerFragmentViewModel @Inject constructor(
                             userVoted = child.child(USERS).child(userID).child("userVoted")
                                 .value.toString(),
                             cardCompany = child.child(CARD_COMPANY).value.toString(),
-                            cardABV = child.child(CARD_ABV).value.toString()
+                            cardABV = child.child(CARD_ABV).value.toString(),
+                            beerML = child.child("beerML").value.toString(),
+                            cardType = child.child("cardType").value.toString()
 
                         )
                     )
@@ -192,7 +194,10 @@ class BeerFragmentViewModel @Inject constructor(
                                 child.child(USERS).child(userID).child(CARD_USER_RATE).value
                                     .toString(),
                                 cardCompany = child.child(CARD_COMPANY).value.toString(),
-                                cardABV = child.child(CARD_ABV).value.toString()
+                                cardABV = child.child(CARD_ABV).value.toString(),
+                                beerML = child.child("beerML").value.toString(),
+                                cardType = child.child("cardType").value.toString()
+
                             )
                         )
                     }
@@ -288,7 +293,9 @@ class BeerFragmentViewModel @Inject constructor(
                                     userVoted = child.child(USERS).child(userID).child("userVoted")
                                         .value.toString(),
                                     cardCompany = child.child(CARD_COMPANY).value.toString(),
-                                    cardABV = child.child(CARD_ABV).value.toString()
+                                    cardABV = child.child(CARD_ABV).value.toString(),
+                                    beerML = child.child("beerML").value.toString(),
+                                            cardType = child.child("cardType").value.toString()
 
                                 )
                             )
@@ -319,7 +326,9 @@ class BeerFragmentViewModel @Inject constructor(
                                     userVoted = child.child(USERS).child(userID).child("userVoted")
                                         .value.toString(),
                                     cardCompany = child.child(CARD_COMPANY).value.toString(),
-                                    cardABV = child.child(CARD_ABV).value.toString()
+                                    cardABV = child.child(CARD_ABV).value.toString(),
+                                    beerML = child.child("beerML").value.toString(),
+                                    cardType = child.child("cardType").value.toString()
 
                                 )
                             )
@@ -354,8 +363,8 @@ class BeerFragmentViewModel @Inject constructor(
                                     userVoted = child.child(USERS).child(userID).child("userVoted")
                                         .value.toString(),
                                     cardCompany = child.child(CARD_COMPANY).value.toString(),
-                                    cardABV = child.child(CARD_ABV).value.toString()
-
+                                    cardABV = child.child(CARD_ABV).value.toString(),
+                                    beerML = child.child("beerML").value.toString()
                                 )
                             )
                         }
@@ -385,7 +394,10 @@ class BeerFragmentViewModel @Inject constructor(
                                     userVoted = child.child(USERS).child(userID).child("userVoted")
                                         .value.toString(),
                                     cardCompany = child.child(CARD_COMPANY).value.toString(),
-                                    cardABV = child.child(CARD_ABV).value.toString()
+                                    cardABV = child.child(CARD_ABV).value.toString(),
+                                    beerML = child.child("beerML").value.toString(),
+                                    cardType = child.child("cardType").value.toString()
+
 
                                 )
                             )

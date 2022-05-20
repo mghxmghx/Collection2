@@ -48,9 +48,28 @@ class DetailRecyclerAdapter(val listener: ClickItemUser) :
                 holder.cardImage,
                 true.toString()
             )
-            holder.nameText.text = this.cardName
-            holder.detailAlcoholRate.text = this.cardABV
-            holder.alcoholType.text = this.cardCompany
+            if(this.cardName == null || this.cardName.equals("null")){
+                holder.nameText.text = ""
+            } else {
+                holder.nameText.text = this.cardName
+            }
+            if(this.cardABV == null || this.cardABV.equals("null")){
+                holder.detailAlcoholRate.text = ""
+            } else {
+                holder.detailAlcoholRate.text = this.cardABV
+            }
+            if(this.cardType == null || this.cardType.equals("null")){
+                holder.alcoholType.text = ""
+            } else {
+                holder.alcoholType.text = this.cardType
+            }
+            if(this.beerML == null || this.beerML.equals("null")){
+                holder.alcoholML.text = ""
+            } else {
+                holder.alcoholML.text = this.beerML
+            }
+
+
 
             val index = listName.indexOf(this.cardCounty.lowercase(Locale.getDefault()))
             if (index != -1) {
