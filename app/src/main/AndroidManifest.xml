@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".di.MyApp"
@@ -17,11 +18,13 @@
         android:theme="@style/Theme.Collection">
         <activity
             android:name=".ui.features.UserAct"
-            android:exported="false"
+            android:exported="true"
             android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".ui.features.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan|adjustResize"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

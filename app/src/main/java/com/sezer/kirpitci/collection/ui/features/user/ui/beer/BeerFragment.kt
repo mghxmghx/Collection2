@@ -1,12 +1,12 @@
 package com.sezer.kirpitci.collection.ui.features.user.ui.beer
 
 import SpinnerAdapterr
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,12 +29,11 @@ import com.sezer.kirpitci.collection.utis.adapters.CommentRecyclerAdapter
 import com.sezer.kirpitci.collection.utis.adapters.DetailRecyclerAdapter
 import com.sezer.kirpitci.collection.utis.others.SharedPreferencesClass
 import com.sezer.kirpitci.collection.utis.others.ViewModelFactory
-import com.sezer.kirpitci.collection.utis.updateWithUrlWithStatus
+import com.sezer.kirpitci.collection.utis.others.updateWithUrlWithStatus
 import kotlinx.android.synthetic.main.view_search.view.*
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
-
 
 class BeerFragment : Fragment(), ClickItemUser {
     @Inject
@@ -61,6 +60,18 @@ class BeerFragment : Fragment(), ClickItemUser {
         return binding.root
     }
 
+    companion object {
+        const val BEER = "beer"
+        const val WINE = "wine"
+        const val COCKTAIL = "cocktail"
+        const val CUR_RUB = "RUB"
+        const val CUR_EUR = "EUR"
+        const val CUR_USD = "USD"
+        const val C_RUS = "RUS"
+        const val C_EU = "EU"
+        const val C_USA = "USA"
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initialUI()
         initialVM()
@@ -69,9 +80,8 @@ class BeerFragment : Fragment(), ClickItemUser {
         initialShared()
         checkLanguage()
         initialFlagSpinner()
-        focusListener()
-        getID("beer")
-        categoryTemp = "beer"
+        getID(BEER)
+        categoryTemp = BEER
         initialSearch()
         (activity as AppCompatActivity).supportActionBar?.hide()
         super.onViewCreated(view, savedInstanceState)
@@ -211,97 +221,89 @@ class BeerFragment : Fragment(), ClickItemUser {
     private fun getConvertedValue(price: String, price1: TextView) {
         val priceSplit = price.split(" ")
         checkLanguage()
-        Log.d("TAG", "getConvertedValue: " + Locale.getDefault().isO3Country)
         val cLanguage = Locale.getDefault().isO3Country
         var newFrom = ""
         var newTo = ""
         val currencyType = priceSplit.get(1)
-        if (currencyType == "RUB") {
-            if (cLanguage == "USA") {
-                newFrom = "RUB"
-                newTo = "USD"
-            } else if (cLanguage == "RUS") {
-                newFrom = "RUB"
-                newTo = "RUB"
+        if (currencyType == CUR_RUB) {
+            if (cLanguage == C_USA) {
+                newFrom = CUR_RUB
+                newTo = CUR_USD
+            } else if (cLanguage == C_RUS) {
+                newFrom = CUR_RUB
+                newTo = CUR_RUB
             } else {
-                newFrom = "RUB"
-                newTo = "EUR"
+                newFrom = CUR_RUB
+                newTo = CUR_EUR
             }
-        } else if (currencyType == "USD") {
-            if (cLanguage == "RUS") {
-                newFrom = "USD"
-                newTo = "RUB"
-            } else if (cLanguage == "USA") {
-                newFrom = "USD"
-                newTo = "USD"
+        } else if (currencyType == CUR_USD) {
+            if (cLanguage == C_RUS) {
+                newFrom = CUR_USD
+                newTo = CUR_RUB
+            } else if (cLanguage == C_USA) {
+                newFrom = CUR_USD
+                newTo = CUR_USD
             } else {
-                newFrom = "USD"
-                newTo = "EUR"
+                newFrom = CUR_USD
+                newTo = CUR_EUR
             }
         } else {
-            if (cLanguage == "USA") {
-                newFrom = "EUR"
-                newTo = "USD"
-            } else if (cLanguage == "RUS") {
-                newFrom = "EUR"
-                newTo = "RUB"
+            if (cLanguage == C_USA) {
+                newFrom = CUR_EUR
+                newTo = CUR_USD
+            } else if (cLanguage == C_USA) {
+                newFrom = CUR_EUR
+                newTo = CUR_RUB
             } else {
-                newFrom = "EUR"
-                newTo = "EUR"
+                newFrom = CUR_EUR
+                newTo = CUR_EUR
             }
         }
         var result = ""
         if (newFrom != newTo) {
             VM.getConvertedValue(newFrom, newTo).observe(viewLifecycleOwner, Observer {
-                if (cLanguage == "RUS") {
-                    Log.d("TAG", "getConvertedValue:-->1 " + it)
+                if (cLanguage == C_RUS) {
                     result = (priceSplit.get(0).toString().toDouble() * it.toString()
                         .toDouble()).toString()
-                } else if (cLanguage == "USA" && newTo == "USD" && newFrom == "EUR") {
-                    Log.d("TAG", "getConvertedValue:-->2 " + it)
+                } else if (cLanguage == C_USA && newTo == CUR_USD && newFrom == CUR_EUR) {
                     result = (priceSplit.get(0).toString().toDouble() * it.toString()
                         .toDouble()).toString()
-                } else if (cLanguage != "USA" && cLanguage != "RUS" && newTo == "EUR" && newFrom == "USD") {
-                    Log.d("TAG", "getConvertedValue:-->3 " + it)
+                } else if (cLanguage != C_USA && cLanguage != C_RUS && newTo == CUR_EUR && newFrom == CUR_USD) {
                     result = (priceSplit.get(0).toString().toDouble() * it.toString()
                         .toDouble()).toString()
-                } else if (cLanguage != "USA" && cLanguage != "RUS" && newTo == "EUR" && newFrom == "RUB") {
-                    Log.d("TAG", "getConvertedValue:-->4 " + it)
+                } else if (cLanguage != C_USA && cLanguage != C_RUS && newTo == CUR_EUR && newFrom == CUR_RUB) {
                     result = (priceSplit.get(0).toString().toDouble() / it.toString()
                         .toDouble()).toString()
-                } else if(cLanguage == "USA" && newFrom == "RUB") {
+                } else if (cLanguage == C_USA && newFrom == CUR_RUB) {
                     result = (priceSplit.get(0).toString().toDouble() / it.toString()
                         .toDouble()).toString()
                 }
-                if(result.contains(".")) {
+                if (result.contains(".")) {
                     val resultSplit = result.split(".")
                     var newComma = ""
-                    if(resultSplit.get(1).length>2){
-                        newComma = resultSplit.get(1).substring(0,2)
+                    if (resultSplit.get(1).length > 2) {
+                        newComma = resultSplit.get(1).substring(0, 2)
                     }
-                    result = resultSplit.get(0)+"."+ newComma
+                    result = resultSplit.get(0) + "." + newComma
                 }
-                if(cLanguage == "USA") {
-                    result = "$result USD"
-                } else if(cLanguage == "RUS") {
-                    result = "$result RUB"
+                if (cLanguage == C_USA) {
+                    result = "$result $CUR_USD"
+                } else if (cLanguage == C_RUS) {
+                    result = "$result $CUR_RUB"
                 } else {
-                    result = "$result EUR"
+                    result = "$result $CUR_EUR"
                 }
-                Log.d("TAG", "getConvertedValue: " + it)
-                Log.d("TAG", "getConvertedValue:result " + result)
                 price1.text = result
             })
         } else {
             result = priceSplit.get(0)
-            if(cLanguage == "USA") {
-                result = "$result USD"
-            } else if(cLanguage == "RUS") {
-                result = "$result RUB"
+            if (cLanguage == C_USA) {
+                result = "$result $CUR_USD"
+            } else if (cLanguage == C_RUS) {
+                result = "$result $CUR_RUB"
             } else {
-                result = "$result EUR"
+                result = "$result $CUR_EUR"
             }
-            Log.d("TAG", "getConvertedValue:result " + result)
             price1.text = result
         }
 
@@ -347,16 +349,16 @@ class BeerFragment : Fragment(), ClickItemUser {
     }
 
     private fun initialFlagSpinner() {
-        val list = arrayListOf<String>("RUS", "EU", "USA")
+        val list = arrayListOf<String>(C_RUS, C_EU, C_USA)
         val flagList =
             arrayListOf<Int>(R.drawable.russian_flag, R.drawable.eu_flag, R.drawable.american_flag)
 
         val adapter = SpinnerAdapterr(requireContext(), list, flagList)
         binding.companyLanguageSpinner.adapter = adapter
         //     binding.companyLanguageSpinner.orien
-        if (sharedPreferencesClass.getCompanyLanguage().equals("USA")) {
+        if (sharedPreferencesClass.getCompanyLanguage().equals(C_USA)) {
             binding.companyLanguageSpinner.setSelection(2)
-        } else if (sharedPreferencesClass.getCompanyLanguage().equals("EU")) {
+        } else if (sharedPreferencesClass.getCompanyLanguage().equals(C_EU)) {
             binding.companyLanguageSpinner.setSelection(1)
 
         } else {
@@ -372,16 +374,16 @@ class BeerFragment : Fragment(), ClickItemUser {
                 l: Long
             ) {
                 if (i == 0) {
-                    language = "RUS"
-                    setLanguage("RUS")
+                    language = C_RUS
+                    setLanguage(C_RUS)
                     getID(categoryTemp)
                 } else if (i == 1) {
-                    language = "EU"
-                    setLanguage("EU")
+                    language = C_EU
+                    setLanguage(C_EU)
                     getID(categoryTemp)
                 } else if (i == 2) {
-                    language = "USA"
-                    setLanguage("USA")
+                    language = C_USA
+                    setLanguage(C_USA)
                     getID(categoryTemp)
                 }
 
@@ -453,7 +455,6 @@ class BeerFragment : Fragment(), ClickItemUser {
     }
 
     override fun clicked(model: CardModel) {
-        Log.d("TAG", "clicked: " + model.voteCount)
         checkClickedLayout(model)
     }
 
@@ -472,14 +473,7 @@ class BeerFragment : Fragment(), ClickItemUser {
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    private fun focusListener() {
-        /*  binding.searchAlcoholText.onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
-              if (!hasFocus) {
-                  hideKeyboard(v)
-              }
-          }*/
-    }
-
+    @SuppressLint("SetTextI18n")
     private fun checkClickedLayout(model: CardModel) {
         val view = layoutInflater.inflate(R.layout.detail_dialog_content, null)
         val dialog = context?.let { it1 ->
@@ -517,7 +511,6 @@ class BeerFragment : Fragment(), ClickItemUser {
         country.text = model.cardCounty
         city.text = model.cardCity
         info.text = model.cardInfo
-        //price.text = model.cardPrice
         voteTotal.text = "(" + model.voteCount.toString() + ")"
         val isCheck = view.findViewById<Switch>(R.id.isCheckForAlcohol)
         setBackgrounds(model, view)
@@ -572,35 +565,27 @@ class BeerFragment : Fragment(), ClickItemUser {
 
     private fun initialTablayout() {
         binding.ltbeer.isSelected = true
-        categoryTemp = "beer"
+        categoryTemp = BEER
         binding.ltbeer.setOnClickListener {
             binding.ltcocktail.isSelected = false
             binding.ltwine.isSelected = false
             binding.ltbeer.isSelected = true
-            categoryTemp = "beer"
-            getID("beer")
-            //
+            categoryTemp = BEER
+            getID(BEER)
         }
         binding.ltwine.setOnClickListener {
             binding.ltcocktail.isSelected = false
             binding.ltwine.isSelected = true
             binding.ltbeer.isSelected = false
-            categoryTemp = "wine"
-            getID("wine")
-
-            //
+            categoryTemp = WINE
+            getID(WINE)
         }
         binding.ltcocktail.setOnClickListener {
             binding.ltcocktail.isSelected = true
             binding.ltwine.isSelected = false
             binding.ltbeer.isSelected = false
-            categoryTemp = "cocktail"
-            getID("cocktail")
-
-            //
+            categoryTemp = COCKTAIL
+            getID(COCKTAIL)
         }
-
     }
-
-
 }

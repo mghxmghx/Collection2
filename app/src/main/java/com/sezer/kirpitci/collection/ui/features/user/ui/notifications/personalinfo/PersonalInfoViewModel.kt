@@ -68,10 +68,8 @@ class PersonalInfoViewModel @Inject constructor(
         user!!.updatePassword(password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 isSuccess.value = task.isSuccessful
-                println("Update Success")
             } else {
                 isSuccess.value = task.isSuccessful
-                println("Erorr Update")
             }
         }
         return isSuccess

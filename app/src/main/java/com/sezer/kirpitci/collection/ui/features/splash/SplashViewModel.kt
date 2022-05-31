@@ -7,11 +7,11 @@ import com.google.firebase.database.FirebaseDatabase
 import javax.inject.Inject
 
 class SplashViewModel @Inject constructor(
-    val firebaseDatabase: FirebaseDatabase,
-    val auth: FirebaseAuth
-) : ViewModel() {
-    companion object {
-        const val USERS = "users"
+            val firebaseDatabase: FirebaseDatabase,
+        val auth: FirebaseAuth
+        ) : ViewModel() {
+            companion object {
+                const val USERS = "users"
         const val EMAIL = "email"
         const val STATUS = "status"
     }

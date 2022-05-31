@@ -1,7 +1,7 @@
 package com.sezer.kirpitci.collection.utis.adapters
 
 import androidx.recyclerview.widget.DiffUtil
-import com.sezer.kirpitci.collection.ui.features.registration.calisma.TrainingModelReal
+import com.sezer.kirpitci.collection.ui.features.registration.TrainingModelReal
 
 
 class DiffUtilUserViewRecycler(

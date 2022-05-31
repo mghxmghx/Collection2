@@ -1,11 +1,15 @@
 package com.sezer.kirpitci.collection.ui.features.login
 
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -51,6 +55,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun initialUI() {
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         progressDialog = ProgressDialog(context)
         MyApp.appComponent.inject(this)
     }
@@ -68,13 +73,23 @@ class LoginFragment : Fragment() {
     }
 
     private fun initialVM() {
+
         VM = ViewModelProvider(this, viewModelFactory)[LoginViewModel::class.java]
+    }
+    fun isOnline(): Boolean {
+        val cm = requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val ni = cm.activeNetworkInfo
+        return ni != null && ni.isConnectedOrConnecting
     }
 
     private fun loginClickListener() {
         binding.loginButton.setOnClickListener {
-            onPreExecute()
-            auth()
+            if(isOnline()) {
+                onPreExecute()
+                auth()
+            } else {
+                Toast.makeText(context, "No Internet!", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -116,6 +131,7 @@ class LoginFragment : Fragment() {
                             getString(R.string.wrong_message),
                             Toast.LENGTH_SHORT
                         ).show()
+                        onPostExecute()
                     }
                 })
     }

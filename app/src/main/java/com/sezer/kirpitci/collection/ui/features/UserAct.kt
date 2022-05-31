@@ -1,6 +1,7 @@
 package com.sezer.kirpitci.collection.ui.features
 
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
@@ -26,7 +27,7 @@ class UserAct : AppCompatActivity() {
     }
 
     private fun setupBottomNav() {
-
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         chipNavigationBar = findViewById<ChipNavigationBar>(R.id.chipNavigation)
         supportFragmentManager.beginTransaction().replace(R.id.container, UserFragment()).commit()
         chipNavigationBar.setItemSelected(R.id.home_lay, true)
@@ -46,5 +47,4 @@ class UserAct : AppCompatActivity() {
             }
         })
     }
-
 }

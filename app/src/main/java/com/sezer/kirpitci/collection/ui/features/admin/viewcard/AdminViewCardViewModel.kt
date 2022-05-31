@@ -28,13 +28,58 @@ class AdminViewCardViewModel @Inject constructor(val firebaseDatabase: FirebaseD
         const val CARDS = "cards"
         const val DEFAULT = "default"
         const val CARDSV2 = "Cards"
+        const val COMPANIES = "companies"
+        const val COUNTRIES = "countries"
+        const val CATEGORIES = "categories"    }
+
+    fun getCompanyList(): MutableLiveData<List<String>> {
+        val list = arrayListOf<String>()
+        val returnList = MutableLiveData<List<String>>()
+        firebaseDatabase.getReference(COMPANIES).get().addOnSuccessListener {
+            for (child in it.children) {
+                list.add(child.value.toString())
+            }
+            returnList.value = list
+        }
+        return returnList
     }
 
+    fun getCountryList(): MutableLiveData<List<String>> {
+        val list = arrayListOf<String>()
+        val returnList = MutableLiveData<List<String>>()
+        firebaseDatabase.getReference(COUNTRIES).get().addOnSuccessListener {
+            for (child in it.children) {
+                list.add(child.value.toString())
+            }
+            returnList.value = list
+        }
+        return returnList
+    }
+
+    fun getCategoryList(): MutableLiveData<List<String>> {
+        val list = arrayListOf<String>()
+        val returnList = MutableLiveData<List<String>>()
+        firebaseDatabase.getReference(CATEGORIES).get().addOnSuccessListener {
+            for (child in it.children) {
+                list.add(child.value.toString())
+            }
+            returnList.value = list
+        }
+        return returnList
+    }
     var quote: MutableLiveData<List<ViewCardModel>>? = getCards()
     fun getCards(): MutableLiveData<List<ViewCardModel>> {
         val list = MutableLiveData<List<ViewCardModel>>()
         val cardList = ArrayList<ViewCardModel>()
         val db2 = firebaseDatabase.getReference(CARDS)
+        /*
+    var cardABV: String,
+    var cardType: String,
+    var cardCompany: String,
+    var cardAverage: String,
+    var voteCount: String,
+    var beerInCountry: String,
+         */
         db2.get()
             .addOnSuccessListener {
                 for (child in it.children) {
@@ -48,6 +93,13 @@ class AdminViewCardViewModel @Inject constructor(val firebaseDatabase: FirebaseD
                             child.child(CARD_CITY).value.toString(),
                             child.child(CARD_PRICE).value.toString(),
                             child.child(CARD_PATH).value.toString(),
+                            child.child("cardABV").value.toString(),
+                            child.child("cardType").value.toString(),
+                            child.child("cardCompany").value.toString(),
+                            child.child("cardAverage").value.toString(),
+                            child.child("voteCount").value.toString(),
+                            child.child("beerInCountry").value.toString(),
+                            beerML = child.child("beerML").value.toString()
                         )
                     )
                 }
@@ -111,6 +163,13 @@ class AdminViewCardViewModel @Inject constructor(val firebaseDatabase: FirebaseD
         reqestDB.child(newModel.cardID).child(CARD_NAME).setValue(newModel.cardName)
         reqestDB.child(newModel.cardID).child(CARD_INFO).setValue(newModel.cardInfo)
         reqestDB.child(newModel.cardID).child(CARD_PATH).setValue(newModel.cardPath)
+        reqestDB.child(newModel.cardID).child("cardAverage").setValue(newModel.cardAverage)
+        reqestDB.child(newModel.cardID).child("voteCount").setValue(newModel.voteCount)
+        reqestDB.child(newModel.cardID).child("cardABV").setValue(newModel.cardABV)
+        reqestDB.child(newModel.cardID).child("beerML").setValue(newModel.beerML)
+        reqestDB.child(newModel.cardID).child("cardType").setValue(newModel.cardType)
+        reqestDB.child(newModel.cardID).child("cardCompany").setValue(newModel.cardCompany)
+        reqestDB.child(newModel.cardID).child("beerInCountry").setValue(newModel.beerInCountry)
         reqestDB.child(newModel.cardID).child(CARD_PRICE).setValue(newModel.cardPrice)
             .addOnCompleteListener {
                 isSuccess.value = it.isSuccessful.toString()

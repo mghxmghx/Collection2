@@ -11,7 +11,7 @@ import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.ui.features.admin.viewcard.ViewCardModel
 import com.sezer.kirpitci.collection.utis.DiffUtilRecycler
 
-import com.sezer.kirpitci.collection.utis.updateWithUrl
+import com.sezer.kirpitci.collection.utis.others.updateWithUrl
 
 class AdapterX(initCList: List<ViewCardModel>, val listener: ClickListener) :
     RecyclerView.Adapter<AdapterX.ViewHolder>() {

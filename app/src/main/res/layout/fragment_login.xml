@@ -47,17 +47,13 @@
 
 
             <LinearLayout
-
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-
-
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/LoginTextInputLayoutStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:textColorHint="@color/dark_gold_yeni"
                     android:theme="@style/LoginTextInputLayoutStyle"
                     app:boxStrokeColor="@color/dark_gold_yeni"

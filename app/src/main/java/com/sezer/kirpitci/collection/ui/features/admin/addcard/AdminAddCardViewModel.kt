@@ -27,6 +27,7 @@ class AdminAddCardViewModel @Inject constructor(
         const val DEFAULT = "default"
         const val UPLOADS = "uploads/"
         const val COMPANIES = "companies"
+        const val COUNTRIES = "countries"
         const val CATEGORIES = "categories"
         const val USERS = "users"
         const val EMAIL = "email"
@@ -113,7 +114,7 @@ class AdminAddCardViewModel @Inject constructor(
     fun getCountryList(): MutableLiveData<List<String>> {
         val list = arrayListOf<String>()
         val returnList = MutableLiveData<List<String>>()
-        firebaseDatabase.getReference("countries").get().addOnSuccessListener {
+        firebaseDatabase.getReference(COUNTRIES).get().addOnSuccessListener {
             for (child in it.children) {
                 list.add(child.value.toString())
             }

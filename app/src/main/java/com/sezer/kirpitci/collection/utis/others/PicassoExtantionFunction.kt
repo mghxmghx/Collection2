@@ -1,4 +1,4 @@
-package com.sezer.kirpitci.collection.utis
+package com.sezer.kirpitci.collection.utis.others
 
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
@@ -19,9 +19,9 @@ fun ImageView.updateWithUrlWithStatus(url: String, imageViewAvatar: ImageView, s
             imageViewAvatar.colorFilter = filter
             Glide.with(context).load(url).into(imageViewAvatar)
         }
-    } else if(status.equals("true") && url.equals("default")){
+    } else if (status.equals("true") && url.equals("default")) {
         Glide.with(context).load(R.drawable.no_image_drunk).into(imageViewAvatar)
-    } else if(status.equals("false") && url.equals("default")) {
+    } else if (status.equals("false") && url.equals("default")) {
         Glide.with(context).load(R.drawable.no_image).into(imageViewAvatar)
     }
 }

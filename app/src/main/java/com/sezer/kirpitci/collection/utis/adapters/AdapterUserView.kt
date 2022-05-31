@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.sezer.kirpitci.collection.R
-import com.sezer.kirpitci.collection.ui.features.registration.calisma.TrainingModelReal
+import com.sezer.kirpitci.collection.ui.features.registration.TrainingModelReal
 
 
 class AdapterUserView(initCList: List<TrainingModelReal>) :

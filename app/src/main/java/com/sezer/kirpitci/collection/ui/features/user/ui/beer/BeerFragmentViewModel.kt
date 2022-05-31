@@ -1,18 +1,15 @@
 package com.sezer.kirpitci.collection.ui.features.user.ui.beer
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import com.google.gson.JsonObject
 import com.sezer.kirpitci.collection.ui.features.admin.addcard.AdminAddCardViewModel.Companion.CATEGORIES
 import com.sezer.kirpitci.collection.ui.features.registration.CardModel
-import com.sezer.kirpitci.collection.utis.RetrofitService
+import com.sezer.kirpitci.collection.utis.others.RetrofitService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
 import java.util.*
 import javax.inject.Inject
 
@@ -43,6 +40,14 @@ class BeerFragmentViewModel @Inject constructor(
         const val USERS = "users"
         const val EMAIL = "email"
         const val CARD_STAR_AVERAGE = "cardStarAverage"
+        const val COMMENTS = "comments"
+        const val COMMENT = "comment"
+        const val COMMENT_USER = "commentUser"
+        const val COMMENT_TIME = "commentTime"
+        const val CUR_RUB = "RUB"
+        const val BEER_IN_COUNTRY = "beerInCountry"
+        const val BEER_ML = "beerML"
+        const val CARD_TYPE = "cardType"
     }
 
     fun getUserID(): MutableLiveData<String> {
@@ -58,18 +63,17 @@ class BeerFragmentViewModel @Inject constructor(
         }
         return userID
     }
-
     fun getCardComments(id: String): MutableLiveData<List<CommentModel>> {
         val returnList = MutableLiveData<List<CommentModel>>()
         val list = arrayListOf<CommentModel>()
-        firebaseDatabase.getReference(CARDS).child(id).child("comments").get()
+        firebaseDatabase.getReference(CARDS).child(id).child(COMMENTS).get()
             .addOnSuccessListener {
                 for (child in it.children) {
                     list.add(
                         CommentModel(
-                            comment = child.child("comment").value.toString(),
-                            commentUser = child.child("commentUser").value.toString(),
-                            commentTime = child.child("commentTime").value.toString()
+                            comment = child.child(COMMENT).value.toString(),
+                            commentUser = child.child(COMMENT_USER).value.toString(),
+                            commentTime = child.child(COMMENT_TIME).value.toString()
                         )
                     )
                 }
@@ -77,19 +81,16 @@ class BeerFragmentViewModel @Inject constructor(
             }
         return returnList
     }
+
     fun getConvertedValue(from: String, to: String): MutableLiveData<String> {
         var newFrom = from
         var newTo = to
-        if(from == "RUB") {
+        if (from == CUR_RUB) {
             newFrom = to
             newTo = from
         }
-        Log.d("TAG", "getConvertedValue:newfrom " + newFrom)
-        Log.d("TAG", "getConvertedValue:from " + from)
-        Log.d("TAG", "getConvertedValue:newto " + newTo)
-        Log.d("TAG", "getConvertedValue:to " + to)
         val value = MutableLiveData<String>()
-        service.getExchangeCurrency(newFrom, newTo, "1")?.enqueue(object : Callback<String?>  {
+        service.getExchangeCurrency(newFrom, newTo, "1")?.enqueue(object : Callback<String?> {
             override fun onResponse(call: Call<String?>, response: Response<String?>) {
                 val res = response.body()
                 value.value = res
@@ -100,6 +101,7 @@ class BeerFragmentViewModel @Inject constructor(
         })
         return value
     }
+
     fun getCategoryList(): MutableLiveData<List<String>> {
         val list = arrayListOf<String>()
         val returnList = MutableLiveData<List<String>>()
@@ -113,6 +115,7 @@ class BeerFragmentViewModel @Inject constructor(
 
         return returnList
     }
+
     fun getCards(
         category: String,
         userID: String,
@@ -124,7 +127,7 @@ class BeerFragmentViewModel @Inject constructor(
         db2.get().addOnSuccessListener {
             for (child in it.children) {
                 if (child.child(CARD_CATEGORY).value.toString()
-                        .equals(category) && child.child("beerInCountry").value.toString()
+                        .equals(category) && child.child(BEER_IN_COUNTRY).value.toString()
                         .contains(language)
                 ) {
                     list.add(
@@ -147,17 +150,12 @@ class BeerFragmentViewModel @Inject constructor(
                                 .value.toString(),
                             cardCompany = child.child(CARD_COMPANY).value.toString(),
                             cardABV = child.child(CARD_ABV).value.toString(),
-                            beerML = child.child("beerML").value.toString(),
-                            cardType = child.child("cardType").value.toString()
+                            beerML = child.child(BEER_ML).value.toString(),
+                            cardType = child.child(CARD_TYPE).value.toString()
 
                         )
                     )
-                    Log.d(
-                        "TAG", "getCards: " + child.child(USERS).child(userID).child("userVoted")
-                            .value.toString()
-                    )
                 }
-
             }
             cardList.value = list
         }
@@ -195,8 +193,8 @@ class BeerFragmentViewModel @Inject constructor(
                                     .toString(),
                                 cardCompany = child.child(CARD_COMPANY).value.toString(),
                                 cardABV = child.child(CARD_ABV).value.toString(),
-                                beerML = child.child("beerML").value.toString(),
-                                cardType = child.child("cardType").value.toString()
+                                beerML = child.child(BEER_ML).value.toString(),
+                                cardType = child.child(CARD_TYPE).value.toString()
 
                             )
                         )
@@ -247,13 +245,11 @@ class BeerFragmentViewModel @Inject constructor(
         return returnList
     }
 
-    fun getTopSheetSearchList(country: String, minStar: String, maxStar: String, userID: String,
-                              beerType: String, userCardStatus: String,
-    minPrice: Float, maxPrice: Float): MutableLiveData<List<CardModel>> {
-   //     Log.d("TAG", "getTopSheetSearchList: " + minStar)
-   //     Log.d("TAG", "getTopSheetSearchList: " + minStar)
-        Log.d("TAG", "getTopSheetSearchList: " + minPrice)
-        Log.d("TAG", "getTopSheetSearchList: " + maxPrice)
+    fun getTopSheetSearchList(
+        country: String, minStar: String, maxStar: String, userID: String,
+        beerType: String, userCardStatus: String,
+        minPrice: Float, maxPrice: Float
+    ): MutableLiveData<List<CardModel>> {
         val list = arrayListOf<CardModel>()
         val returnList = MutableLiveData<List<CardModel>>()
         firebaseDatabase.getReference(CARDS).get().addOnSuccessListener {
@@ -263,16 +259,19 @@ class BeerFragmentViewModel @Inject constructor(
                 val cardAverage = child.child(CARD_AVERAGE).value.toString().toFloat()
                 val cardPrice = child.child(CARD_PRICE).value.toString().toFloat()
                 if (vote > 0) {
-                    average = cardAverage/vote
+                    average = cardAverage / vote
                 } else {
                     average = 0F
                 }
-                if(country != "All") {
-                    if(beerType != "All") {
-                        if (child.child("cardCounty").value.toString().equals(country) && average >= minStar.toFloat() &&
-                            average<= maxStar.toFloat() && child.child("cardCompany").value.toString().equals(beerType) &&
-                            child.child(USERS).child(userID).child(CARD_USER_STATUS).value.toString().equals(userCardStatus)&&
-                            cardPrice>=minPrice && cardPrice<=maxPrice
+                if (country != "All") {
+                    if (beerType != "All") {
+                        if (child.child("cardCounty").value.toString()
+                                .equals(country) && average >= minStar.toFloat() &&
+                            average <= maxStar.toFloat() && child.child("cardCompany").value.toString()
+                                .equals(beerType) &&
+                            child.child(USERS).child(userID)
+                                .child(CARD_USER_STATUS).value.toString().equals(userCardStatus) &&
+                            cardPrice >= minPrice && cardPrice <= maxPrice
                         ) {
                             list.add(
                                 CardModel(
@@ -294,18 +293,22 @@ class BeerFragmentViewModel @Inject constructor(
                                         .value.toString(),
                                     cardCompany = child.child(CARD_COMPANY).value.toString(),
                                     cardABV = child.child(CARD_ABV).value.toString(),
-                                    beerML = child.child("beerML").value.toString(),
-                                            cardType = child.child("cardType").value.toString()
+                                    beerML = child.child(BEER_ML).value.toString(),
+                                    cardType = child.child(CARD_TYPE).value.toString()
 
                                 )
                             )
                         }
                     } else {
-                        if (child.child("cardCounty").value.toString().equals(country) && average >= minStar.toFloat() &&
-                            average<= maxStar.toFloat() &&
-                            child.child(USERS).child(userID).child(CARD_USER_STATUS).value.toString().equals(userCardStatus)&&
-                            child.child(CARD_PRICE).value.toString().toFloat()>=minPrice && child.child(
-                                CARD_PRICE).value.toString().toFloat()<=maxPrice
+                        if (child.child("cardCounty").value.toString()
+                                .equals(country) && average >= minStar.toFloat() &&
+                            average <= maxStar.toFloat() &&
+                            child.child(USERS).child(userID)
+                                .child(CARD_USER_STATUS).value.toString().equals(userCardStatus) &&
+                            child.child(CARD_PRICE).value.toString()
+                                .toFloat() >= minPrice && child.child(
+                                CARD_PRICE
+                            ).value.toString().toFloat() <= maxPrice
                         ) {
                             list.add(
                                 CardModel(
@@ -327,8 +330,8 @@ class BeerFragmentViewModel @Inject constructor(
                                         .value.toString(),
                                     cardCompany = child.child(CARD_COMPANY).value.toString(),
                                     cardABV = child.child(CARD_ABV).value.toString(),
-                                    beerML = child.child("beerML").value.toString(),
-                                    cardType = child.child("cardType").value.toString()
+                                    beerML = child.child(BEER_ML).value.toString(),
+                                    cardType = child.child(CARD_TYPE).value.toString()
 
                                 )
                             )
@@ -337,12 +340,16 @@ class BeerFragmentViewModel @Inject constructor(
                     }
 
                 } else {
-                    if(beerType != "All") {
+                    if (beerType != "All") {
                         if (average >= minStar.toFloat() &&
-                            average<= maxStar.toFloat() && child.child("cardCompany").value.toString().equals(beerType) &&
-                            child.child(USERS).child(userID).child(CARD_USER_STATUS).value.toString().equals(userCardStatus)&&
-                            child.child(CARD_PRICE).value.toString().toFloat()>=minPrice && child.child(
-                                CARD_PRICE).value.toString().toFloat()<=maxPrice
+                            average <= maxStar.toFloat() && child.child("cardCompany").value.toString()
+                                .equals(beerType) &&
+                            child.child(USERS).child(userID)
+                                .child(CARD_USER_STATUS).value.toString().equals(userCardStatus) &&
+                            child.child(CARD_PRICE).value.toString()
+                                .toFloat() >= minPrice && child.child(
+                                CARD_PRICE
+                            ).value.toString().toFloat() <= maxPrice
                         ) {
                             list.add(
                                 CardModel(
@@ -364,16 +371,19 @@ class BeerFragmentViewModel @Inject constructor(
                                         .value.toString(),
                                     cardCompany = child.child(CARD_COMPANY).value.toString(),
                                     cardABV = child.child(CARD_ABV).value.toString(),
-                                    beerML = child.child("beerML").value.toString()
+                                    beerML = child.child(BEER_ML).value.toString()
                                 )
                             )
                         }
                     } else {
                         if (average >= minStar.toFloat() &&
-                            average<= maxStar.toFloat() &&
-                            child.child(USERS).child(userID).child(CARD_USER_STATUS).value.toString().equals(userCardStatus)&&
-                            child.child(CARD_PRICE).value.toString().toFloat()>=minPrice && child.child(
-                                CARD_PRICE).value.toString().toFloat()<=maxPrice
+                            average <= maxStar.toFloat() &&
+                            child.child(USERS).child(userID)
+                                .child(CARD_USER_STATUS).value.toString().equals(userCardStatus) &&
+                            child.child(CARD_PRICE).value.toString()
+                                .toFloat() >= minPrice && child.child(
+                                CARD_PRICE
+                            ).value.toString().toFloat() <= maxPrice
                         ) {
                             list.add(
                                 CardModel(
@@ -395,8 +405,8 @@ class BeerFragmentViewModel @Inject constructor(
                                         .value.toString(),
                                     cardCompany = child.child(CARD_COMPANY).value.toString(),
                                     cardABV = child.child(CARD_ABV).value.toString(),
-                                    beerML = child.child("beerML").value.toString(),
-                                    cardType = child.child("cardType").value.toString()
+                                    beerML = child.child(BEER_ML).value.toString(),
+                                    cardType = child.child(CARD_TYPE).value.toString()
 
 
                                 )

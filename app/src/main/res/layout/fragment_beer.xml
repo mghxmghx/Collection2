@@ -21,14 +21,14 @@
             android:background="@android:color/transparent"
             tools:listitem="@layout/item_flag_spinner" />
 
-        <com.sezer.kirpitci.collection.SearchView
+        <com.sezer.kirpitci.collection.utis.others.SearchView
             android:id="@+id/search_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_seach"
             android:layout_weight="1"
             >
-        </com.sezer.kirpitci.collection.SearchView>
+        </com.sezer.kirpitci.collection.utis.others.SearchView>
         <ImageView
             android:id="@+id/search_beer_button"
             android:layout_width="24dp"

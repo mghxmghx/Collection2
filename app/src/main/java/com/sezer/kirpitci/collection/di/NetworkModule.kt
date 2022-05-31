@@ -3,7 +3,7 @@ package com.sezer.kirpitci.collection.di
 
 import android.app.Application
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import com.sezer.kirpitci.collection.utis.RetrofitService
+import com.sezer.kirpitci.collection.utis.others.RetrofitService
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
@@ -15,8 +15,6 @@ import java.io.File
 import java.util.UUID
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
-
-
 
 @Module
 class NetworkModule(private val application: Application) {
@@ -50,5 +48,6 @@ class NetworkModule(private val application: Application) {
 
     @Provides
     @Singleton
-    internal fun provideMovieApi(retrofit: Retrofit): RetrofitService = retrofit.create(RetrofitService::class.java)
+    internal fun provideMovieApi(retrofit: Retrofit): RetrofitService = retrofit.create(
+        RetrofitService::class.java)
 }

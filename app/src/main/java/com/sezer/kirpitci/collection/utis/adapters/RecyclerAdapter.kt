@@ -9,12 +9,16 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.ui.features.registration.CardModel
-import com.sezer.kirpitci.collection.utis.updateWithUrlWithStatus
+import com.sezer.kirpitci.collection.utis.others.updateWithUrlWithStatus
 
 class RecyclerAdapter(val listener: ClickItemUser) :
     ListAdapter<CardModel, RecyclerAdapter.WorkerHolder>(
         diffCallback
     ) {
+    companion object {
+        const val DURING_TIME = 1000
+    }
+    var lastClick: Long = 0
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkerHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(
             R.layout.item_user_view_card,
@@ -35,7 +39,11 @@ class RecyclerAdapter(val listener: ClickItemUser) :
 
         init {
             itemView.setOnClickListener {
-                listener.clicked(getItem(adapterPosition))
+                if(System.currentTimeMillis()- lastClick > DURING_TIME) {
+                    lastClick = System.currentTimeMillis()
+                    listener.clicked(getItem(adapterPosition))
+
+                }
             }
         }
 

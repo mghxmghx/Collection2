@@ -1,4 +1,4 @@
-package com.sezer.kirpitci.collection
+package com.sezer.kirpitci.collection.utis.others
 
 import android.animation.Animator
 import android.content.Context
@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.widget.FrameLayout
+import com.sezer.kirpitci.collection.R
 import kotlinx.android.synthetic.main.view_search.view.*
 
 

@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.ui.features.admin.viewcard.ViewCardModel
-import com.sezer.kirpitci.collection.utis.updateWithUrlWithStatus
+import com.sezer.kirpitci.collection.utis.others.updateWithUrlWithStatus
 
 class AdminViewCardAdapter(private val listener: ClickListener) :
     ListAdapter<ViewCardModel, AdminViewCardAdapter.UserHolder>(
@@ -26,7 +26,6 @@ class AdminViewCardAdapter(private val listener: ClickListener) :
     }
 
     override fun onBindViewHolder(holder: UserHolder, position: Int) {
-        //val currentCard = getItem(position)
         with(getItem(position)) {
             holder.image.updateWithUrlWithStatus(this.cardPath, holder.image, true.toString())
             holder.cardName.text = this.cardName

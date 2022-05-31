@@ -1,4 +1,4 @@
-package com.sezer.kirpitci.collection.utis
+package com.sezer.kirpitci.collection.utis.others
 
 import retrofit2.Call
 import retrofit2.http.GET

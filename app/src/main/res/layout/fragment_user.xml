@@ -13,14 +13,14 @@
         android:background="@drawable/bg_seach"
         android:orientation="horizontal">
 
-        <com.sezer.kirpitci.collection.SearchView
+        <com.sezer.kirpitci.collection.utis.others.SearchView
             android:id="@+id/search_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="100dp"
             android:background="@drawable/bg_seach">
 
-        </com.sezer.kirpitci.collection.SearchView>
+        </com.sezer.kirpitci.collection.utis.others.SearchView>
 
         <Spinner
             android:id="@+id/companyLanguageSpinner"

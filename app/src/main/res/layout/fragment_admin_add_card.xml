@@ -5,8 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_red"
+
+    android:background="@color/black"
     tools:context=".ui.features.admin.addcard.AdminAddCardFragment"
+
     >
 
     <ImageView
@@ -28,14 +30,13 @@
         android:id="@+id/background"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@drawable/background2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imageView2">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/add_card_name"
+   <!-- <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/add_card_name2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/LoginTextInputLayoutStyle"
@@ -51,16 +52,198 @@
         app:layout_constraintTop_toTopOf="@+id/background">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/add_card_name_text"
+            android:id="@+id/add_card_name_text2"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:textColor="@color/white"
 
             android:hint="@string/dialog_content_update_add_card_name" />
-    </com.google.android.material.textfield.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>-->
 
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/gray"
+            android:backgroundTint="@color/gray"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:cardCornerRadius="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/background">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/add_card_name"
+                    style="@style/LoginTextInputLayoutStyle"
+                    android:theme="@style/LoginTextInputLayoutStyle"
+                    android:textColorHint="@color/dark_gold_yeni"
+                    app:boxStrokeColor="@color/dark_gold_yeni"
+                    android:backgroundTint="@color/gray"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/add_card_name_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:hint="@string/dialog_content_update_add_card_name" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/gray"
+            android:backgroundTint="@color/gray"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            app:cardCornerRadius="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/card_info"
+                    style="@style/LoginTextInputLayoutStyle"
+                    android:theme="@style/LoginTextInputLayoutStyle"
+                    android:textColorHint="@color/dark_gold_yeni"
+                    app:boxStrokeColor="@color/dark_gold_yeni"
+                    android:backgroundTint="@color/gray"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/card_info_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:hint="@string/dialog_content_info" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/gray"
+            android:backgroundTint="@color/gray"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            app:cardCornerRadius="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView2">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/card_abv"
+                    style="@style/LoginTextInputLayoutStyle"
+                    android:theme="@style/LoginTextInputLayoutStyle"
+                    android:textColorHint="@color/dark_gold_yeni"
+                    app:boxStrokeColor="@color/dark_gold_yeni"
+                    android:backgroundTint="@color/gray"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/card_abv_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:hint="@string/dialog_content_update_add_card_ABV" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/gray"
+            android:backgroundTint="@color/gray"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            app:cardCornerRadius="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView3">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/card_ML"
+                    style="@style/LoginTextInputLayoutStyle"
+                    android:theme="@style/LoginTextInputLayoutStyle"
+                    android:textColorHint="@color/dark_gold_yeni"
+                    app:boxStrokeColor="@color/dark_gold_yeni"
+                    android:backgroundTint="@color/gray"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/card_ML_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:hint="@string/Mililiters" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/gray"
+            android:backgroundTint="@color/gray"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            app:cardCornerRadius="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView4">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/card_price"
+                    style="@style/LoginTextInputLayoutStyle"
+                    android:theme="@style/LoginTextInputLayoutStyle"
+                    android:textColorHint="@color/dark_gold_yeni"
+                    app:boxStrokeColor="@color/dark_gold_yeni"
+                    android:backgroundTint="@color/gray"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/card_price_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:hint="@string/dialog_content_price" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+<!--
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/card_info"
+        android:id="@+id/card_info2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -72,29 +255,31 @@
         android:background="@color/dark_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_card_name">
+        app:layout_constraintTop_toBottomOf="@+id/cardView">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/card_info_text"
+            android:id="@+id/card_info_text2"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:textColor="@color/white"
             android:hint="@string/dialog_content_info" />
     </com.google.android.material.textfield.TextInputLayout>
+
+-->
         <Spinner
             android:id="@+id/card_category"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginTop="6dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            app:layout_constraintTop_toBottomOf="@id/card_info"
+            app:layout_constraintTop_toBottomOf="@id/cardView5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
         <Spinner
             android:id="@+id/card_type"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginTop="6dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
@@ -105,7 +290,7 @@
         <Spinner
             android:id="@+id/card_country"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginTop="6dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
@@ -115,7 +300,7 @@
         <Spinner
             android:id="@+id/card_company"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginTop="6dp"
             android:backgroundTint="@color/white"
             android:layout_marginStart="16dp"
@@ -123,7 +308,7 @@
             app:layout_constraintTop_toBottomOf="@id/card_country"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
-        <com.google.android.material.textfield.TextInputLayout
+        <!--<com.google.android.material.textfield.TextInputLayout
             android:id="@+id/card_abv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -143,6 +328,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:textColor="@color/white"
+                android:inputType="numberDecimal"
                 android:hint="@string/dialog_content_update_add_card_ABV" />
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
@@ -165,6 +351,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:textColor="@color/white"
+                android:inputType="numberDecimal"
                 android:hint="Mililiters" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -188,15 +375,17 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:textColor="@color/white"
+            android:inputType="numberDecimal"
             android:hint="@string/dialog_content_price" />
     </com.google.android.material.textfield.TextInputLayout>
+    -->
         <RadioGroup
             android:id="@+id/currencyGroup"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:orientation="horizontal"
             android:gravity="center"
-            app:layout_constraintTop_toBottomOf="@id/card_price">
+            app:layout_constraintTop_toBottomOf="@id/card_company">
             <RadioButton
                 android:id="@+id/rubcur"
                 android:layout_width="wrap_content"
@@ -229,7 +418,7 @@
     <LinearLayout
         android:id="@+id/checkboxLinear"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"

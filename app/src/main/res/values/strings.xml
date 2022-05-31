@@ -9,7 +9,7 @@
     <string name="user_name">User Name</string>
     <string name="mail">E-Mail</string>
     <string name="confirm_password">Confirm Password</string>
-    <string name="wrong_message">Wrong Message</string>
+    <string name="wrong_message">Wrong username or password</string>
     <string name="Add_Item">Add Item</string>
     <string name="Publish">Publish</string>
     <string name="Title">Title</string>
@@ -56,7 +56,7 @@
     <string name="fragment_personal_info_delete_my_account">Delete my Account</string>
     <string name="fragment_personal_info_logout">Logout</string>
     <string name="search_view_search">Search</string>
-
+    <string name="Mililiters">Mililiters</string>
     <string name="fragment_add_card_loading">Loading</string>
     <string name="fragment_personal_profile_settings">Profile Settings</string>
     <string name="fragment_personal_profile_analystics">Analystics</string>

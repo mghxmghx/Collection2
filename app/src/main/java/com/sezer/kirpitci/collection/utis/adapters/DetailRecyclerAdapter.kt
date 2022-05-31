@@ -10,14 +10,17 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.ui.features.registration.CardModel
-import com.sezer.kirpitci.collection.utis.updateWithUrlWithStatus
+import com.sezer.kirpitci.collection.utis.others.updateWithUrlWithStatus
 import java.util.*
 
 class DetailRecyclerAdapter(val listener: ClickItemUser) :
     ListAdapter<CardModel, DetailRecyclerAdapter.WorkerHolder>(
         diffCallback
     ) {
-    // private lateinit var list: List<Drawable>
+    companion object {
+        const val DURING_TIME = 1000
+    }
+    var lastClick: Long = 0
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkerHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(
             R.layout.item_list,
@@ -48,29 +51,26 @@ class DetailRecyclerAdapter(val listener: ClickItemUser) :
                 holder.cardImage,
                 true.toString()
             )
-            if(this.cardName == null || this.cardName.equals("null")){
+            if (this.cardName == null || this.cardName.equals("null")) {
                 holder.nameText.text = ""
             } else {
                 holder.nameText.text = this.cardName
             }
-            if(this.cardABV == null || this.cardABV.equals("null")){
+            if (this.cardABV == null || this.cardABV.equals("null")) {
                 holder.detailAlcoholRate.text = ""
             } else {
-                holder.detailAlcoholRate.text = this.cardABV
+                holder.detailAlcoholRate.text = this.cardABV + " %"
             }
-            if(this.cardType == null || this.cardType.equals("null")){
+            if (this.cardType == null || this.cardType.equals("null")) {
                 holder.alcoholType.text = ""
             } else {
                 holder.alcoholType.text = this.cardType
             }
-            if(this.beerML == null || this.beerML.equals("null")){
+            if (this.beerML == null || this.beerML.equals("null")) {
                 holder.alcoholML.text = ""
             } else {
-                holder.alcoholML.text = this.beerML
+                holder.alcoholML.text = this.beerML + " cc"
             }
-
-
-
             val index = listName.indexOf(this.cardCounty.lowercase(Locale.getDefault()))
             if (index != -1) {
                 holder.cardFlag.setImageResource(listPath.get(index))
@@ -88,7 +88,9 @@ class DetailRecyclerAdapter(val listener: ClickItemUser) :
 
         init {
             iv.setOnClickListener {
-                listener.clicked(getItem(adapterPosition))
+                if(System.currentTimeMillis()- lastClick > DURING_TIME) {
+                    listener.clicked(getItem(adapterPosition))
+                }
             }
         }
 

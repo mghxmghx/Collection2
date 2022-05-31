@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import com.sezer.kirpitci.collection.ui.features.registration.calisma.RegisterModel
 import javax.inject.Inject
 
 class RegistrationViewModel @Inject constructor(

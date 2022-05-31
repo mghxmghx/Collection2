@@ -40,6 +40,9 @@ class PersonalFragment : Fragment() {
         tabLayout.addTab(
             tabLayout.newTab().setText(getString(R.string.fragment_personal_profile_write_us))
         )
+        tabLayout.addTab(
+            tabLayout.newTab().setText(("İçtiğim biralar"))
+        )
         tabLayout.setTabTextColors(Color.parseColor("#000000"), Color.parseColor("#000000"))
     }
 
@@ -50,14 +53,26 @@ class PersonalFragment : Fragment() {
                     binding.fragmentContainerView3.isVisible = false
                     binding.fragmentContainerView4.isVisible = false
                     binding.fragmentContainerView5.isVisible = true
+                    binding.fragmentContainerView6.isVisible = false
+
 
                 } else if (tab.position == 1) {
                     binding.fragmentContainerView3.isVisible = false
                     binding.fragmentContainerView4.isVisible = true
                     binding.fragmentContainerView5.isVisible = false
+                    binding.fragmentContainerView6.isVisible = false
+
 
                 } else if (tab.position == 2) {
                     binding.fragmentContainerView3.isVisible = true
+                    binding.fragmentContainerView4.isVisible = false
+                    binding.fragmentContainerView5.isVisible = false
+                    binding.fragmentContainerView6.isVisible = false
+
+                }
+                else if (tab.position == 3) {
+                    binding.fragmentContainerView3.isVisible = false
+                    binding.fragmentContainerView6.isVisible = true
                     binding.fragmentContainerView4.isVisible = false
                     binding.fragmentContainerView5.isVisible = false
                 }

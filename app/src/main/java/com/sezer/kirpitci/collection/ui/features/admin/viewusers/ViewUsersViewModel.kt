@@ -3,7 +3,7 @@ package com.sezer.kirpitci.collection.ui.features.admin.viewusers
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.database.FirebaseDatabase
-import com.sezer.kirpitci.collection.ui.features.registration.calisma.TrainingModelReal
+import com.sezer.kirpitci.collection.ui.features.registration.TrainingModelReal
 import javax.inject.Inject
 
 class ViewUsersViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase) : ViewModel() {

@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/background"
+        android:id="@+id/backgroundd"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/background2"
@@ -22,23 +18,24 @@
             android:id="@+id/imageView2"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:src="@drawable/ic_add_new_card_image"
             android:layout_marginTop="16dp"
+            android:src="@drawable/ic_add_new_card_image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/add_card_name"
+            style="@style/LoginTextInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/LoginTextInputLayoutStyle"
-            android:theme="@style/LoginTextInputLayoutStyle"
-            android:textColorHint="@color/dark_gold"
-            app:boxStrokeColor="@color/dark_gold"
-            android:background="@color/dark_gray"
-            android:layout_marginTop="26dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
+            android:background="@color/dark_gray"
+            android:textColorHint="@color/dark_gold"
+            android:theme="@style/LoginTextInputLayoutStyle"
+            app:boxStrokeColor="@color/dark_gold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView2">
@@ -47,22 +44,22 @@
                 android:id="@+id/add_card_name_text"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:textColor="@color/white"
+                android:hint="@string/dialog_content_update_add_card_name"
 
-                android:hint="@string/dialog_content_update_add_card_name" />
+                android:textColor="@color/white" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/card_info"
+            style="@style/LoginTextInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            style="@style/LoginTextInputLayoutStyle"
-            android:theme="@style/LoginTextInputLayoutStyle"
-            android:textColorHint="@color/dark_gold"
-            app:boxStrokeColor="@color/dark_gold"
             android:background="@color/dark_gray"
+            android:textColorHint="@color/dark_gold"
+            android:theme="@style/LoginTextInputLayoutStyle"
+            app:boxStrokeColor="@color/dark_gold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/add_card_name">
@@ -71,126 +68,201 @@
                 android:id="@+id/card_info_text"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:textColor="@color/white"
-                android:hint="@string/dialog_content_info" />
+                android:hint="@string/dialog_content_info"
+                android:textColor="@color/white" />
         </com.google.android.material.textfield.TextInputLayout>
 
-
-
-        <com.google.android.material.textfield.TextInputLayout
+        <Spinner
             android:id="@+id/card_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="6dp"
             android:layout_marginEnd="16dp"
-            style="@style/LoginTextInputLayoutStyle"
-            android:theme="@style/LoginTextInputLayoutStyle"
-            android:textColorHint="@color/dark_gold"
-            app:boxStrokeColor="@color/dark_gold"
-            android:background="@color/dark_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_info">
+            app:layout_constraintTop_toBottomOf="@id/card_info" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/card_category_text"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:textColor="@color/white"
-                android:hint="@string/dialog_content_update_add_card_category" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/card_city"
+        <Spinner
+            android:id="@+id/card_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="6dp"
             android:layout_marginEnd="16dp"
-            style="@style/LoginTextInputLayoutStyle"
-            android:theme="@style/LoginTextInputLayoutStyle"
-            android:textColorHint="@color/dark_gold"
-            app:boxStrokeColor="@color/dark_gold"
-            android:background="@color/dark_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_category">
+            app:layout_constraintTop_toBottomOf="@id/card_category" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/card_city_text"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:textColor="@color/white"
-                android:hint="@string/dialog_content_city" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
+        <Spinner
             android:id="@+id/card_country"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="6dp"
             android:layout_marginEnd="16dp"
-            style="@style/LoginTextInputLayoutStyle"
-            android:theme="@style/LoginTextInputLayoutStyle"
-            android:textColorHint="@color/dark_gold"
-            app:boxStrokeColor="@color/dark_gold"
-            android:background="@color/dark_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_city">
+            app:layout_constraintTop_toBottomOf="@id/card_type" />
+
+        <Spinner
+            android:id="@+id/card_company"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/card_country" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/card_abv"
+            style="@style/LoginTextInputLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/dark_gray"
+            android:textColorHint="@color/dark_gold"
+            android:theme="@style/LoginTextInputLayoutStyle"
+            app:boxStrokeColor="@color/dark_gold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/card_company">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/card_country_text"
+                android:id="@+id/card_abv_text"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:textColor="@color/white"
-                android:hint="@string/dialog_content_country" />
+                android:inputType="numberDecimal"
+                android:hint="@string/dialog_content_update_add_card_ABV"
+                android:textColor="@color/white" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/card_ML"
+            style="@style/LoginTextInputLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/dark_gray"
+            android:textColorHint="@color/dark_gold"
+            android:theme="@style/LoginTextInputLayoutStyle"
+            app:boxStrokeColor="@color/dark_gold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/card_abv">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/card_ML_text"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:inputType="numberDecimal"
+                android:hint="Mililiters"
+                android:textColor="@color/white" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/card_price"
+            style="@style/LoginTextInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            style="@style/LoginTextInputLayoutStyle"
-            android:theme="@style/LoginTextInputLayoutStyle"
-            android:textColorHint="@color/dark_gold"
-            app:boxStrokeColor="@color/dark_gold"
             android:background="@color/dark_gray"
+            android:textColorHint="@color/dark_gold"
+            android:theme="@style/LoginTextInputLayoutStyle"
+            app:boxStrokeColor="@color/dark_gold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_country">
+            app:layout_constraintTop_toBottomOf="@+id/card_ML">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/card_price_text"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:textColor="@color/white"
-                android:hint="@string/dialog_content_price" />
+                android:inputType="numberDecimal"
+                android:hint="@string/dialog_content_price"
+                android:textColor="@color/white" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
-            android:id="@+id/update_button"
-            android:layout_width="wrap_content"
+        <RadioGroup
+            android:id="@+id/currencyGroup"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/dialog_content_update_add_card_update"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_price" />
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/card_price">
 
+            <RadioButton
+                android:id="@+id/rubcur"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="RUB"
+                android:textColor="@color/white" />
 
-            <ImageView
-            android:id="@+id/imageView"
+            <RadioButton
+                android:id="@+id/usdcur"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="USD"
+                android:textColor="@color/white" />
+
+            <RadioButton
+                android:id="@+id/eurcur"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="EUR"
+                android:textColor="@color/white" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/button2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-
-            android:layout_marginEnd="6dp"
+            android:text="@string/dialog_content_update_add_card_update"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_dialog_close" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/checkboxLinear" />
+
+        <LinearLayout
+            android:id="@+id/checkboxLinear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/currencyGroup">
+
+            <CheckBox
+                android:id="@+id/checkboxUSA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/add_card_america"
+                android:textColor="@color/white" />
+
+            <CheckBox
+                android:id="@+id/checkBoxRU"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/add_card_russia"
+                android:textColor="@color/white" />
+
+            <CheckBox
+                android:id="@+id/checkboxEU"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/add_card_european_union"
+                android:textColor="@color/white" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+</ScrollView>

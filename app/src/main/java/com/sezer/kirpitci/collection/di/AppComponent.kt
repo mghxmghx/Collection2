@@ -23,6 +23,8 @@ import com.sezer.kirpitci.collection.ui.features.user.ui.home.HomeModule
 import com.sezer.kirpitci.collection.ui.features.user.ui.home.HomePageFragment
 import com.sezer.kirpitci.collection.ui.features.user.ui.notifications.analytics.AnalysticsModule
 import com.sezer.kirpitci.collection.ui.features.user.ui.notifications.analytics.PersonalAnalytics
+import com.sezer.kirpitci.collection.ui.features.user.ui.notifications.drunkbeer.DrunkBeerFragment
+import com.sezer.kirpitci.collection.ui.features.user.ui.notifications.drunkbeer.DrunkBeerModule
 import com.sezer.kirpitci.collection.ui.features.user.ui.notifications.personalinfo.PersonalInfo
 import com.sezer.kirpitci.collection.ui.features.user.ui.notifications.personalinfo.PersonalInfoModule
 import com.sezer.kirpitci.collection.ui.features.user.ui.notifications.settings.PersonalSettingsModule
@@ -49,7 +51,8 @@ import javax.inject.Singleton
         PersonalInfoModule::class,
         AnalysticsModule::class,
         PersonalSettingsModule::class,
-        GeneralAnalysisModule::class
+        GeneralAnalysisModule::class,
+        DrunkBeerModule::class
     ]
 )
 interface AppComponent {
@@ -67,4 +70,5 @@ interface AppComponent {
     fun inject(settingsFragment: SettingsFragment)
     fun inject(mainActivity: MainActivity)
     fun inject(generalAnalysisFragment: GeneralAnalysisFragment)
+    fun inject(drunkBeerFragment: DrunkBeerFragment)
 }

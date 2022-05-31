@@ -8,7 +8,6 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +23,7 @@ import com.sezer.kirpitci.collection.databinding.FragmentAdminAddCardBinding
 import com.sezer.kirpitci.collection.di.MyApp
 import com.sezer.kirpitci.collection.utis.default
 import com.sezer.kirpitci.collection.utis.others.ViewModelFactory
-import com.sezer.kirpitci.collection.utis.resetImage
+import com.sezer.kirpitci.collection.utis.others.resetImage
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
@@ -48,6 +47,12 @@ class AdminAddCardFragment : Fragment() {
         const val CATEGORY_WINE = "Wine"
         const val CATEGORY_BEER = "Beer"
         const val CATEGORY_COCKTAIL = "Cocktail"
+        const val CUR_RUB = "RUB"
+        const val CUR_EUR = "EUR"
+        const val CUR_USD = "USD"
+        const val C_USA = "USA"
+        const val C_EUROPA = "EU"
+        const val C_RUSSIA = "RUS"
     }
 
     override fun onCreateView(
@@ -161,13 +166,12 @@ class AdminAddCardFragment : Fragment() {
                     countryList.get(binding.cardCountry.selectedItemPosition).toString()
                 var cardPrice = binding.cardPriceText.text.toString()
                 if (binding.rubcur.isChecked) {
-                    cardPrice = "$cardPrice RUB"
+                    cardPrice = "$cardPrice $CUR_RUB"
                 } else if (binding.eurcur.isChecked) {
-                    cardPrice = "$cardPrice EUR"
+                    cardPrice = "$cardPrice $CUR_EUR"
                 } else if (binding.usdcur.isChecked) {
-                    cardPrice = "$cardPrice USD"
+                    cardPrice = "$cardPrice $CUR_USD"
                 }
-                Log.d("TAG", "clickListener: " + cardPrice)
                 val cardABV = binding.cardAbvText.text.toString()
                 val cardCompany =
                     companyList.get(binding.cardCompany.selectedItemPosition).toString()
@@ -255,13 +259,13 @@ class AdminAddCardFragment : Fragment() {
     private fun checkboxCheck(): String {
         var checkString = ""
         if (binding.checkBoxRU.isChecked) {
-            checkString = "$checkString,RUS"
+            checkString = "$checkString,$C_RUSSIA"
         }
         if (binding.checkboxEU.isChecked) {
-            checkString = "$checkString,EU"
+            checkString = "$checkString,$C_EUROPA"
         }
         if (binding.checkboxUSA.isChecked) {
-            checkString = "$checkString,USA"
+            checkString = "$checkString,$C_USA"
         }
         return checkString
 
