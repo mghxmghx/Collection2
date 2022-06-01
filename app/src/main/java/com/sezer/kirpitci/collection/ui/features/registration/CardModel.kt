@@ -1,5 +1,7 @@
 package com.sezer.kirpitci.collection.ui.features.registration
 
+import java.io.Serializable
+
 data class CardModel(
     var cardID: String,
     var cardName: String,
@@ -18,4 +20,4 @@ data class CardModel(
     var cardCompany: String,
     var beerML: String? = null,
     var cardType: String? = null
-)
+): Serializable

@@ -8,8 +8,80 @@
     android:layout_marginRight="2dp"
     android:layout_marginLeft="2dp">
 
+    <LinearLayout
+        android:id="@+id/starLinear"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="26dp"
+        android:layout_toEndOf="@+id/container_relative_layout">
+
+        <ImageView
+            android:id="@+id/dialog_star_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_dialog_noncheck_star" />
+
+        <ImageView
+            android:id="@+id/dialog_star_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_dialog_noncheck_star" />
+
+        <ImageView
+            android:id="@+id/dialog_star_three"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_dialog_noncheck_star" />
+
+        <ImageView
+            android:id="@+id/dialog_star_four"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_dialog_noncheck_star" />
+
+        <ImageView
+            android:id="@+id/dialog_star_five"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_dialog_noncheck_star" />
+
+        <ImageView
+            android:id="@+id/dialog_star_six"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_dialog_noncheck_star" />
+
+        <ImageView
+            android:id="@+id/dialog_star_seven"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_dialog_noncheck_star" />
+
+        <ImageView
+            android:id="@+id/dialog_star_eight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_dialog_noncheck_star" />
+
+        <ImageView
+            android:id="@+id/dialog_star_nine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_dialog_noncheck_star" />
+
+        <ImageView
+            android:id="@+id/dialog_star_ten"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_dialog_noncheck_star" />
+    </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/container_relative_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true">

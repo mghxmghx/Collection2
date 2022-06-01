@@ -6,4 +6,8 @@
     tools:context=".ui.features.user.ui.notifications.drunkbeer.DrunkBeerFragment">
 
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/drunkedBeerRV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </FrameLayout>
