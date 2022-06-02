@@ -32,7 +32,7 @@ fun ImageView.updateWithUrl(url: String, imageViewAvatar: ImageView) {
             .load(url).fit().centerInside()
             .into(imageViewAvatar)
     } else {
-        Glide.with(context).load(R.drawable.ic_add_new_card_image).into(imageViewAvatar)
+        Glide.with(context).load(R.drawable.no_image).into(imageViewAvatar)
     }
 }
 

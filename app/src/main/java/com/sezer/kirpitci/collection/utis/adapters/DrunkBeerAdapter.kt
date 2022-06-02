@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sezer.kirpitci.collection.R
 import com.sezer.kirpitci.collection.ui.features.registration.CardModel
 import com.sezer.kirpitci.collection.ui.features.user.ui.notifications.drunkbeer.DrunkModel
+import com.sezer.kirpitci.collection.utis.others.updateWithUrl
 
 class DrunkBeerAdapter() :
     ListAdapter<CardModel, DrunkBeerAdapter.WorkerHolder>(
@@ -27,6 +28,7 @@ class DrunkBeerAdapter() :
 
     override fun onBindViewHolder(holder: WorkerHolder, position: Int) {
         with(getItem(position)) {
+            holder.cardImage.updateWithUrl(this.cardPath, holder.cardImage)
             holder.cardName.text = this.cardName
             val list = ArrayList<ImageView>()
             list.add(holder.starOne)
