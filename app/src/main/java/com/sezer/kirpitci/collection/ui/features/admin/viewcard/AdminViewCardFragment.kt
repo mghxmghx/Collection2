@@ -148,7 +148,7 @@ class AdminViewCardFragment : Fragment(), ClickListener {
             if(country[i].equals("RUS")){
                 checkboxRU.isChecked = true
             }
-            if(country[i].equals("EUR")){
+            if(country[i].equals("EU")){
                 checkboxEUR.isChecked = true
             }
             if(country[i].equals("USA")){
@@ -184,7 +184,7 @@ class AdminViewCardFragment : Fragment(), ClickListener {
 
             }
             if (checkboxEUR.isChecked) {
-                beerInCountry = beerInCountry + "," + "EUR"
+                beerInCountry = beerInCountry + "," + "EU"
 
             }
             if (checkboxRU.isChecked) {

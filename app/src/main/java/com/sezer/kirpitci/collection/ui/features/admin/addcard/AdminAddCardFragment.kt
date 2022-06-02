@@ -184,7 +184,7 @@ class AdminAddCardFragment : Fragment() {
                             cardID = cardID,
                             cardName = cardName,
                             cardInfo = cardInfo,
-                            cardCategory = cardType.lowercase(Locale.getDefault()),
+                            cardCategory = cardType.lowercase(),
                             cardCounty = cardCountry,
                             cardCity = "",
                             cardPrice = cardPrice,

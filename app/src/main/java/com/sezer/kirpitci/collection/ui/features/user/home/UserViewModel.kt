@@ -1,5 +1,6 @@
 package com.sezer.kirpitci.collection.ui.features.user.home
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
@@ -158,6 +159,8 @@ class UserViewModel @Inject constructor(
         userID: String,
         language: String
     ): MutableLiveData<List<CardModel>> {
+        Log.d("TAG", "getCards: " + language)
+        Log.d("TAG", "getCards: " + category)
         val cardList = MutableLiveData<List<CardModel>>()
         val list = arrayListOf<CardModel>()
         var db2 = firebaseDatabase.getReference(CARDS)
