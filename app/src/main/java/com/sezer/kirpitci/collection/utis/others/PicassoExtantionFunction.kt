@@ -25,6 +25,14 @@ fun ImageView.updateWithUrlWithStatus(url: String, imageViewAvatar: ImageView, s
         Glide.with(context).load(R.drawable.no_image).into(imageViewAvatar)
     }
 }
+fun ImageView.withURL(url: String, imageViewAvatar: ImageView) {
+    if (!url.equals("default")) {
+        Glide.with(context).load(url).into(imageViewAvatar)
+
+    } else {
+        Glide.with(context).load(R.drawable.no_image).into(imageViewAvatar)
+    }
+}
 
 fun ImageView.updateWithUrl(url: String, imageViewAvatar: ImageView) {
     if (!url.equals("default")) {

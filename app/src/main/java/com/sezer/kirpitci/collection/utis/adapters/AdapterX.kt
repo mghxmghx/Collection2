@@ -67,7 +67,9 @@ class AdapterX(initCList: List<ViewCardModel>, val listener: ClickListener) :
         private val cardImage: ImageView = itemView.findViewById(R.id.card_image)
 
         fun bind(model: ViewCardModel) {
-            cardImage.updateWithUrl(model.cardPath, cardImage)
+            if(!model.cardPath.isNullOrEmpty()) {
+                cardImage.updateWithUrl(model.cardPath, cardImage)
+            }
             code.text = model.cardName
             name.text = model.cardCounty
         }

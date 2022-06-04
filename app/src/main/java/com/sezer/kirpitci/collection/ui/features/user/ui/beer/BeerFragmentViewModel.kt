@@ -257,7 +257,7 @@ class BeerFragmentViewModel @Inject constructor(
                 var average: Float = 0F
                 val vote = child.child(CARD_VOTE_COUNT).value.toString().toFloat()
                 val cardAverage = child.child(CARD_AVERAGE).value.toString().toFloat()
-                val cardPrice = child.child(CARD_PRICE).value.toString().toFloat()
+                val cardPrice = child.child(CARD_PRICE).value.toString().split(" ").get(0).toString().toFloat()
                 if (vote > 0) {
                     average = cardAverage / vote
                 } else {
@@ -380,10 +380,10 @@ class BeerFragmentViewModel @Inject constructor(
                             average <= maxStar.toFloat() &&
                             child.child(USERS).child(userID)
                                 .child(CARD_USER_STATUS).value.toString().equals(userCardStatus) &&
-                            child.child(CARD_PRICE).value.toString()
+                            child.child(CARD_PRICE).value.toString().split(" ").get(0).toString()
                                 .toFloat() >= minPrice && child.child(
                                 CARD_PRICE
-                            ).value.toString().toFloat() <= maxPrice
+                            ).value.toString().split(" ").get(0).toString().toFloat() <= maxPrice
                         ) {
                             list.add(
                                 CardModel(
